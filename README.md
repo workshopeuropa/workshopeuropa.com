@@ -116,6 +116,42 @@ Two properties follow from fixing s and l, and both are worth keeping:
 
 Lime is the house colour — where the original green sat, and what `--card` falls back to.
 
+### The shades
+
+Each tint has a dark partner — less saturated, much darker, and colder. "Colder" is a direction,
+not a sign: 225° is the coldest point on the wheel, so each hue moves 15° along the shorter arc
+towards it. The warm half climbs towards yellow-green, the cool half falls towards blue, and
+Cornflower, already sitting at 225, has nowhere colder to go and stays put.
+
+```css
+--shade-s: 45%;
+--shade-l: 25%;
+--shade-75: hsl(90 var(--shade-s) var(--shade-l)); /* Lime's partner */
+```
+
+Tokens are named for the tint they partner, not for their own hue — `--shade-75` goes with
+`--tint-75`. The rule lives in `colder()` in `src/lib/tints.ts`; `COLD_SHIFT` is the 15°, and
+dropping it to 0 keeps each shade on its tint's own hue.
+
+| Tint | | Shade | | Contrast |
+|---|---|---|---|---|
+| Coral 15° | `#f5b8a3` | 0° | `#5c2323` | 7.13:1 |
+| Butter 45° | `#f5e0a3` | 60° | `#5c5c23` | 5.34:1 |
+| Lime 75° | `#e0f5a3` | 90° | `#405c23` | 6.40:1 |
+| Apple 105° | `#b8f5a3` | 120° | `#235c23` | 6.33:1 |
+| Spring 135° | `#a3f5b8` | 150° | `#235c40` | 6.09:1 |
+| Mint 165° | `#a3f5e0` | 180° | `#235c5c` | 6.06:1 |
+| Sky 195° | `#a3e0f5` | 210° | `#23405c` | 7.42:1 |
+| Cornflower 225° | `#a3b8f5` | 225° | `#23315c` | 6.44:1 |
+| Periwinkle 255° | `#b8a3f5` | 240° | `#23235c` | 6.54:1 |
+| Lilac 285° | `#e0a3f5` | 270° | `#40235c` | 6.65:1 |
+| Orchid 315° | `#f5a3e0` | 300° | `#5c235c` | 6.05:1 |
+| Rose 345° | `#f5a3b8` | 330° | `#5c2340` | 6.11:1 |
+
+Every pair clears AA at 5.34:1 or better, so a shade is safe as text on its own tint. Cards use it
+as their ink — `color: var(--shade, var(--ink))` — so the type on a card belongs to the same colour
+as the card. `.meta` mixes down from `currentColor` rather than the page ink, so it follows.
+
 ### One colour per page
 
 A page draws a tint at random and every card on it shares that one — the header, the projects, the

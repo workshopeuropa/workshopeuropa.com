@@ -8,13 +8,19 @@
 
 <Card orientation="portrait" href="/projects/{project.slug}">
 	{#snippet top()}
-		<p class="eyebrow">{label ?? project.year}</p>
+		<!-- The name carries the heading: the headline below is the bigger
+		     type, but the project is what this card is. -->
+		<svelte:element this={heading} class="eyebrow italic">{project.title}</svelte:element>
 	{/snippet}
 	{#snippet middle()}
-		<svelte:element this={heading} class="title">{project.title}</svelte:element>
+		<p class="title">{project.headline}</p>
 	{/snippet}
 	{#snippet bottom()}
-		<p class="meta">{project.discipline}</p>
-		<p class="meta">{project.status}</p>
+		{#if label}
+			<p class="meta">{label}</p>
+		{/if}
+		{#if project.url}
+			<p class="meta">{project.url}</p>
+		{/if}
 	{/snippet}
 </Card>

@@ -74,7 +74,9 @@
 		padding: clamp(1.1rem, 6cqi, 2.75rem);
 		border-radius: var(--radius);
 		background: var(--card);
-		color: var(--ink);
+		/* The tint's dark partner, so the ink on a card belongs to the same
+		   colour. Falls back to the plain ink if no shade is set. */
+		color: var(--shade, var(--ink));
 		text-align: center;
 		overflow-wrap: break-word;
 		/* aspect-ratio sets the floor — a card with more in it than the ratio
@@ -147,7 +149,8 @@
 
 	.card :global(.meta) {
 		font-size: clamp(0.75rem, 3.3cqi, 1rem);
-		color: var(--ink-soft);
+		/* Follows whatever ink the card is using rather than the page's. */
+		color: color-mix(in srgb, currentColor 72%, transparent);
 	}
 
 	.card :global(.prose) {
