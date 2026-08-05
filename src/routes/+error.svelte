@@ -7,7 +7,7 @@
 	<title>{page.status} — Workshop Europa</title>
 </svelte:head>
 
-<HeaderCard title={String(page.status)} subtitle={page.error?.message ?? 'Something went wrong'} />
+<HeaderCard title={String(page.status)} />
 
 <section class="section">
 	<p class="text"><a href="/">Back to the front page →</a></p>

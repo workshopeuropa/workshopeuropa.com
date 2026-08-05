@@ -38,7 +38,7 @@
 	<meta name="description" content={join.body[0]} />
 </svelte:head>
 
-<HeaderCard title={join.title} subtitle={join.subtitle} />
+<HeaderCard title={join.title} />
 
 {#if joined}
 	<section class="section">
@@ -234,7 +234,7 @@
 <style>
 	.welcome {
 		font-size: clamp(2rem, 1.4rem + 3vw, 3.4rem);
-		font-weight: 400;
+		font-weight: 500;
 		line-height: 1.05;
 		letter-spacing: -0.01em;
 	}
