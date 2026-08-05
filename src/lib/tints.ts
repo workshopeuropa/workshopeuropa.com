@@ -1,31 +1,33 @@
 /**
- * The tint scale: fifteen hues, 24° apart, which closes the wheel exactly.
- * The CSS side of this lives in src/app.css as --tint-0 … --tint-336.
+ * The tint scale: twelve hues, 30° apart, offset by 15° so that 75 — the
+ * house colour the site started from — sits on the scale rather than beside
+ * it. 12 × 30 closes the wheel exactly, so the wrap from 345 back to 15 is
+ * the same step as every other.
+ *
+ * The CSS side of this lives in src/app.css as --tint-15 … --tint-345.
  *
  * The names are the common colour each hue lands on at this saturation and
  * lightness, checked against the nearest CSS named colours by hue angle.
  */
 
-export const HUE_STEP = 24;
+export const HUE_STEP = 30;
+export const HUE_OFFSET = 15;
 
 export type Tint = { hue: number; name: string };
 
 export const tints: Tint[] = [
-	{ hue: 0, name: 'Rose' },
-	{ hue: 24, name: 'Peach' },
-	{ hue: 48, name: 'Butter' },
-	{ hue: 72, name: 'Lime' }, // the house colour
-	{ hue: 96, name: 'Chartreuse' },
-	{ hue: 120, name: 'Green' },
-	{ hue: 144, name: 'Mint' },
-	{ hue: 168, name: 'Turquoise' },
-	{ hue: 192, name: 'Sky' },
-	{ hue: 216, name: 'Cornflower' },
-	{ hue: 240, name: 'Periwinkle' },
-	{ hue: 264, name: 'Lilac' },
-	{ hue: 288, name: 'Mauve' },
-	{ hue: 312, name: 'Orchid' },
-	{ hue: 336, name: 'Pink' }
+	{ hue: 15, name: 'Coral' },
+	{ hue: 45, name: 'Butter' },
+	{ hue: 75, name: 'Lime' }, // the house colour
+	{ hue: 105, name: 'Apple' },
+	{ hue: 135, name: 'Spring' },
+	{ hue: 165, name: 'Mint' },
+	{ hue: 195, name: 'Sky' },
+	{ hue: 225, name: 'Cornflower' },
+	{ hue: 255, name: 'Periwinkle' },
+	{ hue: 285, name: 'Lilac' },
+	{ hue: 315, name: 'Orchid' },
+	{ hue: 345, name: 'Rose' }
 ];
 
 export const hues = tints.map((tint) => tint.hue);

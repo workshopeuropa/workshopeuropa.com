@@ -79,17 +79,18 @@ proportion and point `image` at them in `projects.ts`.
 
 ## Colour
 
-One saturation, one lightness, a hue every 24°. Fifteen tints, `--tint-0` through `--tint-336`,
-defined at the top of `src/app.css`:
+One saturation, one lightness, a hue every 30°, offset by 15°. Twelve tints, `--tint-15` through
+`--tint-345`, defined at the top of `src/app.css`:
 
 ```css
 --tint-s: 80%;
 --tint-l: 80%;
---tint-72: hsl(72 var(--tint-s) var(--tint-l));
+--tint-75: hsl(75 var(--tint-s) var(--tint-l)); /* Lime — the house colour */
 ```
 
-15 × 24 = 360, so the wheel closes exactly: every neighbouring pair is the same distance apart,
-including the wrap from 336 back to 0.
+12 × 30 = 360, so the wheel closes exactly: every neighbouring pair is the same distance apart,
+including the wrap from 345 back to 15. The 15° offset is what puts 75 on the scale — the green
+the site started from — rather than leaving it between two stops.
 
 Each hue is named for the common colour it lands on at this saturation and lightness, checked
 against the nearest CSS named colours by hue angle. The names live in `src/lib/tints.ts`; the CSS
@@ -97,20 +98,19 @@ tokens are numeric, because the hue is what the system is actually made of.
 
 | Hue | | Name | Hue | | Name | Hue | | Name |
 |---|---|---|---|---|---|---|---|---|
-| 0° | `#f5a3a3` | Rose | 120° | `#a3f5a3` | Green | 240° | `#a3a3f5` | Periwinkle |
-| 24° | `#f5c4a3` | Peach | 144° | `#a3f5c4` | Mint | 264° | `#c4a3f5` | Lilac |
-| 48° | `#f5e4a3` | Butter | 168° | `#a3f5e4` | Turquoise | 288° | `#e4a3f5` | Mauve |
-| 72° | `#e4f5a3` | **Lime** | 192° | `#a3e4f5` | Sky | 312° | `#f5a3e4` | Orchid |
-| 96° | `#c4f5a3` | Chartreuse | 216° | `#a3c4f5` | Cornflower | 336° | `#f5a3c4` | Pink |
-
-Lime is the house colour — where the original green already sat, and what `--card` falls back to.
+| 15° | `#f5b8a3` | Coral | 135° | `#a3f5b8` | Spring | 255° | `#b8a3f5` | Periwinkle |
+| 45° | `#f5e0a3` | Butter | 165° | `#a3f5e0` | Mint | 285° | `#e0a3f5` | Lilac |
+| 75° | `#e0f5a3` | **Lime** | 195° | `#a3e0f5` | Sky | 315° | `#f5a3e0` | Orchid |
+| 105° | `#b8f5a3` | Apple | 225° | `#a3b8f5` | Cornflower | 345° | `#f5a3b8` | Rose |
 
 Two properties follow from fixing s and l, and both are worth keeping:
 
-- **Every tint clears 7.9:1 against the ink** (worst is 240°), so text is safe on any of them
+- **Every tint clears 8.3:1 against the ink** (worst is 255°), so text is safe on any of them
   without checking. AAA at every hue.
-- **No tint clears 2:1 against the paper** (1.05–1.97:1). They are for filling shapes. A tint will
+- **No tint clears 2:1 against the paper** (1.05–1.93:1). They are for filling shapes. A tint will
   not hold as a hairline, a small mark, or a text colour on the page background.
+
+Lime is the house colour — where the original green sat, and what `--card` falls back to.
 
 ### One colour per page
 
@@ -131,7 +131,7 @@ once and the colour would stick for the whole session.
 ```
 
 To pin the site to one colour, replace `pickTint()` with a constant; `--card` in `app.css` is still
-`--tint-72` and takes over wherever the shell's value does not reach.
+`--tint-75` and takes over wherever the shell's value does not reach.
 
 ## Widths
 
