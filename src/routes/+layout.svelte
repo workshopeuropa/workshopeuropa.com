@@ -5,20 +5,20 @@
 	import '../app.css';
 
 	import { site } from '$lib/content/site';
+	import { shadeHue } from '$lib/tints';
 	import type { Snippet } from 'svelte';
 	import type { LayoutData } from './$types';
 
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
+
+	let tint = $derived(`hsl(${data.tint.hue} var(--tint-s) var(--tint-l))`);
+	let shade = $derived(`hsl(${shadeHue(data.tint)} var(--shade-s) var(--shade-l))`);
 </script>
 
 <!-- One tint per page, set here so every card on it shares the same one.
      data-tint names it, so which one you are looking at is legible in the
      inspector and assertable in a test. -->
-<div
-	class="shell"
-	style="--card: hsl({data.tint.hue} var(--tint-s) var(--tint-l))"
-	data-tint={data.tint.name}
->
+<div class="shell" style="--card: {tint}; --shade: {shade}" data-tint={data.tint.name}>
 	<a class="skip-link" href="#main">Skip to content</a>
 
 	<main id="main" class="sheet">

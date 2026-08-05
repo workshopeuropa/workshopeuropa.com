@@ -6,8 +6,11 @@
 export type Project = {
 	slug: string;
 	title: string;
-	/** The one-line "what is it". Shown under the title on the project card. */
-	subtitle: string;
+	/** The one-line "what is it" — the headline on the project card. */
+	headline: string;
+	/** Shown at the foot of the project card. Plain text, since the card is
+	    already a link and a link inside a link is not valid. */
+	url?: string;
 	year: string;
 	discipline: string;
 	status: 'In the workshop' | 'Out in the world' | 'Resting';
@@ -25,7 +28,8 @@ export const projects: Project[] = [
 	{
 		slug: 'vionio',
 		title: 'Vionio',
-		subtitle: 'A reading room for moving images',
+		headline: 'A reading room for moving images',
+		url: 'vionio.com',
 		year: '2026',
 		discipline: 'Product, identity, build',
 		status: 'Out in the world',
@@ -50,7 +54,7 @@ export const projects: Project[] = [
 	{
 		slug: 'bottega',
 		title: 'Bottega',
-		subtitle: 'An apprenticeship, arranged as software',
+		headline: 'An apprenticeship, arranged as software',
 		year: '2025—',
 		discipline: 'Programme, tools, writing',
 		status: 'In the workshop',
@@ -70,7 +74,7 @@ export const projects: Project[] = [
 	{
 		slug: 'a-series',
 		title: 'A-Series',
-		subtitle: 'A grid built on 1 : √2',
+		headline: 'A grid built on 1 : √2',
 		year: '2025',
 		discipline: 'Type, layout, open source',
 		status: 'Out in the world',
@@ -90,7 +94,7 @@ export const projects: Project[] = [
 	{
 		slug: 'nice-to-meet-you',
 		title: 'Nice to meet you',
-		subtitle: 'Correspondence, on paper',
+		headline: 'Correspondence, on paper',
 		year: '2024—',
 		discipline: 'Print, editorial',
 		status: 'Resting',

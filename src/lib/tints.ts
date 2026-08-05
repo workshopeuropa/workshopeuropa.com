@@ -13,6 +13,27 @@
 export const HUE_STEP = 30;
 export const HUE_OFFSET = 15;
 
+/* ---- The shades ----------------------------------------------------------
+   Each tint has a dark partner: less saturated, much darker, and colder by
+   a fixed number of degrees. "Colder" is a direction, not a sign — 225 is the
+   coldest point on the wheel, so each hue moves that many degrees along the
+   shorter arc towards it. Orange goes up towards yellow, pink goes down
+   towards violet, and 225 itself has nowhere colder to go.
+   -------------------------------------------------------------------------- */
+
+/** The blue pole. Hues move towards this to get colder. */
+export const COLD_POLE = 225;
+/** Under test. Raise it for a colder set, drop it to 0 to keep the hue. */
+export const COLD_SHIFT = 15;
+
+export function colder(hue: number, by = COLD_SHIFT) {
+	const up = (COLD_POLE - hue + 360) % 360;
+	const down = (hue - COLD_POLE + 360) % 360;
+	if (up === 0) return hue; // already the coldest hue there is
+	// Equidistant (45°) goes up, which lands on yellow rather than orange.
+	return (hue + (up <= down ? by : -by) + 360) % 360;
+}
+
 export type Tint = { hue: number; name: string };
 
 export const tints: Tint[] = [
@@ -31,6 +52,11 @@ export const tints: Tint[] = [
 ];
 
 export const hues = tints.map((tint) => tint.hue);
+
+/** The dark partner of a tint, as a hue. */
+export function shadeHue(tint: Tint) {
+	return colder(tint.hue);
+}
 
 /** The one a page shows. Every card on that page shares it. */
 export function pickTint(): Tint {

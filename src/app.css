@@ -36,6 +36,32 @@
 	--tint-315: hsl(315 var(--tint-s) var(--tint-l)); /* Orchid */
 	--tint-345: hsl(345 var(--tint-s) var(--tint-l)); /* Rose */
 
+
+	/* ---- The shades ------------------------------------------------
+	   A dark partner for each tint: less saturated, much darker, and
+	   colder by 15° — each hue moved that far along the shorter arc
+	   towards 225, the coldest point on the wheel. So the warm half
+	   climbs towards yellow-green and the cool half falls towards blue,
+	   and Cornflower, already at 225, stays where it is.
+	   Named for the tint each one partners, not for its own hue.
+	   Every pair clears 5.3:1, so a shade is safe as text on its tint.
+	   ------------------------------------------------------------------ */
+	--shade-s: 45%;
+	--shade-l: 25%;
+
+	--shade-15: hsl(0 var(--shade-s) var(--shade-l)); /* Coral */
+	--shade-45: hsl(60 var(--shade-s) var(--shade-l)); /* Butter */
+	--shade-75: hsl(90 var(--shade-s) var(--shade-l)); /* Lime */
+	--shade-105: hsl(120 var(--shade-s) var(--shade-l)); /* Apple */
+	--shade-135: hsl(150 var(--shade-s) var(--shade-l)); /* Spring */
+	--shade-165: hsl(180 var(--shade-s) var(--shade-l)); /* Mint */
+	--shade-195: hsl(210 var(--shade-s) var(--shade-l)); /* Sky */
+	--shade-225: hsl(225 var(--shade-s) var(--shade-l)); /* Cornflower */
+	--shade-255: hsl(240 var(--shade-s) var(--shade-l)); /* Periwinkle */
+	--shade-285: hsl(270 var(--shade-s) var(--shade-l)); /* Lilac */
+	--shade-315: hsl(300 var(--shade-s) var(--shade-l)); /* Orchid */
+	--shade-345: hsl(330 var(--shade-s) var(--shade-l)); /* Rose */
+
 	--paper: #f1f1ef;
 	--card: var(--tint-75); /* Lime, when nothing overrides it */
 	--ink: #16160f;
