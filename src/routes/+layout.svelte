@@ -8,13 +8,15 @@
 
 	import { site } from '$lib/content/site';
 	import type { Snippet } from 'svelte';
+	import type { LayoutData } from './$types';
 
-	let { children }: { children: Snippet } = $props();
+	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 </script>
 
-<a class="skip-link" href="#main">Skip to content</a>
+<!-- One tint per page, set here so every card on it shares the same one. -->
+<div class="shell" style="--card: hsl({data.hue} var(--tint-s) var(--tint-l))">
+	<a class="skip-link" href="#main">Skip to content</a>
 
-<div class="shell">
 	<main id="main" class="sheet">
 		{@render children()}
 	</main>

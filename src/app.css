@@ -9,34 +9,36 @@
 	--ratio: 1.41421;
 
 	/* ---- The tints -------------------------------------------------
-	   One saturation, one lightness, and a hue every 25°. Fourteen of
-	   them: 25 does not divide 360, so the wheel closes on a 35° step
-	   from 325 back to 0 rather than carrying a 15th stop that would
-	   sit 10° off red and read as a duplicate of it.
-	   Every tint clears 8:1 against the ink, so text is safe on any of
+	   One saturation, one lightness, a hue every 24°. Fifteen of them,
+	   and 15 x 24 closes the wheel exactly, so every neighbouring pair
+	   is the same distance apart including the wrap from 336 to 0.
+	   Every tint clears 7.9:1 against the ink, so text is safe on any of
 	   them; none clears 2:1 against the paper, so they are for filling
 	   shapes, never for hairlines or small marks.
+	   A page picks one of them at random and every card on it shares it —
+	   see src/routes/+layout.ts.
 	   ----------------------------------------------------------------- */
 	--tint-s: 80%;
 	--tint-l: 80%;
 
-	--tint-0: hsl(0 var(--tint-s) var(--tint-l)); /* red */
-	--tint-25: hsl(25 var(--tint-s) var(--tint-l)); /* orange */
-	--tint-50: hsl(50 var(--tint-s) var(--tint-l)); /* yellow */
-	--tint-75: hsl(75 var(--tint-s) var(--tint-l)); /* the house green */
-	--tint-100: hsl(100 var(--tint-s) var(--tint-l)); /* leaf */
-	--tint-125: hsl(125 var(--tint-s) var(--tint-l)); /* grass */
-	--tint-150: hsl(150 var(--tint-s) var(--tint-l)); /* mint */
-	--tint-175: hsl(175 var(--tint-s) var(--tint-l)); /* aqua */
-	--tint-200: hsl(200 var(--tint-s) var(--tint-l)); /* sky */
-	--tint-225: hsl(225 var(--tint-s) var(--tint-l)); /* blue */
-	--tint-250: hsl(250 var(--tint-s) var(--tint-l)); /* indigo */
-	--tint-275: hsl(275 var(--tint-s) var(--tint-l)); /* violet */
-	--tint-300: hsl(300 var(--tint-s) var(--tint-l)); /* magenta */
-	--tint-325: hsl(325 var(--tint-s) var(--tint-l)); /* pink */
+	--tint-0: hsl(0 var(--tint-s) var(--tint-l));
+	--tint-24: hsl(24 var(--tint-s) var(--tint-l));
+	--tint-48: hsl(48 var(--tint-s) var(--tint-l));
+	--tint-72: hsl(72 var(--tint-s) var(--tint-l));
+	--tint-96: hsl(96 var(--tint-s) var(--tint-l));
+	--tint-120: hsl(120 var(--tint-s) var(--tint-l));
+	--tint-144: hsl(144 var(--tint-s) var(--tint-l));
+	--tint-168: hsl(168 var(--tint-s) var(--tint-l));
+	--tint-192: hsl(192 var(--tint-s) var(--tint-l));
+	--tint-216: hsl(216 var(--tint-s) var(--tint-l));
+	--tint-240: hsl(240 var(--tint-s) var(--tint-l));
+	--tint-264: hsl(264 var(--tint-s) var(--tint-l));
+	--tint-288: hsl(288 var(--tint-s) var(--tint-l));
+	--tint-312: hsl(312 var(--tint-s) var(--tint-l));
+	--tint-336: hsl(336 var(--tint-s) var(--tint-l));
 
 	--paper: #f1f1ef;
-	--card: var(--tint-75);
+	--card: var(--tint-72); /* the house green, when nothing overrides it */
 	--ink: #16160f;
 	--ink-soft: #16160fb3;
 	--rule: #16160f1f;
