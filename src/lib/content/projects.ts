@@ -31,7 +31,7 @@ export const projects: Project[] = [
 	{
 		slug: 'vionio',
 		title: 'Vionio',
-		headline: 'Made in Europe, owned by you.',
+		headline: 'Made in Europe, owned by you',
 		summary:
 			'A creator platform on open protocols — your audience travels with you.',
 		image: {
@@ -42,7 +42,7 @@ export const projects: Project[] = [
 	{
 		slug: 'inlagg',
 		title: 'Inlägg / Indlæg / Innlegg',
-		headline: 'Everyone here is real.',
+		headline: 'Everyone here is real',
 		summary:
 			'A Nordic social platform where every account is verified with BankID or MitID.',
 		image: {
@@ -53,7 +53,7 @@ export const projects: Project[] = [
 	{
 		slug: 'risved',
 		title: 'Risved',
-		headline: 'Your servers, your rules.',
+		headline: 'Your servers, your rules',
 		summary:
 			'Open-source European hosting — run it on our cloud or your own hardware.',
 		image: {

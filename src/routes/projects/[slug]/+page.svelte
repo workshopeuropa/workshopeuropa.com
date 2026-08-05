@@ -1,10 +1,8 @@
 <script lang="ts">
 	import Deck from '$lib/components/Deck.svelte';
 	import HeaderCard from '$lib/components/HeaderCard.svelte';
-	import Plate from '$lib/components/Plate.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Rubric from '$lib/components/Rubric.svelte';
-	import { projectsTitle } from '$lib/content/projects';
 	import { site } from '$lib/content/site';
 	import type { PageData } from './$types';
 
@@ -22,28 +20,26 @@
 	<meta name="description" content={project.summary} />
 </svelte:head>
 
-<!-- Two header cards: the section's own card, exactly as /projects wears it,
-     and the project's card from that page laid on its side. The project is
-     the h1; the section card steps down to a p so there is only one. -->
-{#if project.image}
-	<Plate src={project.image.src} alt={project.image.alt}>
-		<HeaderCard title={projectsTitle} heading="p" />
-	</Plate>
-{:else}
-	<HeaderCard title={projectsTitle} heading="p" />
-{/if}
+<!-- Two header cards. The first is the wordmark and the nav at half height,
+     with nothing in the middle to hold; the second is the project's own card
+     from the index, laid on its side, carrying the h1. -->
+<HeaderCard half />
 
 <Deck columns={1}>
 	<ProjectCard {project} orientation="landscape" heading="h1" link={false} />
 </Deck>
 
-<section class="section">
-	<div class="text">
-		{#each project.body ?? [project.summary] as paragraph, i (paragraph)}
-			<p class={i === 0 ? 'lede' : ''}>{paragraph}</p>
-		{/each}
-	</div>
-</section>
+<!-- Only when there is body copy: the summary is already the last line of
+     the card above, and printing it again is not a paragraph. -->
+{#if project.body?.length}
+	<section class="section">
+		<div class="text">
+			{#each project.body as paragraph, i (paragraph)}
+				<p class={i === 0 ? 'lede' : ''}>{paragraph}</p>
+			{/each}
+		</div>
+	</section>
+{/if}
 
 <!-- Only the particulars this project actually has; nothing at all if it
      has none, rather than a rule over an empty list. -->
