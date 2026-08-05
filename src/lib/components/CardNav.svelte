@@ -51,4 +51,10 @@
 	:global(.card--landscape) .card-nav {
 		font-size: clamp(0.78rem, 2.3cqi, 1.05rem);
 	}
+
+	/* Fixed in the masthead, like the rest of its type. Must come after the
+	   landscape rule — same specificity, so source order decides. */
+	:global(.card--masthead) .card-nav {
+		font-size: 1rem;
+	}
 </style>

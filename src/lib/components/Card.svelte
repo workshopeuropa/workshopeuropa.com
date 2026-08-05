@@ -6,10 +6,11 @@
 		orientation?: 'portrait' | 'landscape';
 		/** Turns the card into a link. */
 		href?: string;
-		/** Green stock or plain paper with a rule around it. */
-		tone?: 'green' | 'paper';
 		/** Span the full width of the deck. */
 		wide?: boolean;
+		/** The page header, whose type is set at fixed sizes rather than
+		    against the card. */
+		masthead?: boolean;
 		/** Extra classes for the caller. */
 		class?: string;
 		/** Three bands: something at the head, something in the middle, something at the foot. */
@@ -23,8 +24,8 @@
 	let {
 		orientation = 'portrait',
 		href,
-		tone = 'green',
 		wide = false,
+		masthead = false,
 		class: klass = '',
 		top,
 		middle,
@@ -45,13 +46,19 @@
 
 {#if href}
 	<a
-		class="card card--{orientation} card--{tone} {wide ? 'card--wide' : ''} card--link {klass}"
+		class="card card--{orientation} card--link {klass}"
+		class:card--wide={wide}
+		class:card--masthead={masthead}
 		{href}
 	>
 		{@render body()}
 	</a>
 {:else}
-	<article class="card card--{orientation} card--{tone} {wide ? 'card--wide' : ''} {klass}">
+	<article
+		class="card card--{orientation} {klass}"
+		class:card--wide={wide}
+		class:card--masthead={masthead}
+	>
 		{@render body()}
 	</article>
 {/if}
@@ -80,11 +87,6 @@
 		aspect-ratio: var(--ratio) / 1;
 		padding: clamp(1.1rem, 4.5cqi, 2.75rem);
 		max-width: var(--band);
-	}
-
-	.card--paper {
-		background: transparent;
-		box-shadow: inset 0 0 0 1px var(--rule);
 	}
 
 	.card--wide {
@@ -187,5 +189,16 @@
 
 	.card--landscape :global(.prose) {
 		font-size: clamp(0.95rem, 2.4cqi, 1.1rem);
+	}
+
+	/* The masthead is set, not scaled: the same three sizes whatever the
+	   card is doing. Declared last so it beats the landscape rules above. */
+	.card--masthead :global(.eyebrow) {
+		font-size: 1rem;
+		font-style: italic;
+	}
+
+	.card--masthead :global(.title) {
+		font-size: 2rem;
 	}
 </style>
