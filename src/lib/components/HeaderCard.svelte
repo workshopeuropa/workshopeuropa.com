@@ -35,9 +35,8 @@
 	{/each}
 {/snippet}
 
-<!-- The word count drives how much room the stretch needs reserving. -->
 {#snippet eyebrowLine()}
-	<p class="eyebrow" style="--logo-lines: {words.length}">
+	<p class="eyebrow">
 		{#if isSelf}
 			{@render name()}
 		{:else}
@@ -61,21 +60,22 @@
 </Card>
 
 <style>
-	/* The logo, stretched to twice its height. A transform rather than a
-	   font weight, so the strokes distort with it — scaling from the top
-	   keeps the name pinned where it sits and grows it downwards into the
-	   space the band already has. */
+	/* The logo, stretched to twice its width. A transform rather than a
+	   wider cut, so the strokes distort with it — verticals thicken while
+	   horizontals hold. Scaled about the centre, so the name stays on the
+	   card's centre line, and nothing needs reserving: the stretch runs
+	   across the band's own empty width rather than into the title. */
 	.eyebrow {
-		transform: scale(1, 2);
-		transform-origin: top center;
-		/* A transform paints outside the layout box, so the stretch has to be
-		   paid for by hand: one extra line-height per line, or a long title
-		   centred on a narrow card rises into the wordmark. */
-		margin-block-end: calc(var(--logo-lines, 2) * 1.2em);
+		transform: scale(2, 1);
+		transform-origin: center;
 	}
 
+	/* Hugging the glyphs rather than the band, so scaling the line widens
+	   the letters instead of an invisible full-width box. */
 	.eyebrow__word {
 		display: block;
+		width: fit-content;
+		margin-inline: auto;
 	}
 
 	.eyebrow__link {
