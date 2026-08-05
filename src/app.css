@@ -43,7 +43,11 @@
 	--rule: #16160f1f;
 
 	--radius: clamp(1.1rem, 2.2vw, 1.9rem);
-	--gutter: clamp(1rem, 3.5vw, 2.5rem);
+	/* The page's padding, on every edge. */
+	--gutter: 1rem;
+	/* Space between cards in a deck, and between one section and the next.
+	   Not padding, so it keeps its own measure. */
+	--gap: clamp(1rem, 3.5vw, 2.5rem);
 	--stack: clamp(1rem, 3.5vw, 2.5rem);
 
 	/* Cards and plates make the wide layer; running text sits in a

@@ -39,22 +39,27 @@
 		--safe-bottom: env(safe-area-inset-bottom, 0px);
 		--safe-left: env(safe-area-inset-left, 0px);
 		--safe-right: env(safe-area-inset-right, 0px);
-		--sheet-pad: clamp(1.25rem, 5vw, 4rem);
+		--sheet-pad: var(--gutter);
+		/* Where the browser already reserves space at the top, spend that
+		   instead of our own: the gap ends up max(--sheet-pad, --safe-top).
+		   Named so a full-bleed plate can cancel exactly this much. */
+		--sheet-top: max(0px, var(--sheet-pad) - var(--safe-top));
 
 		min-height: 100dvh;
 		display: flex;
 		flex-direction: column;
 		/* Landscape on a notched phone puts the cut-out down one side. */
 		padding-inline: var(--safe-left) var(--safe-right);
+		/* A full-bleed child is 100vw, which counts the scrollbar; clip the
+		   overhang rather than letting the page scroll sideways. */
+		overflow-x: clip;
 	}
 
 	.sheet {
 		flex: 1;
 		width: min(100% - var(--gutter) * 2, 64rem);
 		margin-inline: auto;
-		/* Where the browser already reserves space at the top, spend that
-		   instead of our own: the gap ends up max(--sheet-pad, --safe-top). */
-		padding-block-start: max(0px, var(--sheet-pad) - var(--safe-top));
+		padding-block-start: var(--sheet-top);
 		padding-block-end: var(--sheet-pad);
 		display: grid;
 		gap: var(--stack);
