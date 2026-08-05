@@ -67,7 +67,7 @@
 	.card {
 		container-type: inline-size;
 		display: grid;
-		grid-template-rows: auto 1fr auto;
+		grid-template-rows: 1fr auto 1fr;
 		gap: 1rem;
 		width: 100%;
 		margin-inline: auto;
@@ -113,15 +113,21 @@
 	.band {
 		display: grid;
 		gap: 0.5em;
-		align-content: start;
+	}
+
+	/* The outer bands hug the edges of the card; the middle one sits in an
+	   auto-height row between two equal tracks, so it lands on the centre
+	   line rather than in the middle of whatever space is left over. */
+	.band--top {
+		align-self: start;
 	}
 
 	.band--middle {
-		align-content: center;
+		align-self: center;
 	}
 
 	.band--bottom {
-		align-content: end;
+		align-self: end;
 	}
 
 	/* --- Typography inside a card, sized against the card itself --------- */
