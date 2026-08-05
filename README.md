@@ -105,76 +105,64 @@ so anything important in them wants to be near the middle.
 
 ## Colour
 
-One saturation, one lightness, a hue every 30°, offset by 15°. Twelve tints, `--tint-15` through
-`--tint-345`, defined at the top of `src/app.css`:
+One hue per page, four recipes on it, two modes. Everything is derived — the layout sets `--hue`
+and `--hue-cold` on `:root`, and `src/app.css` does the rest:
 
 ```css
---tint-s: 80%;
---tint-l: 80%;
---tint-75: hsl(75 var(--tint-s) var(--tint-l)); /* Lime — the house colour */
+--tint-s: 80%;  --tint-l: 80%;   /* the card in light mode, the ink in dark */
+--shade-s: 30%; --shade-l: 25%;  /* the ink in light mode, the card in dark */
+--wash-s: 50%;  --wash-l: 95%;   /* the page in light mode */
+--deep-s: 20%;  --deep-l: 12%;   /* the page in dark mode */
 ```
 
-12 × 30 = 360, so the wheel closes exactly: every neighbouring pair is the same distance apart,
-including the wrap from 345 back to 15. The 15° offset is what puts 75 on the scale — the green
-the site started from — rather than leaving it between two stops.
-
-Each hue is named for the common colour it lands on at this saturation and lightness, checked
-against the nearest CSS named colours by hue angle. The names live in `src/lib/tints.ts`; the CSS
-tokens are numeric, because the hue is what the system is actually made of.
-
-| Hue | | Name | Hue | | Name | Hue | | Name |
-|---|---|---|---|---|---|---|---|---|
-| 15° | `#f5b8a3` | Coral | 135° | `#a3f5b8` | Spring | 255° | `#b8a3f5` | Periwinkle |
-| 45° | `#f5e0a3` | Butter | 165° | `#a3f5e0` | Mint | 285° | `#e0a3f5` | Lilac |
-| 75° | `#e0f5a3` | **Lime** | 195° | `#a3e0f5` | Sky | 315° | `#f5a3e0` | Orchid |
-| 105° | `#b8f5a3` | Apple | 225° | `#a3b8f5` | Cornflower | 345° | `#f5a3b8` | Rose |
-
-Two properties follow from fixing s and l, and both are worth keeping:
-
-- **Every tint clears 8.3:1 against the ink** (worst is 255°), so text is safe on any of them
-  without checking. AAA at every hue.
-- **No tint clears 2:1 against the paper** (1.05–1.93:1). They are for filling shapes. A tint will
-  not hold as a hairline, a small mark, or a text colour on the page background.
-
-Lime is the house colour — where the original green sat, and what `--card` falls back to.
-
-### The shades
-
-Each tint has a dark partner — less saturated, much darker, and colder. "Colder" is a direction,
-not a sign: every hue moves 15° along the shorter arc towards the cold pole at 210°, a cyan-leaning
-blue rather than pure blue, since 240 is already turning towards violet. The warm half climbs
-towards yellow-green, the cool half falls towards blue. Sky and Cornflower sit either side of the
-pole and both land on it, so they share a shade — the one place two tints have the same partner.
+Three roles read those: `--paper`, `--card`, `--ink`. **Dark mode is the card turned inside out** —
+the fill and the ink swap places, and the page goes down to the deep with them:
 
 ```css
---shade-s: 45%;
---shade-l: 25%;
---shade-75: hsl(90 var(--shade-s) var(--shade-l)); /* Lime's partner */
+@media (prefers-color-scheme: dark) {
+	:root { --paper: var(--deep); --card: var(--shade); --ink: var(--tint); }
+}
 ```
 
-Tokens are named for the tint they partner, not for their own hue — `--shade-75` goes with
-`--tint-75`. The rule lives in `colder()` in `src/lib/tints.ts`: `COLD_POLE` is where hues head
-and `COLD_SHIFT` is how far, so both are one number each. Dropping the shift to 0 keeps every shade
-on its tint's own hue.
+All text on the page uses `--ink`, the card's own text colour, so the type on the paper and the
+type on a card are the same colour rather than two near-blacks.
 
-| Tint | | Shade | | Contrast |
+### The scale
+
+Twelve hues, 30° apart, offset by 15° so that 75 — the green the site started from — lands on the
+scale. 12 × 30 closes the wheel exactly, so the wrap from 345 back to 15 is the same step as every
+other. `--hue-cold` is the hue moved 15° along the shorter arc towards the cold pole at 210°, a
+cyan-leaning blue rather than pure blue; Sky and Cornflower sit either side of it and both land on
+it, so they share a shade. The rule is `colder()` in `src/lib/tints.ts`, where `COLD_POLE` and
+`COLD_SHIFT` are one number each.
+
+| Hue | Tint | Shade | Wash | Deep |
 |---|---|---|---|---|
-| Coral 15° | `#f5b8a3` | 0° | `#5c2323` | 7.13:1 |
-| Butter 45° | `#f5e0a3` | 60° | `#5c5c23` | 5.34:1 |
-| Lime 75° | `#e0f5a3` | 90° | `#405c23` | 6.40:1 |
-| Apple 105° | `#b8f5a3` | 120° | `#235c23` | 6.33:1 |
-| Spring 135° | `#a3f5b8` | 150° | `#235c40` | 6.09:1 |
-| Mint 165° | `#a3f5e0` | 180° | `#235c5c` | 6.06:1 |
-| Sky 195° | `#a3e0f5` | 210° | `#23405c` | 7.42:1 |
-| Cornflower 225° | `#a3b8f5` | 210° | `#23405c` | 5.47:1 |
-| Periwinkle 255° | `#b8a3f5` | 240° | `#23235c` | 6.54:1 |
-| Lilac 285° | `#e0a3f5` | 270° | `#40235c` | 6.65:1 |
-| Orchid 315° | `#f5a3e0` | 300° | `#5c235c` | 6.05:1 |
-| Rose 345° | `#f5a3b8` | 330° | `#5c2340` | 6.11:1 |
+| Coral 15° | `#f5b8a3` | `#532d2d` | `#f9efec` | `#251c18` |
+| Butter 45° | `#f5e0a3` | `#53532d` | `#f9f5ec` | `#252218` |
+| Lime 75° | `#e0f5a3` | `#40532d` | `#f5f9ec` | `#222518` |
+| Apple 105° | `#b8f5a3` | `#2d532d` | `#eff9ec` | `#1c2518` |
+| Spring 135° | `#a3f5b8` | `#2d5340` | `#ecf9ef` | `#18251c` |
+| Mint 165° | `#a3f5e0` | `#2d5353` | `#ecf9f5` | `#182522` |
+| Sky 195° | `#a3e0f5` | `#2d4053` | `#ecf5f9` | `#182225` |
+| Cornflower 225° | `#a3b8f5` | `#2d4053` | `#eceff9` | `#181c25` |
+| Periwinkle 255° | `#b8a3f5` | `#2d2d53` | `#efecf9` | `#1c1825` |
+| Lilac 285° | `#e0a3f5` | `#402d53` | `#f5ecf9` | `#221825` |
+| Orchid 315° | `#f5a3e0` | `#532d53` | `#f9ecf5` | `#251822` |
+| Rose 345° | `#f5a3b8` | `#532d40` | `#f9ecef` | `#25181c` |
 
-Every pair clears AA at 5.32:1 or better, so a shade is safe as text on its own tint. Cards use it
-as their ink — `color: var(--shade, var(--ink))` — so the type on a card belongs to the same colour
-as the card. `.meta` mixes down from `currentColor` rather than the page ink, so it follows.
+Measured in a browser across all twelve hues in both modes:
+
+| | Light | Dark |
+|---|---|---|
+| Text on the page | 7.30:1 worst | 7.95:1 worst |
+| Text on a card | 5.45:1 worst | 5.45:1 worst |
+
+Text on a card is the same pair either way round, which is what makes the inversion safe. Nothing
+falls below AA, and text on the page clears AAA in both modes.
+
+`--ink-soft` and `--rule` are mixed down from `--ink`, so they follow it into dark mode rather than
+staying a fixed grey.
 
 ### One colour per page
 
@@ -187,15 +175,13 @@ colour instead of flashing a second one. And touching `url.pathname` in that loa
 as a dependency, so SvelteKit re-runs it on every navigation — without that line the load would run
 once and the colour would stick for the whole session.
 
-`+layout.svelte` puts it on the shell as `--card`, which every card reads, and names it in
-`data-tint` so which one you are looking at is legible in the inspector and assertable in a test:
+`+layout.svelte` writes the hue into a `<style>` in the head rather than onto the shell, because
+the shell is capped at `--page` and the body paints everything outside it — a background set on the
+shell would leave the margins the wrong colour on a wide screen. `data-tint` names the hue on the
+shell, so which one you are looking at is legible in the inspector and assertable in a test.
 
-```svelte
-<div class="shell" style="--card: hsl({data.tint.hue} …)" data-tint={data.tint.name}>
-```
-
-To pin the site to one colour, replace `pickTint()` with a constant; `--card` in `app.css` is still
-`--tint-75` and takes over wherever the shell's value does not reach.
+To pin the site to one colour, replace `pickTint()` with a constant; `--hue` in `app.css` defaults
+to 75, Lime, for anything the layout does not reach.
 
 ## Widths
 
