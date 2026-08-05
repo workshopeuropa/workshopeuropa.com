@@ -123,3 +123,13 @@ npm run db:studio     # look at the data
 
 Session cookies are `Secure` outside dev, so deploy behind HTTPS and set `ORIGIN` for the Node
 adapter.
+
+## Deploying
+
+`npm run build` then `npm start` — the Node adapter's server, listening on `PORT` (3000 by
+default). It needs `ORIGIN` set to the public URL or form posts fail their CSRF check.
+
+The build precompresses static assets to `.br` and `.gz`, and the handler serves whichever the
+client accepts — about a third of the original bytes for the CSS and JS. Fonts are left alone;
+woff2 is already compressed. Server-rendered HTML is not covered, so leave compression on in
+whatever sits in front, or the pages themselves go out uncompressed.
