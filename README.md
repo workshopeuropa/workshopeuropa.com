@@ -77,6 +77,43 @@ one.
 The images in `static/media/` are placeholder screenshots — drop real ones in at the same 1 : √2
 proportion and point `image` at them in `projects.ts`.
 
+## Colour
+
+One saturation, one lightness, a hue every 25°. Fourteen tints, `--tint-0` through `--tint-325`,
+defined at the top of `src/app.css`:
+
+```css
+--tint-s: 80%;
+--tint-l: 80%;
+--tint-75: hsl(75 var(--tint-s) var(--tint-l)); /* the house green */
+```
+
+25 does not divide 360, so the wheel closes on a 35° step from 325 back to 0. A fifteenth stop at
+350 would land 10° off red and read as a duplicate of it, so there isn't one. `--card` is
+`--tint-75`, which is where the original green already sat.
+
+| | | | | | | |
+|---|---|---|---|---|---|---|
+| 0° `#f5a3a3` | 25° `#f5c5a3` | 50° `#f5e7a3` | 75° `#e0f5a3` | 100° `#bef5a3` | 125° `#a3f5aa` | 150° `#a3f5cc` |
+| 175° `#a3f5ee` | 200° `#a3daf5` | 225° `#a3b8f5` | 250° `#b1a3f5` | 275° `#d3a3f5` | 300° `#f5a3f5` | 325° `#f5a3d3` |
+
+Two properties follow from fixing s and l, and both are worth keeping:
+
+- **Every tint clears 8:1 against the ink** (worst is 250° at 8.16:1), so text is safe on any of
+  them without checking. AAA at every hue.
+- **No tint clears 2:1 against the paper** (1.05–1.97:1). They are for filling shapes. A tint will
+  not hold as a hairline, a small mark, or a text colour on the page background.
+
+Cards take a hue with the `hue` prop, and a project carries its own in `projects.ts`:
+
+```svelte
+<Card orientation="portrait" hue={project.hue}>
+```
+
+Omit it and the card is the house green — which is what the header cards do, so the masthead stays
+constant while the projects below it change colour. Drop the `hue` field from `projects.ts` and the
+whole site returns to green.
+
 ## Widths
 
 Three of them, all centred on one axis, in `src/app.css`:
