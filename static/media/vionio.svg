@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1414" role="img" aria-label="Placeholder">
+	<rect width="1000" height="1414" fill="#16160f" />
+	<g fill="#f1f1ef" fill-opacity="0.14">
+		<rect x="90" y="90" width="180" height="254" />
+		<rect x="300" y="90" width="180" height="254" />
+		<rect x="510" y="90" width="180" height="254" />
+		<rect x="720" y="90" width="180" height="254" />
+		<rect x="90" y="380" width="180" height="254" />
+		<rect x="300" y="380" width="180" height="254" />
+		<rect x="720" y="380" width="180" height="254" />
+	</g>
+	<rect x="510" y="380" width="180" height="254" fill="#ddf49a" fill-opacity="0.85" />
+	<g fill="#f1f1ef" fill-opacity="0.45">
+		<rect x="90" y="1040" width="330" height="8" />
+		<rect x="90" y="1072" width="480" height="8" />
+		<rect x="90" y="1104" width="400" height="8" />
+	</g>
+	<g fill="#f1f1ef" fill-opacity="0.2">
+		<rect x="90" y="1200" width="810" height="2" />
+		<rect x="90" y="1260" width="810" height="2" />
+		<rect x="90" y="1320" width="810" height="2" />
+	</g>
+	<circle cx="130" cy="1231" r="10" fill="#ddf49a" />
+	<circle cx="130" cy="1291" r="10" fill="#f1f1ef" fill-opacity="0.3" />
+</svg>

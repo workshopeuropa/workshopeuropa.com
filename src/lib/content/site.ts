@@ -9,7 +9,12 @@ export const site = {
 	tagline: 'A workshop, not an agency',
 	description:
 		'Workshop Europa is a small design workshop. We take on a handful of projects a year and build them properly, in the open, with the people who will live with them.',
-	email: 'hello@workshopeuropa.com'
+	email: 'hello@workshopeuropa.com',
+	/** The image the front-page card sits on. */
+	image: {
+		src: '/media/workshop.svg',
+		alt: 'Sheets of paper halved and halved again across the workshop bench.'
+	}
 } as const;
 
 export const nav = [

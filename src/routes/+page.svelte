@@ -1,7 +1,8 @@
 <script lang="ts">
-	import Card from '$lib/components/Card.svelte';
 	import Deck from '$lib/components/Deck.svelte';
 	import HeaderCard from '$lib/components/HeaderCard.svelte';
+	import Plate from '$lib/components/Plate.svelte';
+	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Rubric from '$lib/components/Rubric.svelte';
 	import { formatDate, manifesto, news, site } from '$lib/content/site';
 	import { projects } from '$lib/content/projects';
@@ -14,90 +15,74 @@
 	<meta name="description" content={site.description} />
 </svelte:head>
 
-<Deck columns={1}>
+<Plate src={site.image.src} alt={site.image.alt}>
 	<HeaderCard title={site.tagline} subtitle={site.descriptor} />
-</Deck>
+</Plate>
 
-<Rubric note="What the workshop is for">Manifesto</Rubric>
+<section class="section" aria-labelledby="manifesto">
+	<Rubric id="manifesto" note="What the workshop is for">Manifesto</Rubric>
 
-<Deck columns={2}>
-	{#each manifesto as entry, i (entry.title)}
-		<Card orientation="portrait">
-			{#snippet top()}
-				<p class="meta">
+	<div class="entries">
+		{#each manifesto as entry, i (entry.title)}
+			<article class="entry">
+				<p class="entry__label">
 					{String(i + 1).padStart(2, '0')} / {String(manifesto.length).padStart(2, '0')}
 				</p>
-			{/snippet}
-			{#snippet middle()}
-				<h3 class="title title--small">{entry.title}</h3>
-				<div class="prose">
-					{#each entry.body as paragraph (paragraph)}
-						<p>{paragraph}</p>
-					{/each}
+				<div>
+					<h3 class="entry__title">{entry.title}</h3>
+					<div class="entry__body">
+						{#each entry.body as paragraph (paragraph)}
+							<p>{paragraph}</p>
+						{/each}
+					</div>
 				</div>
-			{/snippet}
-		</Card>
-	{/each}
-</Deck>
+			</article>
+		{/each}
+	</div>
+</section>
 
-<Rubric note="Notes from the bench">News</Rubric>
+<section class="section" aria-labelledby="news">
+	<Rubric id="news" note="Notes from the bench">News</Rubric>
 
-<Deck columns={3}>
-	{#each news as item (item.title)}
-		<Card orientation="landscape">
-			{#snippet top()}
-				<p class="meta"><time datetime={item.date}>{formatDate(item.date)}</time></p>
-			{/snippet}
-			{#snippet middle()}
-				<h3 class="title title--small">{item.title}</h3>
-				<p class="subtitle">{item.body}</p>
-			{/snippet}
-		</Card>
-	{/each}
-</Deck>
+	<div class="entries">
+		{#each news as item (item.title)}
+			<article class="entry">
+				<p class="entry__label">
+					<time datetime={item.date}>{formatDate(item.date)}</time>
+				</p>
+				<div>
+					<h3 class="entry__title">{item.title}</h3>
+					<div class="entry__body">
+						<p>{item.body}</p>
+					</div>
+				</div>
+			</article>
+		{/each}
+	</div>
+</section>
 
-<Rubric note="A handful at a time">On the bench</Rubric>
+<section class="section" aria-labelledby="bench">
+	<Rubric id="bench" note="A handful at a time">On the bench</Rubric>
 
-<Deck columns={2}>
-	{#each featured as project (project.slug)}
-		<Card orientation="portrait" href="/projects/{project.slug}">
-			{#snippet top()}
-				<p class="eyebrow">{project.year}</p>
-			{/snippet}
-			{#snippet middle()}
-				<h3 class="title">{project.title}</h3>
-				<p class="subtitle italic">{project.subtitle}</p>
-			{/snippet}
-			{#snippet bottom()}
-				<p class="meta">{project.status}</p>
-			{/snippet}
-		</Card>
-	{/each}
+	<Deck columns={2}>
+		{#each featured as project (project.slug)}
+			<ProjectCard {project} heading="h3" />
+		{/each}
+	</Deck>
 
-	<Card orientation="landscape" tone="paper" wide href="/projects">
-		{#snippet top()}
-			<p class="meta">{projects.length} projects</p>
-		{/snippet}
-		{#snippet middle()}
-			<h3 class="title title--small">All projects</h3>
-		{/snippet}
-		{#snippet bottom()}
-			<p class="meta italic">Everything on and off the bench →</p>
-		{/snippet}
-	</Card>
-</Deck>
+	<p class="more">
+		<a href="/projects">All {projects.length} projects</a>
+	</p>
+</section>
 
-<Deck columns={1}>
-	<Card orientation="landscape" href="/join">
-		{#snippet top()}
-			<p class="eyebrow">Join</p>
-		{/snippet}
-		{#snippet middle()}
-			<h3 class="title">Nice to meet you</h3>
-			<p class="subtitle italic">Two places at the bench from September</p>
-		{/snippet}
-		{#snippet bottom()}
-			<p class="meta">Tell us what you make →</p>
-		{/snippet}
-	</Card>
-</Deck>
+<section class="section" aria-labelledby="join">
+	<Rubric id="join" note="Two places from September">Join</Rubric>
+
+	<div class="text">
+		<p class="lede">
+			Joining means the letter four times a year, and a place in the pile we read from when the
+			bench has room.
+		</p>
+		<p><a href="/join">Tell us what you make →</a></p>
+	</div>
+</section>
