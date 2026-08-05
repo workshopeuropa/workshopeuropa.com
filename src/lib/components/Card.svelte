@@ -80,9 +80,7 @@
 		padding: clamp(1.1rem, 6cqi, 2.75rem);
 		border-radius: var(--radius);
 		background: var(--card);
-		/* The tint's dark partner, so the ink on a card belongs to the same
-		   colour. Falls back to the plain ink if no shade is set. */
-		color: var(--shade, var(--ink));
+		color: var(--ink);
 		text-align: center;
 		overflow-wrap: break-word;
 		/* aspect-ratio sets the floor — a card with more in it than the ratio

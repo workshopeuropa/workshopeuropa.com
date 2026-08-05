@@ -8,66 +8,44 @@
 	/* The ratio. Everything else is built around it. */
 	--ratio: 1.41421;
 
-	/* ---- The tints -------------------------------------------------
-	   One saturation, one lightness, a hue every 30°, offset by 15° so
-	   that 75 — the green the site started from — lands on the scale
-	   rather than beside it. Twelve of them, and 12 x 30 closes the
-	   wheel exactly, so the wrap from 345 back to 15 is the same step as
-	   every other.
-	   Every tint clears 8.3:1 against the ink, so text is safe on any of
-	   them; none clears 2:1 against the paper, so they are for filling
-	   shapes, never for hairlines or small marks.
-	   A page picks one of them at random and every card on it shares it —
-	   see src/lib/tints.ts, which also carries the names below.
-	   ----------------------------------------------------------------- */
+	/* ---- The colour system ---------------------------------------------
+	   One hue per page and four recipes on it. --hue is set per page by the
+	   layout; --hue-cold is that hue moved 15° towards the cold pole at 210.
+	
+	     tint   the card in light mode, the ink in dark
+	     shade  the ink in light mode, the card in dark
+	     wash   the page in light mode: very light, mid saturation
+	     deep   the page in dark mode: darker and flatter than the card
+	
+	   Dark mode is the card inverted — the fill and the ink swap places —
+	   on a page that goes dark with them. Every pairing clears 5.45:1, and
+	   text on the page itself clears 7.3:1 in either mode.
+	   --------------------------------------------------------------------- */
+	--hue: 75; /* Lime, until a page says otherwise */
+	--hue-cold: 90;
+
 	--tint-s: 80%;
 	--tint-l: 80%;
-
-	--tint-15: hsl(15 var(--tint-s) var(--tint-l)); /* Coral */
-	--tint-45: hsl(45 var(--tint-s) var(--tint-l)); /* Butter */
-	--tint-75: hsl(75 var(--tint-s) var(--tint-l)); /* Lime — the house colour */
-	--tint-105: hsl(105 var(--tint-s) var(--tint-l)); /* Apple */
-	--tint-135: hsl(135 var(--tint-s) var(--tint-l)); /* Spring */
-	--tint-165: hsl(165 var(--tint-s) var(--tint-l)); /* Mint */
-	--tint-195: hsl(195 var(--tint-s) var(--tint-l)); /* Sky */
-	--tint-225: hsl(225 var(--tint-s) var(--tint-l)); /* Cornflower */
-	--tint-255: hsl(255 var(--tint-s) var(--tint-l)); /* Periwinkle */
-	--tint-285: hsl(285 var(--tint-s) var(--tint-l)); /* Lilac */
-	--tint-315: hsl(315 var(--tint-s) var(--tint-l)); /* Orchid */
-	--tint-345: hsl(345 var(--tint-s) var(--tint-l)); /* Rose */
-
-
-	/* ---- The shades ------------------------------------------------
-	   A dark partner for each tint: less saturated, much darker, and
-	   colder by 15° — each hue moved that far along the shorter arc
-	   towards 210, the cold pole. So the warm half climbs towards
-	   yellow-green and the cool half falls towards blue. Sky and
-	   Cornflower sit either side of the pole and both land on it, so
-	   they share a shade.
-	   Named for the tint each one partners, not for its own hue.
-	   Every pair clears 5.3:1, so a shade is safe as text on its tint.
-	   ------------------------------------------------------------------ */
-	--shade-s: 45%;
+	--shade-s: 30%;
 	--shade-l: 25%;
+	--wash-s: 50%;
+	--wash-l: 95%;
+	--deep-s: 20%;
+	--deep-l: 12%;
 
-	--shade-15: hsl(0 var(--shade-s) var(--shade-l)); /* Coral */
-	--shade-45: hsl(60 var(--shade-s) var(--shade-l)); /* Butter */
-	--shade-75: hsl(90 var(--shade-s) var(--shade-l)); /* Lime */
-	--shade-105: hsl(120 var(--shade-s) var(--shade-l)); /* Apple */
-	--shade-135: hsl(150 var(--shade-s) var(--shade-l)); /* Spring */
-	--shade-165: hsl(180 var(--shade-s) var(--shade-l)); /* Mint */
-	--shade-195: hsl(210 var(--shade-s) var(--shade-l)); /* Sky */
-	--shade-225: hsl(210 var(--shade-s) var(--shade-l)); /* Cornflower */
-	--shade-255: hsl(240 var(--shade-s) var(--shade-l)); /* Periwinkle */
-	--shade-285: hsl(270 var(--shade-s) var(--shade-l)); /* Lilac */
-	--shade-315: hsl(300 var(--shade-s) var(--shade-l)); /* Orchid */
-	--shade-345: hsl(330 var(--shade-s) var(--shade-l)); /* Rose */
+	--tint: hsl(var(--hue) var(--tint-s) var(--tint-l));
+	--shade: hsl(var(--hue-cold) var(--shade-s) var(--shade-l));
+	--wash: hsl(var(--hue) var(--wash-s) var(--wash-l));
+	--deep: hsl(var(--hue) var(--deep-s) var(--deep-l));
 
-	--paper: #f1f1ef;
-	--card: var(--tint-75); /* Lime, when nothing overrides it */
-	--ink: #16160f;
-	--ink-soft: #16160fb3;
-	--rule: #16160f1f;
+	/* The three roles everything else reads. */
+	--paper: var(--wash);
+	--card: var(--tint);
+	--ink: var(--shade);
+
+	/* Both derived from the ink, so they follow it into dark mode. */
+	--ink-soft: color-mix(in srgb, var(--ink) 70%, transparent);
+	--rule: color-mix(in srgb, var(--ink) 18%, transparent);
 
 	--radius: clamp(1.1rem, 2.2vw, 1.9rem);
 	/* The page's padding, on every edge. */
@@ -87,7 +65,16 @@
 	   the viewport, so the site stops growing on a very wide screen. */
 	--page: 80rem;
 
-	color-scheme: light;
+	color-scheme: light dark;
+}
+
+/* Dark mode: the card turns inside out and the page follows it down. */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--paper: var(--deep);
+		--card: var(--shade);
+		--ink: var(--tint);
+	}
 }
 
 *,
