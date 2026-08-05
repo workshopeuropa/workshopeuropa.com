@@ -11,6 +11,9 @@
 		/** The page header, whose type is set at fixed sizes rather than
 		    against the card. */
 		masthead?: boolean;
+		/** Half the height of a landscape card — the ratio folded the long
+		    way, for a header with nothing in the middle to hold. */
+		half?: boolean;
 		/** Extra classes for the caller. */
 		class?: string;
 		/** Three bands: something at the head, something in the middle, something at the foot. */
@@ -26,6 +29,7 @@
 		href,
 		wide = false,
 		masthead = false,
+		half = false,
 		class: klass = '',
 		top,
 		middle,
@@ -49,6 +53,7 @@
 		class="card card--{orientation} card--link {klass}"
 		class:card--wide={wide}
 		class:card--masthead={masthead}
+		class:card--half={half}
 		{href}
 	>
 		{@render body()}
@@ -58,6 +63,7 @@
 		class="card card--{orientation} {klass}"
 		class:card--wide={wide}
 		class:card--masthead={masthead}
+		class:card--half={half}
 	>
 		{@render body()}
 	</article>
@@ -93,6 +99,12 @@
 
 	.card--wide {
 		grid-column: 1 / -1;
+	}
+
+	/* An A rectangle halved across its short side: same width, half the
+	   height. Declared after the orientations so it wins over both. */
+	.card--half {
+		aspect-ratio: calc(var(--ratio) * 2) / 1;
 	}
 
 	.card--link {
