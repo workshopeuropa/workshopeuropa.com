@@ -5,7 +5,9 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 const config = {
 	preprocess: vitePreprocess(),
 	kit: {
-		adapter: adapter()
+		// precompress writes .br and .gz beside every static asset at build
+		// time; the node handler serves them when the client accepts them.
+		adapter: adapter({ precompress: true })
 	}
 };
 
