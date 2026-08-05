@@ -15,5 +15,13 @@ export const join = {
 	body: [
 		'Joining means two things: you get the letter four times a year, and you are in the pile we read from when a place at the bench opens.',
 		'Tell us what you make. A sentence is plenty — we would rather have the link than the CV.'
+	],
+	/** The ways in, in the order we would ask for them. */
+	help: [
+		'Spread the word',
+		'Make the switch',
+		'Join',
+		'Contribute',
+		'Submit your projects'
 	]
 };

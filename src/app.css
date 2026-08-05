@@ -248,6 +248,12 @@ textarea {
 	line-height: 1.6;
 }
 
+/* An entry that is only its title — a list of things rather than a list of
+   things with something to say about each. */
+.entry--single .entry__title {
+	margin-bottom: 0;
+}
+
 /* Label / value pairs. */
 .facts {
 	display: grid;
