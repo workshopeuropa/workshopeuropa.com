@@ -8,8 +8,35 @@
 	/* The ratio. Everything else is built around it. */
 	--ratio: 1.41421;
 
+	/* ---- The tints -------------------------------------------------
+	   One saturation, one lightness, and a hue every 25°. Fourteen of
+	   them: 25 does not divide 360, so the wheel closes on a 35° step
+	   from 325 back to 0 rather than carrying a 15th stop that would
+	   sit 10° off red and read as a duplicate of it.
+	   Every tint clears 8:1 against the ink, so text is safe on any of
+	   them; none clears 2:1 against the paper, so they are for filling
+	   shapes, never for hairlines or small marks.
+	   ----------------------------------------------------------------- */
+	--tint-s: 80%;
+	--tint-l: 80%;
+
+	--tint-0: hsl(0 var(--tint-s) var(--tint-l)); /* red */
+	--tint-25: hsl(25 var(--tint-s) var(--tint-l)); /* orange */
+	--tint-50: hsl(50 var(--tint-s) var(--tint-l)); /* yellow */
+	--tint-75: hsl(75 var(--tint-s) var(--tint-l)); /* the house green */
+	--tint-100: hsl(100 var(--tint-s) var(--tint-l)); /* leaf */
+	--tint-125: hsl(125 var(--tint-s) var(--tint-l)); /* grass */
+	--tint-150: hsl(150 var(--tint-s) var(--tint-l)); /* mint */
+	--tint-175: hsl(175 var(--tint-s) var(--tint-l)); /* aqua */
+	--tint-200: hsl(200 var(--tint-s) var(--tint-l)); /* sky */
+	--tint-225: hsl(225 var(--tint-s) var(--tint-l)); /* blue */
+	--tint-250: hsl(250 var(--tint-s) var(--tint-l)); /* indigo */
+	--tint-275: hsl(275 var(--tint-s) var(--tint-l)); /* violet */
+	--tint-300: hsl(300 var(--tint-s) var(--tint-l)); /* magenta */
+	--tint-325: hsl(325 var(--tint-s) var(--tint-l)); /* pink */
+
 	--paper: #f1f1ef;
-	--card: #ddf49a;
+	--card: var(--tint-75);
 	--ink: #16160f;
 	--ink-soft: #16160fb3;
 	--rule: #16160f1f;
