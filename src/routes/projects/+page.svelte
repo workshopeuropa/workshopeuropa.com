@@ -2,7 +2,7 @@
 	import Deck from '$lib/components/Deck.svelte';
 	import HeaderCard from '$lib/components/HeaderCard.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
-	import { projects } from '$lib/content/projects';
+	import { projects, projectsTitle } from '$lib/content/projects';
 	import { site } from '$lib/content/site';
 </script>
 
@@ -14,7 +14,7 @@
 	/>
 </svelte:head>
 
-<HeaderCard title="Projects" />
+<HeaderCard title={projectsTitle} />
 
 <Deck columns={2}>
 	{#each projects as project (project.slug)}
