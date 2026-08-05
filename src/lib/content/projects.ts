@@ -24,6 +24,10 @@ export type Project = {
 	links?: { label: string; href: string }[];
 };
 
+/** The headline on the Projects card — on the index, and on the copy of it
+    that opens every project page. */
+export const projectsTitle = 'Make the shift';
+
 export const projects: Project[] = [
 	{
 		slug: 'vionio',

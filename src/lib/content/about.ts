@@ -1,7 +1,7 @@
 /** The About page, in one place. */
 
 export const about = {
-	title: 'About',
+	title: 'Independence is infrastructure',
 	subtitle: 'Workshop Europa',
 	body: [
 		'Workshop Europa is a small design workshop. It exists because the two ways of making things that were on offer — the agency and the platform — both ask you to work faster than the work deserves.',
