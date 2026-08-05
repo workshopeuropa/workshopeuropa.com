@@ -40,6 +40,23 @@
 
 <HeaderCard title={join.title} />
 
+<!-- Shown either side of the form: the ways in are worth reading before you
+     fill it out, and still worth reading once you have. -->
+{#snippet helpList()}
+	<section class="section" aria-labelledby="help">
+		<Rubric id="help" note="{join.help.length} ways">How can I help?</Rubric>
+
+		<ul class="entries">
+			{#each join.help as way, i (way)}
+				<li class="entry entry--single">
+					<p class="entry__label">{String(i + 1).padStart(2, '0')}</p>
+					<h3 class="entry__title">{way}</h3>
+				</li>
+			{/each}
+		</ul>
+	</section>
+{/snippet}
+
 {#if joined}
 	<section class="section">
 		<div class="text">
@@ -58,6 +75,8 @@
 			{/if}
 		</div>
 	</section>
+
+	{@render helpList()}
 {:else}
 	<section class="section">
 		<div class="text">
@@ -66,6 +85,8 @@
 			{/each}
 		</div>
 	</section>
+
+	{@render helpList()}
 
 	<section class="section" aria-labelledby="form">
 		<Rubric id="form" note="Two minutes">Join the workshop</Rubric>
