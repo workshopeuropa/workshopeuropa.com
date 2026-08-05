@@ -27,16 +27,29 @@
 
 <style>
 	.shell {
+		/* Held in variables so the safe-area maths below can be tested by
+		   overriding them — env() itself cannot be set from script. */
+		--safe-top: env(safe-area-inset-top, 0px);
+		--safe-bottom: env(safe-area-inset-bottom, 0px);
+		--safe-left: env(safe-area-inset-left, 0px);
+		--safe-right: env(safe-area-inset-right, 0px);
+		--sheet-pad: clamp(1.25rem, 5vw, 4rem);
+
 		min-height: 100dvh;
 		display: flex;
 		flex-direction: column;
+		/* Landscape on a notched phone puts the cut-out down one side. */
+		padding-inline: var(--safe-left) var(--safe-right);
 	}
 
 	.sheet {
 		flex: 1;
 		width: min(100% - var(--gutter) * 2, 64rem);
 		margin-inline: auto;
-		padding-block: clamp(1.25rem, 5vw, 4rem);
+		/* Where the browser already reserves space at the top, spend that
+		   instead of our own: the gap ends up max(--sheet-pad, --safe-top). */
+		padding-block-start: max(0px, var(--sheet-pad) - var(--safe-top));
+		padding-block-end: var(--sheet-pad);
 		display: grid;
 		gap: var(--stack);
 		align-content: start;
@@ -46,6 +59,7 @@
 		width: min(100% - var(--gutter) * 2, 64rem);
 		margin-inline: auto;
 		padding-block: clamp(2rem, 6vw, 4rem);
+		padding-bottom: calc(clamp(2rem, 6vw, 4rem) + var(--safe-bottom));
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
