@@ -2,38 +2,21 @@
 	import type { Snippet } from 'svelte';
 
 	type Props = {
-		/** The image behind the card. Without one the plate is just tinted stock. */
+		/** The image behind the card. Without one the plate is tinted stock. */
 		src?: string;
 		alt?: string;
-		/** The image is usually the tall way, so the card on it can be the wide way. */
-		orientation?: 'portrait' | 'landscape';
-		/** Where the card sits on the image. */
-		align?: 'center' | 'end';
-		/** How much of the plate's width the card takes. */
-		inset?: number;
 		class?: string;
-		/** The card. */
+		/** The card, which sits at the foot of the screen. */
 		children: Snippet;
 	};
 
-	let {
-		src,
-		alt = '',
-		orientation = 'portrait',
-		align = 'center',
-		inset = 0.86,
-		class: klass = '',
-		children
-	}: Props = $props();
+	let { src, alt = '', class: klass = '', children }: Props = $props();
 </script>
 
-<figure
-	class="plate plate--{orientation} plate--{align} {klass}"
-	style="--inset: {Math.round(inset * 100)}%"
->
+<figure class="plate {klass}">
 	<div class="plate__media">
 		{#if src}
-			<img src={src} {alt} loading="lazy" decoding="async" />
+			<img {src} {alt} />
 		{/if}
 	</div>
 	<div class="plate__card">
@@ -45,32 +28,26 @@
 	.plate {
 		position: relative;
 		display: grid;
-		justify-items: center;
-		margin: 0 auto;
-		width: 100%;
-		max-width: 32rem;
-		padding: clamp(0.75rem, 4%, 2rem);
-		/* Same floor as a card: the ratio, unless what is on it needs more. */
-		aspect-ratio: 1 / var(--ratio);
-	}
-
-	.plate--landscape {
-		aspect-ratio: var(--ratio) / 1;
-		max-width: 46rem;
-	}
-
-	.plate--center {
-		align-items: center;
-	}
-
-	.plate--end {
 		align-items: end;
+		justify-items: center;
+		margin: 0;
+		/* Full bleed: break out of the sheet's measure and fill the screen. */
+		width: 100vw;
+		margin-inline: calc(50% - 50vw);
+		min-height: 100dvh;
+		/* The card clears the edge of the screen by the page's own padding. */
+		padding: var(--gutter);
+	}
+
+	/* When the plate opens a page, cancel the sheet's top padding so the
+	   image starts at the top of the screen rather than a gutter below it. */
+	.plate:first-child {
+		margin-block-start: calc(-1 * var(--sheet-top));
 	}
 
 	.plate__media {
 		position: absolute;
 		inset: 0;
-		border-radius: var(--radius);
 		overflow: hidden;
 		background: var(--card);
 	}
@@ -83,6 +60,6 @@
 
 	.plate__card {
 		position: relative;
-		width: var(--inset);
+		width: 100%;
 	}
 </style>

@@ -17,7 +17,7 @@
 </svelte:head>
 
 {#if project.image}
-	<Plate src={project.image.src} alt={project.image.alt} align="end">
+	<Plate src={project.image.src} alt={project.image.alt}>
 		<HeaderCard title={project.title} eyebrow="Projects" eyebrowHref="/projects" />
 	</Plate>
 {:else}

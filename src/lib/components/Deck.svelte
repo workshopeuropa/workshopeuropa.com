@@ -21,7 +21,7 @@
 	   height, so the band is what keeps a card from becoming a billboard. */
 	.deck {
 		display: grid;
-		gap: var(--gutter);
+		gap: var(--gap);
 		grid-template-columns: minmax(0, 1fr);
 		align-items: start;
 		width: min(100%, var(--band));

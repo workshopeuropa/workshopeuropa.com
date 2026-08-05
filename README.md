@@ -61,21 +61,25 @@ centring rather than leaving a hole when there are fewer cards than columns.
 
 ## Plates
 
-`Plate.svelte` is the interplay between a card and an image: a portrait image at the same ratio,
-with a landscape card sitting on top of it.
+`Plate.svelte` is the interplay between a card and an image: an image filling the screen, with a
+landscape card at the foot of it, clear of the edge by the page's own padding.
 
 ```svelte
-<Plate src={project.image.src} alt={project.image.alt} align="end">
-	<HeaderCard title={project.title} subtitle={project.subtitle} />
+<Plate src={project.image.src} alt={project.image.alt}>
+	<HeaderCard title={project.title} />
 </Plate>
 ```
 
-`align` puts the card in the middle of the image or near its foot; `inset` (default `0.86`) is how
-much of the plate's width the card takes. The front page and every project page with an image use
-one.
+It full-bleeds out of the sheet — `width: 100vw` with `margin-inline: calc(50% - 50vw)` — and when
+it opens a page it cancels the sheet's top padding via `--sheet-top`, so the image starts at the
+top of the screen rather than a gutter below it. `.shell` carries `overflow-x: clip` because 100vw
+counts the scrollbar; without it a desktop page scrolls sideways by a scrollbar's width.
 
-The images in `static/media/` are placeholder screenshots — drop real ones in at the same 1 : √2
-proportion and point `image` at them in `projects.ts`.
+The card keeps its `--band` cap, so it fills the width on a phone and centres at 44rem on a wide
+screen. The front page and every project page with an image use one.
+
+The images in `static/media/` are placeholder screenshots. They are cropped to fill the screen now,
+so anything important in them wants to be near the middle.
 
 ## Colour
 
@@ -135,13 +139,15 @@ To pin the site to one colour, replace `pickTint()` with a constant; `--card` in
 
 ## Widths
 
-Three of them, all centred on one axis, in `src/app.css`:
+All centred on one axis, in `src/app.css`:
 
 - `--column` (38rem) — running text
 - `--band` (44rem) — cards, decks, and the rules above each section
-- plates cap at 32rem, narrower than the band, so a hero never dominates
+- `--gutter` (1rem) — the page's padding, on every edge, and the inset of a card on its plate
+- `--gap` — space between cards in a deck, and `--stack` between sections. Not padding, so they
+  keep their own measure rather than collapsing to 1rem with the page.
 
-Tokens — the ratio, the greens, the radius — live at the top of the same file.
+Tokens — the ratio, the tints, the radius — live at the top of the same file.
 
 ## Editing the content
 
