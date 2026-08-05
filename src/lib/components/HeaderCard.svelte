@@ -60,22 +60,9 @@
 </Card>
 
 <style>
-	/* The logo, stretched to twice its width. A transform rather than a
-	   wider cut, so the strokes distort with it — verticals thicken while
-	   horizontals hold. Scaled about the centre, so the name stays on the
-	   card's centre line, and nothing needs reserving: the stretch runs
-	   across the band's own empty width rather than into the title. */
-	.eyebrow {
-		transform: scale(2, 1);
-		transform-origin: center;
-	}
-
-	/* Hugging the glyphs rather than the band, so scaling the line widens
-	   the letters instead of an invisible full-width box. */
+	/* A word per row, at the size the type was cut for. */
 	.eyebrow__word {
 		display: block;
-		width: fit-content;
-		margin-inline: auto;
 	}
 
 	.eyebrow__link {
