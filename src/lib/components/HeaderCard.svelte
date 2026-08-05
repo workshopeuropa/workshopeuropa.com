@@ -25,7 +25,7 @@
 	let isSelf = $derived(page.url.pathname === eyebrowHref);
 </script>
 
-<Card {orientation} wide class="masthead">
+<Card {orientation} wide masthead>
 	{#snippet top()}
 		{#if isSelf}
 			<p class="eyebrow">{eyebrow}</p>

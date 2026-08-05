@@ -219,12 +219,14 @@
 				<button class="submit" type="submit" disabled={submitting}>Sign in</button>
 			</form>
 		{:else}
-			<p class="text">
-				Joined before? Your details are already on file.
-				<button class="linkish" type="button" onclick={() => (showSignin = true)}>
-					Sign in to update them
-				</button>.
-			</p>
+			<div class="text">
+				<p>
+					Joined before? Your details are already on file.
+					<button class="linkish" type="button" onclick={() => (showSignin = true)}
+						>Sign in to update them</button
+					>.
+				</p>
+			</div>
 		{/if}
 	</section>
 {/if}
