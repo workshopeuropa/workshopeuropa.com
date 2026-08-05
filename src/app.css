@@ -40,9 +40,10 @@
 	/* ---- The shades ------------------------------------------------
 	   A dark partner for each tint: less saturated, much darker, and
 	   colder by 15° — each hue moved that far along the shorter arc
-	   towards 225, the coldest point on the wheel. So the warm half
-	   climbs towards yellow-green and the cool half falls towards blue,
-	   and Cornflower, already at 225, stays where it is.
+	   towards 210, the cold pole. So the warm half climbs towards
+	   yellow-green and the cool half falls towards blue. Sky and
+	   Cornflower sit either side of the pole and both land on it, so
+	   they share a shade.
 	   Named for the tint each one partners, not for its own hue.
 	   Every pair clears 5.3:1, so a shade is safe as text on its tint.
 	   ------------------------------------------------------------------ */
@@ -56,7 +57,7 @@
 	--shade-135: hsl(150 var(--shade-s) var(--shade-l)); /* Spring */
 	--shade-165: hsl(180 var(--shade-s) var(--shade-l)); /* Mint */
 	--shade-195: hsl(210 var(--shade-s) var(--shade-l)); /* Sky */
-	--shade-225: hsl(225 var(--shade-s) var(--shade-l)); /* Cornflower */
+	--shade-225: hsl(210 var(--shade-s) var(--shade-l)); /* Cornflower */
 	--shade-255: hsl(240 var(--shade-s) var(--shade-l)); /* Periwinkle */
 	--shade-285: hsl(270 var(--shade-s) var(--shade-l)); /* Lilac */
 	--shade-315: hsl(300 var(--shade-s) var(--shade-l)); /* Orchid */
@@ -82,6 +83,9 @@
 	--column: 38rem;
 	/* The band the cards, decks and rules share. */
 	--band: 44rem;
+	/* The widest the page ever gets. A full-bleed plate spans this, not
+	   the viewport, so the site stops growing on a very wide screen. */
+	--page: 80rem;
 
 	color-scheme: light;
 }

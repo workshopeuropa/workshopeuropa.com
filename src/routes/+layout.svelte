@@ -46,8 +46,12 @@
 		--sheet-top: max(0px, var(--sheet-pad) - var(--safe-top));
 
 		min-height: 100dvh;
+		max-width: var(--page);
+		margin-inline: auto;
 		display: flex;
 		flex-direction: column;
+		/* The measure a full-bleed plate breaks out to. */
+		container-type: inline-size;
 		/* Landscape on a notched phone puts the cut-out down one side. */
 		padding-inline: var(--safe-left) var(--safe-right);
 		/* A full-bleed child is 100vw, which counts the scrollbar; clip the

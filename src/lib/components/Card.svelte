@@ -138,6 +138,12 @@
 		line-height: 1.2;
 	}
 
+	.card :global(.title),
+	.card :global(.title--small) {
+		/* Even the last line: a headline should not leave one word alone. */
+		text-wrap: balance;
+	}
+
 	.card :global(.title) {
 		font-size: clamp(1.4rem, 8.4cqi, 3.4rem);
 		font-weight: 500;
