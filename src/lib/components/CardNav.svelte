@@ -24,13 +24,30 @@
 </nav>
 
 <style>
+	/* Equal columns rather than space-between: with items of different
+	   widths, spreading them leaves the middle one off the card's centre
+	   line. A track each puts it on it, and the outer two still reach the
+	   edges by aligning within their own track. */
 	.card-nav {
-		display: flex;
-		justify-content: space-between;
+		display: grid;
+		grid-auto-flow: column;
+		grid-auto-columns: 1fr;
 		align-items: baseline;
 		gap: 0.75em;
 		font-size: clamp(0.78rem, 3.4cqi, 1.05rem);
 		line-height: 1.2;
+	}
+
+	.card-nav__link {
+		justify-self: center;
+	}
+
+	.card-nav__link:first-child {
+		justify-self: start;
+	}
+
+	.card-nav__link:last-child {
+		justify-self: end;
 	}
 
 	.card-nav__link {
