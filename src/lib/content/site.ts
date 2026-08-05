@@ -6,7 +6,7 @@ export const site = {
 	name: 'Workshop Europa',
 	url: 'https://workshopeuropa.com',
 	descriptor: 'A design workshop',
-	tagline: 'A workshop, not an agency',
+	tagline: 'Independent software, built in the open',
 	description:
 		'Workshop Europa is a small design workshop. We take on a handful of projects a year and build them properly, in the open, with the people who will live with them.',
 	email: 'hello@workshopeuropa.com',

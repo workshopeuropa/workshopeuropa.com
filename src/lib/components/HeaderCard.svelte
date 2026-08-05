@@ -35,15 +35,20 @@
 	{/each}
 {/snippet}
 
+<!-- The word count drives how much room the stretch needs reserving. -->
+{#snippet eyebrowLine()}
+	<p class="eyebrow" style="--logo-lines: {words.length}">
+		{#if isSelf}
+			{@render name()}
+		{:else}
+			<a class="eyebrow__link" href={eyebrowHref}>{@render name()}</a>
+		{/if}
+	</p>
+{/snippet}
+
 <Card {orientation} wide masthead>
 	{#snippet top()}
-		{#if isSelf}
-			<p class="eyebrow">{@render name()}</p>
-		{:else}
-			<p class="eyebrow">
-				<a class="eyebrow__link" href={eyebrowHref}>{@render name()}</a>
-			</p>
-		{/if}
+		{@render eyebrowLine()}
 	{/snippet}
 
 	{#snippet middle()}
@@ -63,6 +68,10 @@
 	.eyebrow {
 		transform: scale(1, 2);
 		transform-origin: top center;
+		/* A transform paints outside the layout box, so the stretch has to be
+		   paid for by hand: one extra line-height per line, or a long title
+		   centred on a narrow card rises into the wordmark. */
+		margin-block-end: calc(var(--logo-lines, 2) * 1.2em);
 	}
 
 	.eyebrow__word {
