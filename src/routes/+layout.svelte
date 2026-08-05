@@ -1,7 +1,6 @@
 <script lang="ts">
 	import '@fontsource/spectral/500.css';
 	import '@fontsource/spectral/500-italic.css';
-	import '@fontsource/spectral/700.css';
 	import '../app.css';
 
 	import { site } from '$lib/content/site';
