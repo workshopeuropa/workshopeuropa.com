@@ -62,7 +62,7 @@
 	}
 
 	.is-current {
-		font-weight: 700;
+		font-style: italic;
 	}
 
 	:global(.card--landscape) .card-nav {
