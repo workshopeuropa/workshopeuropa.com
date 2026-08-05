@@ -55,9 +55,13 @@ at any size, and the landscape variant scales its own type back down because it 
 </Card>
 ```
 
-Available classes inside a card: `eyebrow`, `title`, `title--small`, `subtitle`, `meta`, `prose`,
-`italic`. `Deck.svelte` lays cards out — 1, 2 or 3 columns, collapsing to one on small screens, and
-centring rather than leaving a hole when there are fewer cards than columns.
+Available classes inside a card: `eyebrow`, `title`, `title--small`, `meta`, `prose`, `italic`.
+Titles carry `text-wrap: balance`, so a headline never leaves one word stranded on the last line.
+`Deck.svelte` lays cards out — one or two columns, collapsing to one on small screens, and centring
+rather than leaving a hole when there is a single card.
+
+Rows are `1fr auto 1fr`: the outer tracks are equal by definition, so the middle band sits on the
+card's centre line however much the bands above and below weigh.
 
 ## Plates
 
@@ -70,17 +74,26 @@ landscape card at the foot of it, clear of the edge by the page's own padding.
 </Plate>
 ```
 
-It full-bleeds out of the sheet — `width: 100vw` with `margin-inline: calc(50% - 50vw)` — and when
-it opens a page it cancels the sheet's top padding via `--sheet-top`, so the image starts at the
-top of the screen rather than a gutter below it. `.shell` carries `overflow-x: clip` because 100vw
-counts the scrollbar; without it a desktop page scrolls sideways by a scrollbar's width.
+It full-bleeds out of the sheet with `margin-inline: calc(50% - 50cqw)`, and when it opens a page
+it cancels the sheet's top padding via `--sheet-top`, so the image starts at the top of the screen
+rather than a gutter below it. `.shell` carries `overflow-x: clip` as a guard against a full-bleed
+child ever overhanging it.
 
-A plate is still an A rectangle: full width, with the height following `1 / var(--ratio)` rather
-than the viewport. That makes it 420 × 594 on a phone and 1280 × 1810 on a wide screen — taller
-than the screen there, so the card at its foot begins below the fold.
+A plate is always an A rectangle, never a viewport-shaped box — but which way up depends on the
+screen. Narrow, the image stands and the card lies down; from 60rem the two swap, so the image
+lies down and the card stands up. That keeps the hero near one screen tall on a desktop instead of
+the 1.41 screens a full-width portrait plate would cost:
 
-The card keeps its `--band` cap, so it fills the width on a phone and centres at 44rem on a wide
-screen. The front page and every project page with an image use one.
+| | Plate | Card |
+| --- | --- | --- |
+| 430px | 430 × 608 portrait | 398 × 281 landscape |
+| 1280px | 1280 × 905 landscape | 416 × 588 portrait |
+
+It bleeds to `100cqw` rather than `100vw`, measured against `.shell` as a container, so the page's
+`--page` cap caps the plate with it: past 80rem the site stops growing and the plate stops with it.
+
+The card on a plate fills the width on a phone and stands up at 26rem on a wide screen. The front
+page and every project page with an image use one.
 
 The images in `static/media/` are placeholder screenshots. They are cropped to fill the screen now,
 so anything important in them wants to be near the middle.
@@ -123,9 +136,10 @@ Lime is the house colour — where the original green sat, and what `--card` fal
 ### The shades
 
 Each tint has a dark partner — less saturated, much darker, and colder. "Colder" is a direction,
-not a sign: 225° is the coldest point on the wheel, so each hue moves 15° along the shorter arc
-towards it. The warm half climbs towards yellow-green, the cool half falls towards blue, and
-Cornflower, already sitting at 225, has nowhere colder to go and stays put.
+not a sign: every hue moves 15° along the shorter arc towards the cold pole at 210°, a cyan-leaning
+blue rather than pure blue, since 240 is already turning towards violet. The warm half climbs
+towards yellow-green, the cool half falls towards blue. Sky and Cornflower sit either side of the
+pole and both land on it, so they share a shade — the one place two tints have the same partner.
 
 ```css
 --shade-s: 45%;
@@ -134,8 +148,9 @@ Cornflower, already sitting at 225, has nowhere colder to go and stays put.
 ```
 
 Tokens are named for the tint they partner, not for their own hue — `--shade-75` goes with
-`--tint-75`. The rule lives in `colder()` in `src/lib/tints.ts`; `COLD_SHIFT` is the 15°, and
-dropping it to 0 keeps each shade on its tint's own hue.
+`--tint-75`. The rule lives in `colder()` in `src/lib/tints.ts`: `COLD_POLE` is where hues head
+and `COLD_SHIFT` is how far, so both are one number each. Dropping the shift to 0 keeps every shade
+on its tint's own hue.
 
 | Tint | | Shade | | Contrast |
 |---|---|---|---|---|
@@ -146,13 +161,13 @@ dropping it to 0 keeps each shade on its tint's own hue.
 | Spring 135° | `#a3f5b8` | 150° | `#235c40` | 6.09:1 |
 | Mint 165° | `#a3f5e0` | 180° | `#235c5c` | 6.06:1 |
 | Sky 195° | `#a3e0f5` | 210° | `#23405c` | 7.42:1 |
-| Cornflower 225° | `#a3b8f5` | 225° | `#23315c` | 6.44:1 |
+| Cornflower 225° | `#a3b8f5` | 210° | `#23405c` | 5.47:1 |
 | Periwinkle 255° | `#b8a3f5` | 240° | `#23235c` | 6.54:1 |
 | Lilac 285° | `#e0a3f5` | 270° | `#40235c` | 6.65:1 |
 | Orchid 315° | `#f5a3e0` | 300° | `#5c235c` | 6.05:1 |
 | Rose 345° | `#f5a3b8` | 330° | `#5c2340` | 6.11:1 |
 
-Every pair clears AA at 5.34:1 or better, so a shade is safe as text on its own tint. Cards use it
+Every pair clears AA at 5.32:1 or better, so a shade is safe as text on its own tint. Cards use it
 as their ink — `color: var(--shade, var(--ink))` — so the type on a card belongs to the same colour
 as the card. `.meta` mixes down from `currentColor` rather than the page ink, so it follows.
 
@@ -183,6 +198,7 @@ All centred on one axis, in `src/app.css`:
 
 - `--column` (38rem) — running text
 - `--band` (44rem) — cards, decks, and the rules above each section
+- `--page` (80rem) — the widest the page gets, and what a full-bleed plate spans
 - `--gutter` (1rem) — the page's padding, on every edge, and the inset of a card on its plate
 - `--gap` — space between cards in a deck, and `--stack` between sections. Not padding, so they
   keep their own measure rather than collapsing to 1rem with the page.

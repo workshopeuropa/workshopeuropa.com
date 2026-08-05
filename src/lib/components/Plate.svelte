@@ -31,11 +31,11 @@
 		align-items: end;
 		justify-items: center;
 		margin: 0;
-		/* Full bleed: break out of the sheet's measure and span the screen.
-		   The height comes from the ratio, not the viewport — a plate is
-		   still an A rectangle, it is just a full-width one now. */
-		width: 100vw;
-		margin-inline: calc(50% - 50vw);
+		/* Full bleed: break out of the sheet's measure to the full width of
+		   the page — cqw, not vw, so a capped page caps the plate with it.
+		   The height comes from the ratio, never from the viewport. */
+		width: 100cqw;
+		margin-inline: calc(50% - 50cqw);
 		aspect-ratio: 1 / var(--ratio);
 		/* The card clears the edge of the screen by the page's own padding. */
 		padding: var(--gutter);
@@ -63,5 +63,20 @@
 	.plate__card {
 		position: relative;
 		width: 100%;
+	}
+
+	/* On a wide screen the two rectangles swap: the image lies down and the
+	   card stands up. A landscape plate keeps the hero near one screen tall
+	   instead of the 1.41 screens a full-width portrait one costs. */
+	@media (min-width: 60rem) {
+		.plate {
+			aspect-ratio: var(--ratio) / 1;
+		}
+
+		.plate :global(.card--masthead) {
+			aspect-ratio: 1 / var(--ratio);
+			max-width: 26rem;
+			padding: clamp(1.1rem, 6cqi, 2.75rem);
+		}
 	}
 </style>

@@ -21,8 +21,10 @@ export const HUE_OFFSET = 15;
    towards violet, and 225 itself has nowhere colder to go.
    -------------------------------------------------------------------------- */
 
-/** The blue pole. Hues move towards this to get colder. */
-export const COLD_POLE = 225;
+/** The cold pole: the point on the wheel every hue moves towards to get
+    colder. A cyan-leaning blue rather than pure blue — 240 is already
+    turning towards violet, and 210 reads colder than 225. */
+export const COLD_POLE = 210;
 /** Under test. Raise it for a colder set, drop it to 0 to keep the hue. */
 export const COLD_SHIFT = 15;
 
