@@ -1,0 +1,135 @@
+/* ---------------------------------------------------------------
+   Workshop Europa — design tokens
+   The whole site is one idea: cards in the ISO 216 ratio (1 : √2),
+   portrait or landscape, laid on paper.
+   --------------------------------------------------------------- */
+
+:root {
+	/* The ratio. Everything else is built around it. */
+	--ratio: 1.41421;
+
+	--paper: #f1f1ef;
+	--card: #ddf49a;
+	--ink: #16160f;
+	--ink-soft: #16160fb3;
+	--rule: #16160f1f;
+
+	--radius: clamp(1.1rem, 2.2vw, 1.9rem);
+	--gutter: clamp(1rem, 3.5vw, 2.5rem);
+	--stack: clamp(1rem, 3.5vw, 2.5rem);
+
+	--measure: 34rem;
+
+	color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	margin: 0;
+	background: var(--paper);
+	color: var(--ink);
+	font-family: 'Spectral', 'Iowan Old Style', 'Times New Roman', serif;
+	font-weight: 400;
+	font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+p,
+figure,
+ul,
+ol {
+	margin: 0;
+}
+
+ul,
+ol {
+	padding: 0;
+	list-style: none;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+a:not([class]) {
+	text-decoration: underline;
+	text-decoration-thickness: from-font;
+	text-underline-offset: 0.18em;
+}
+
+img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+	font: inherit;
+	color: inherit;
+}
+
+:focus-visible {
+	outline: 2px solid var(--ink);
+	outline-offset: 3px;
+	border-radius: 2px;
+}
+
+::selection {
+	background: var(--card);
+	color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+.skip-link {
+	position: absolute;
+	inset-inline-start: var(--gutter);
+	inset-block-start: -4rem;
+	z-index: 10;
+	padding: 0.6rem 1rem;
+	background: var(--card);
+	border-radius: 0.5rem;
+	transition: inset-block-start 120ms ease;
+}
+
+.skip-link:focus {
+	inset-block-start: var(--gutter);
+}
