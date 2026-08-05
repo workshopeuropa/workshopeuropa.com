@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1414" role="img" aria-label="Placeholder">
+	<rect width="1000" height="1414" fill="#16160f" />
+	<!-- racks: some ours, some yours -->
+	<g fill="#f1f1ef" fill-opacity="0.12">
+		<rect x="90" y="140" width="380" height="520" />
+		<rect x="530" y="140" width="380" height="520" />
+		<rect x="90" y="720" width="380" height="520" />
+		<rect x="530" y="720" width="380" height="520" />
+	</g>
+	<g fill="#f1f1ef" fill-opacity="0.28">
+		<rect x="120" y="180" width="320" height="34" /><rect x="120" y="232" width="320" height="34" />
+		<rect x="120" y="284" width="320" height="34" /><rect x="120" y="336" width="320" height="34" />
+		<rect x="560" y="180" width="320" height="34" /><rect x="560" y="232" width="320" height="34" />
+		<rect x="120" y="760" width="320" height="34" /><rect x="120" y="812" width="320" height="34" />
+		<rect x="560" y="760" width="320" height="34" /><rect x="560" y="812" width="320" height="34" />
+		<rect x="560" y="864" width="320" height="34" />
+	</g>
+	<g fill="#ddf49a">
+		<rect x="560" y="284" width="320" height="34" />
+		<rect x="560" y="336" width="320" height="34" />
+		<rect x="120" y="864" width="320" height="34" />
+	</g>
+	<g fill="#f1f1ef" fill-opacity="0.45">
+		<rect x="90" y="1320" width="240" height="8" />
+		<rect x="670" y="1320" width="240" height="8" />
+	</g>
+</svg>

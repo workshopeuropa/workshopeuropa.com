@@ -10,6 +10,11 @@
 
 	let { data }: { data: PageData } = $props();
 	let project = $derived(data.project);
+	let hasParticulars = $derived(
+		Boolean(
+			project.year || project.discipline || project.credits?.length || project.links?.length
+		)
+	);
 </script>
 
 <svelte:head>
@@ -34,29 +39,33 @@
 
 <section class="section">
 	<div class="text">
-		{#each project.body as paragraph, i (paragraph)}
+		{#each project.body ?? [project.summary] as paragraph, i (paragraph)}
 			<p class={i === 0 ? 'lede' : ''}>{paragraph}</p>
 		{/each}
 	</div>
 </section>
 
-<section class="section" aria-labelledby="particulars">
-	<Rubric id="particulars" note={project.status}>Particulars</Rubric>
+<!-- Only the particulars this project actually has; nothing at all if it
+     has none, rather than a rule over an empty list. -->
+{#if hasParticulars}
+	<section class="section" aria-labelledby="particulars">
+		<Rubric id="particulars" note={project.status}>Particulars</Rubric>
 
-	<dl class="facts">
-		<div><dt>Year</dt><dd>{project.year}</dd></div>
-		<div><dt>Discipline</dt><dd>{project.discipline}</dd></div>
-		{#each project.credits ?? [] as credit (credit.role + credit.name)}
-			<div><dt>{credit.role}</dt><dd>{credit.name}</dd></div>
-		{/each}
-		{#each project.links ?? [] as link (link.href)}
-			<div>
-				<dt>Elsewhere</dt>
-				<dd><a href={link.href} rel="noreferrer">{link.label}</a></dd>
-			</div>
-		{/each}
-	</dl>
-</section>
+		<dl class="facts">
+			{#if project.year}<div><dt>Year</dt><dd>{project.year}</dd></div>{/if}
+			{#if project.discipline}<div><dt>Discipline</dt><dd>{project.discipline}</dd></div>{/if}
+			{#each project.credits ?? [] as credit (credit.role + credit.name)}
+				<div><dt>{credit.role}</dt><dd>{credit.name}</dd></div>
+			{/each}
+			{#each project.links ?? [] as link (link.href)}
+				<div>
+					<dt>Elsewhere</dt>
+					<dd><a href={link.href} rel="noreferrer">{link.label}</a></dd>
+				</div>
+			{/each}
+		</dl>
+	</section>
+{/if}
 
 <section class="section" aria-labelledby="next">
 	<Rubric id="next" note="Back and forwards">More projects</Rubric>
