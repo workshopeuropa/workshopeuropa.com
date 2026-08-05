@@ -56,6 +56,15 @@
 </Card>
 
 <style>
+	/* The logo, stretched to twice its height. A transform rather than a
+	   font weight, so the strokes distort with it — scaling from the top
+	   keeps the name pinned where it sits and grows it downwards into the
+	   space the band already has. */
+	.eyebrow {
+		transform: scale(1, 2);
+		transform-origin: top center;
+	}
+
 	.eyebrow__word {
 		display: block;
 	}
