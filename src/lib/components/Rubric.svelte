@@ -27,7 +27,7 @@
 
 	.rubric__title {
 		font-size: 1rem;
-		font-weight: 400;
+		font-weight: 500;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
 	}

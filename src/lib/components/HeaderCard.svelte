@@ -6,7 +6,6 @@
 
 	type Props = {
 		title: string;
-		subtitle?: string;
 		/** The line above the title. Defaults to the site name. */
 		eyebrow?: string;
 		/** Where that line points. Defaults to the front page. */
@@ -14,31 +13,33 @@
 		orientation?: 'portrait' | 'landscape';
 	};
 
-	let {
-		title,
-		subtitle,
-		eyebrow = site.name,
-		eyebrowHref = '/',
-		orientation = 'landscape'
-	}: Props = $props();
+	let { title, eyebrow = site.name, eyebrowHref = '/', orientation = 'landscape' }: Props =
+		$props();
 
 	let isSelf = $derived(page.url.pathname === eyebrowHref);
+	/** A word per row: "Workshop Europa" stacks, "Projects" stays put. */
+	let words = $derived(eyebrow.split(/\s+/).filter(Boolean));
 </script>
+
+{#snippet name()}
+	{#each words as word (word)}
+		<span class="eyebrow__word">{word}</span>
+	{/each}
+{/snippet}
 
 <Card {orientation} wide masthead>
 	{#snippet top()}
 		{#if isSelf}
-			<p class="eyebrow">{eyebrow}</p>
+			<p class="eyebrow">{@render name()}</p>
 		{:else}
-			<p class="eyebrow"><a class="eyebrow__link" href={eyebrowHref}>{eyebrow}</a></p>
+			<p class="eyebrow">
+				<a class="eyebrow__link" href={eyebrowHref}>{@render name()}</a>
+			</p>
 		{/if}
 	{/snippet}
 
 	{#snippet middle()}
 		<h1 class="title">{title}</h1>
-		{#if subtitle}
-			<p class="subtitle italic">{subtitle}</p>
-		{/if}
 	{/snippet}
 
 	{#snippet bottom()}
@@ -47,6 +48,14 @@
 </Card>
 
 <style>
+	.eyebrow__word {
+		display: block;
+	}
+
+	.eyebrow__link {
+		display: inline-block;
+	}
+
 	.eyebrow__link:hover {
 		text-decoration: underline;
 		text-decoration-thickness: from-font;

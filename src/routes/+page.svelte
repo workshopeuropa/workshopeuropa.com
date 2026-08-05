@@ -16,7 +16,7 @@
 </svelte:head>
 
 <Plate src={site.image.src} alt={site.image.alt}>
-	<HeaderCard title={site.tagline} subtitle={site.descriptor} />
+	<HeaderCard title={site.tagline} />
 </Plate>
 
 <section class="section" aria-labelledby="manifesto">

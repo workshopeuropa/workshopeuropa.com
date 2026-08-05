@@ -18,20 +18,10 @@
 
 {#if project.image}
 	<Plate src={project.image.src} alt={project.image.alt} align="end">
-		<HeaderCard
-			title={project.title}
-			subtitle={project.subtitle}
-			eyebrow="Projects"
-			eyebrowHref="/projects"
-		/>
+		<HeaderCard title={project.title} eyebrow="Projects" eyebrowHref="/projects" />
 	</Plate>
 {:else}
-	<HeaderCard
-		title={project.title}
-		subtitle={project.subtitle}
-		eyebrow="Projects"
-		eyebrowHref="/projects"
-	/>
+	<HeaderCard title={project.title} eyebrow="Projects" eyebrowHref="/projects" />
 {/if}
 
 <section class="section">

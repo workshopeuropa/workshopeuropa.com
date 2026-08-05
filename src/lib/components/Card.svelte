@@ -126,25 +126,19 @@
 
 	.card :global(.eyebrow) {
 		font-size: clamp(0.85rem, 4.4cqi, 1.4rem);
-		font-weight: 400;
+		font-weight: 500;
 		line-height: 1.2;
 	}
 
 	.card :global(.title) {
 		font-size: clamp(1.4rem, 8.4cqi, 3.4rem);
-		font-weight: 400;
+		font-weight: 500;
 		line-height: 1.05;
 		letter-spacing: -0.01em;
 	}
 
 	.card :global(.title--small) {
 		font-size: clamp(1.15rem, 6cqi, 2.2rem);
-	}
-
-	.card :global(.subtitle) {
-		font-size: clamp(0.85rem, 4cqi, 1.25rem);
-		font-weight: 400;
-		line-height: 1.3;
 	}
 
 	.card :global(.italic) {
@@ -177,10 +171,6 @@
 
 	.card--landscape :global(.title--small) {
 		font-size: clamp(1.15rem, 4.2cqi, 2.2rem);
-	}
-
-	.card--landscape :global(.subtitle) {
-		font-size: clamp(0.85rem, 2.8cqi, 1.25rem);
 	}
 
 	.card--landscape :global(.meta) {

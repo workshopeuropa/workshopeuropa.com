@@ -14,7 +14,7 @@
 	/>
 </svelte:head>
 
-<HeaderCard title="Projects" subtitle="A handful at a time, finished properly" />
+<HeaderCard title="Projects" />
 
 <Deck columns={2}>
 	{#each projects as project (project.slug)}

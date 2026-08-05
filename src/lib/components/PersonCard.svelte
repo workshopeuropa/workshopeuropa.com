@@ -11,9 +11,6 @@
 	{/snippet}
 	{#snippet middle()}
 		<h3 class="title">{person.name}</h3>
-		{#if person.note}
-			<p class="subtitle italic">{person.note}</p>
-		{/if}
 	{/snippet}
 	{#snippet bottom()}
 		{#if person.link}

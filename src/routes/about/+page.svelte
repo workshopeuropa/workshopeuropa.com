@@ -13,7 +13,7 @@
 	<meta name="description" content={about.body[0]} />
 </svelte:head>
 
-<HeaderCard title={about.title} subtitle={about.subtitle} />
+<HeaderCard title={about.title} />
 
 <section class="section">
 	<div class="text">

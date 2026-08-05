@@ -12,7 +12,6 @@
 	{/snippet}
 	{#snippet middle()}
 		<svelte:element this={heading} class="title">{project.title}</svelte:element>
-		<p class="subtitle italic">{project.subtitle}</p>
 	{/snippet}
 	{#snippet bottom()}
 		<p class="meta">{project.discipline}</p>
