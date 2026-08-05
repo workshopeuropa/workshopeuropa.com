@@ -31,10 +31,12 @@
 		align-items: end;
 		justify-items: center;
 		margin: 0;
-		/* Full bleed: break out of the sheet's measure and fill the screen. */
+		/* Full bleed: break out of the sheet's measure and span the screen.
+		   The height comes from the ratio, not the viewport — a plate is
+		   still an A rectangle, it is just a full-width one now. */
 		width: 100vw;
 		margin-inline: calc(50% - 50vw);
-		min-height: 100dvh;
+		aspect-ratio: 1 / var(--ratio);
 		/* The card clears the edge of the screen by the page's own padding. */
 		padding: var(--gutter);
 	}

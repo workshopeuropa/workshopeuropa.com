@@ -75,6 +75,10 @@ it opens a page it cancels the sheet's top padding via `--sheet-top`, so the ima
 top of the screen rather than a gutter below it. `.shell` carries `overflow-x: clip` because 100vw
 counts the scrollbar; without it a desktop page scrolls sideways by a scrollbar's width.
 
+A plate is still an A rectangle: full width, with the height following `1 / var(--ratio)` rather
+than the viewport. That makes it 420 × 594 on a phone and 1280 × 1810 on a wide screen — taller
+than the screen there, so the card at its foot begins below the fold.
+
 The card keeps its `--band` cap, so it fills the width on a phone and centres at 44rem on a wide
 screen. The front page and every project page with an image use one.
 
