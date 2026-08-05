@@ -10,14 +10,23 @@
 
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 
-	let tint = $derived(`hsl(${data.tint.hue} var(--tint-s) var(--tint-l))`);
-	let shade = $derived(`hsl(${shadeHue(data.tint)} var(--shade-s) var(--shade-l))`);
+	/* The page's hue, and the same hue moved towards the cold pole. Set on
+	   :root rather than the shell so the page background takes it too — the
+	   shell is capped at --page, and body paints everything outside it. */
+	let hues = $derived(
+		`:root{--hue:${data.tint.hue};--hue-cold:${shadeHue(data.tint)}}`
+	);
 </script>
 
-<!-- One tint per page, set here so every card on it shares the same one.
-     data-tint names it, so which one you are looking at is legible in the
-     inspector and assertable in a test. -->
-<div class="shell" style="--card: {tint}; --shade: {shade}" data-tint={data.tint.name}>
+<svelte:head>
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -- two integers we computed -->
+	{@html `<style>${hues}</style>`}
+</svelte:head>
+
+<!-- One hue per page, so every card on it shares a colour. data-tint names
+     it, so which one you are looking at is legible in the inspector and
+     assertable in a test. -->
+<div class="shell" data-tint={data.tint.name}>
 	<a class="skip-link" href="#main">Skip to content</a>
 
 	<main id="main" class="sheet">
