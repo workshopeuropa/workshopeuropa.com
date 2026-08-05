@@ -65,6 +65,14 @@
 		width: 100%;
 	}
 
+	/* Whatever card is on a plate lies the other way to the image, so the
+	   image is never reduced to a frame around it. */
+	.plate :global(.card) {
+		aspect-ratio: var(--ratio) / 1;
+		max-width: var(--band);
+		padding: clamp(1.1rem, 4.5cqi, 2.75rem);
+	}
+
 	/* On a wide screen the two rectangles swap: the image lies down and the
 	   card stands up. A landscape plate keeps the hero near one screen tall
 	   instead of the 1.41 screens a full-width portrait one costs. */
@@ -73,7 +81,7 @@
 			aspect-ratio: var(--ratio) / 1;
 		}
 
-		.plate :global(.card--masthead) {
+		.plate :global(.card) {
 			aspect-ratio: 1 / var(--ratio);
 			max-width: 26rem;
 			padding: clamp(1.1rem, 6cqi, 2.75rem);

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Deck from '$lib/components/Deck.svelte';
 	import HeaderCard from '$lib/components/HeaderCard.svelte';
+	import Plate from '$lib/components/Plate.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import { projects, projectsTitle } from '$lib/content/projects';
 	import { site } from '$lib/content/site';
@@ -10,14 +10,16 @@
 	<title>Projects — {site.name}</title>
 	<meta
 		name="description"
-		content="Projects made at Workshop Europa — on the bench, out in the world, and resting."
+		content="Projects made at Workshop Europa — independent software, built in the open."
 	/>
 </svelte:head>
 
 <HeaderCard title={projectsTitle} />
 
-<Deck columns={2}>
-	{#each projects as project (project.slug)}
+<!-- One plate per project: the image the full width of the page, the
+     project's own card sitting on it. -->
+{#each projects as project (project.slug)}
+	<Plate src={project.image?.src} alt={project.image?.alt}>
 		<ProjectCard {project} />
-	{/each}
-</Deck>
+	</Plate>
+{/each}
