@@ -28,12 +28,17 @@ npm start           # run the built server
 
 A card is a device, not the page. Four things get one:
 
-| Card                 | Orientation | Where                                            |
-| -------------------- | ----------- | ------------------------------------------------ |
-| Page header          | Landscape   | Top of every page, carrying the nav              |
-| A project            | Portrait    | `/projects`, and the bench on the front page     |
-| A person             | Portrait    | About                                            |
-| Related projects     | Portrait    | Foot of a project page                           |
+| Card             | Orientation                | Where                                        |
+| ---------------- | -------------------------- | -------------------------------------------- |
+| Page header      | Landscape, portrait on a plate on desktop | Top of every page, carrying the nav |
+| A project        | Portrait                   | `/projects`, and the bench on the front page |
+| A person         | Portrait                   | About                                        |
+| Related projects | Portrait                   | Foot of a project page                       |
+
+A project page wears two of them: the section's own header card, exactly as `/projects` wears it,
+and then that project's card from the index laid on its side. The section card steps its heading
+down to a `p` and the project's card takes the `h1`, so the page still has one — and the project's
+card drops its link there, since a page should not link to itself.
 
 Everything else — the manifesto, news, project text, particulars, the join form — is set straight
 onto the paper in a centred column. Adding a fifth kind of card is a decision, not a default.

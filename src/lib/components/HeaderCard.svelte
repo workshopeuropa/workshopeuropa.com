@@ -11,10 +11,18 @@
 		/** Where that line points. Defaults to the front page. */
 		eyebrowHref?: string;
 		orientation?: 'portrait' | 'landscape';
+		/** Drop to a p where something else on the page is the h1 — a project
+		    page names the section here and the project in the card below. */
+		heading?: 'h1' | 'p';
 	};
 
-	let { title, eyebrow = site.name, eyebrowHref = '/', orientation = 'landscape' }: Props =
-		$props();
+	let {
+		title,
+		eyebrow = site.name,
+		eyebrowHref = '/',
+		orientation = 'landscape',
+		heading = 'h1'
+	}: Props = $props();
 
 	let isSelf = $derived(page.url.pathname === eyebrowHref);
 	/** A word per row: "Workshop Europa" stacks, "Projects" stays put. */
@@ -39,7 +47,7 @@
 	{/snippet}
 
 	{#snippet middle()}
-		<h1 class="title">{title}</h1>
+		<svelte:element this={heading} class="title">{title}</svelte:element>
 	{/snippet}
 
 	{#snippet bottom()}
