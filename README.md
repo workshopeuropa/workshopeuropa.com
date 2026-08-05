@@ -91,11 +91,19 @@ defined at the top of `src/app.css`:
 15 × 24 = 360, so the wheel closes exactly: every neighbouring pair is the same distance apart,
 including the wrap from 336 back to 0.
 
-| | | | | |
-|---|---|---|---|---|
-| 0° `#f5a3a3` | 24° `#f5c4a3` | 48° `#f5e4a3` | 72° `#e4f5a3` | 96° `#c4f5a3` |
-| 120° `#a3f5a3` | 144° `#a3f5c4` | 168° `#a3f5e4` | 192° `#a3e4f5` | 216° `#a3c4f5` |
-| 240° `#a3a3f5` | 264° `#c4a3f5` | 288° `#e4a3f5` | 312° `#f5a3e4` | 336° `#f5a3c4` |
+Each hue is named for the common colour it lands on at this saturation and lightness, checked
+against the nearest CSS named colours by hue angle. The names live in `src/lib/tints.ts`; the CSS
+tokens are numeric, because the hue is what the system is actually made of.
+
+| Hue | | Name | Hue | | Name | Hue | | Name |
+|---|---|---|---|---|---|---|---|---|
+| 0° | `#f5a3a3` | Rose | 120° | `#a3f5a3` | Green | 240° | `#a3a3f5` | Periwinkle |
+| 24° | `#f5c4a3` | Peach | 144° | `#a3f5c4` | Mint | 264° | `#c4a3f5` | Lilac |
+| 48° | `#f5e4a3` | Butter | 168° | `#a3f5e4` | Turquoise | 288° | `#e4a3f5` | Mauve |
+| 72° | `#e4f5a3` | **Lime** | 192° | `#a3e4f5` | Sky | 312° | `#f5a3e4` | Orchid |
+| 96° | `#c4f5a3` | Chartreuse | 216° | `#a3c4f5` | Cornflower | 336° | `#f5a3c4` | Pink |
+
+Lime is the house colour — where the original green already sat, and what `--card` falls back to.
 
 Two properties follow from fixing s and l, and both are worth keeping:
 
@@ -115,15 +123,15 @@ colour instead of flashing a second one. And touching `url.pathname` in that loa
 as a dependency, so SvelteKit re-runs it on every navigation — without that line the load would run
 once and the colour would stick for the whole session.
 
-`+layout.svelte` puts it on the shell as `--card`, which every card reads:
+`+layout.svelte` puts it on the shell as `--card`, which every card reads, and names it in
+`data-tint` so which one you are looking at is legible in the inspector and assertable in a test:
 
 ```svelte
-<div class="shell" style="--card: hsl({data.hue} var(--tint-s) var(--tint-l))">
+<div class="shell" style="--card: hsl({data.tint.hue} …)" data-tint={data.tint.name}>
 ```
 
-The scale itself is in `src/lib/tints.ts`. To pin the site to one colour, replace `pickHue()` with
-a constant; `--card` in `app.css` is still `--tint-72` and takes over wherever the shell's value
-does not reach.
+To pin the site to one colour, replace `pickTint()` with a constant; `--card` in `app.css` is still
+`--tint-72` and takes over wherever the shell's value does not reach.
 
 ## Widths
 

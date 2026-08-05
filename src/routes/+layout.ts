@@ -1,4 +1,4 @@
-import { pickHue } from '$lib/tints';
+import { pickTint } from '$lib/tints';
 import type { LayoutLoad } from './$types';
 
 export const load: LayoutLoad = ({ url, data }) => {
@@ -9,5 +9,5 @@ export const load: LayoutLoad = ({ url, data }) => {
 
 	// Drawn here rather than in the component so the server and the client
 	// agree: the value is serialised with the page and reused on hydration.
-	return { ...data, hue: pickHue() };
+	return { ...data, tint: pickTint() };
 };

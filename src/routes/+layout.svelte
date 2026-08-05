@@ -13,8 +13,14 @@
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 </script>
 
-<!-- One tint per page, set here so every card on it shares the same one. -->
-<div class="shell" style="--card: hsl({data.hue} var(--tint-s) var(--tint-l))">
+<!-- One tint per page, set here so every card on it shares the same one.
+     data-tint names it, so which one you are looking at is legible in the
+     inspector and assertable in a test. -->
+<div
+	class="shell"
+	style="--card: hsl({data.tint.hue} var(--tint-s) var(--tint-l))"
+	data-tint={data.tint.name}
+>
 	<a class="skip-link" href="#main">Skip to content</a>
 
 	<main id="main" class="sheet">
