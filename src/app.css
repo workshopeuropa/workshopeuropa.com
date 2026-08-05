@@ -18,7 +18,12 @@
 	--gutter: clamp(1rem, 3.5vw, 2.5rem);
 	--stack: clamp(1rem, 3.5vw, 2.5rem);
 
+	/* Cards and plates make the wide layer; running text sits in a
+	   narrow column down the middle of it. */
 	--measure: 34rem;
+	--column: 38rem;
+	/* The band the cards, decks and rules share. */
+	--band: 44rem;
 
 	color-scheme: light;
 }
@@ -106,6 +111,115 @@ textarea {
 		transition-duration: 0.01ms !important;
 		scroll-behavior: auto !important;
 	}
+}
+
+/* ---------------------------------------------------------------
+   Plain type. Cards are for headers, projects, people and the
+   footer; everything else is set straight onto the paper.
+   --------------------------------------------------------------- */
+
+.section {
+	display: grid;
+	gap: clamp(1.25rem, 3vw, 2rem);
+}
+
+.text,
+.entries,
+.facts,
+.more {
+	width: min(100%, var(--column));
+	margin-inline: auto;
+}
+
+.text {
+	display: grid;
+	gap: 0.9em;
+	line-height: 1.6;
+}
+
+.lede {
+	font-size: clamp(1.15rem, 1rem + 0.8vw, 1.5rem);
+	line-height: 1.45;
+}
+
+/* A list of things with a short label down the side: manifesto
+   clauses, dated notes, credits. */
+.entries {
+	display: grid;
+	gap: 0;
+}
+
+.entry {
+	display: grid;
+	gap: 0.4rem 2rem;
+	padding-block: clamp(1.25rem, 3vw, 2rem);
+	border-top: 1px solid var(--rule);
+}
+
+.entry:last-child {
+	border-bottom: 1px solid var(--rule);
+}
+
+@media (min-width: 44rem) {
+	.entry {
+		grid-template-columns: 7rem minmax(0, 1fr);
+	}
+}
+
+.entry__label {
+	font-size: 0.9rem;
+	font-style: italic;
+	color: var(--ink-soft);
+	padding-top: 0.3em;
+}
+
+.entry__title {
+	font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.7rem);
+	font-weight: 400;
+	line-height: 1.2;
+	margin-bottom: 0.4em;
+}
+
+.entry__body {
+	display: grid;
+	gap: 0.8em;
+	line-height: 1.6;
+}
+
+/* Label / value pairs. */
+.facts {
+	display: grid;
+	gap: 0;
+}
+
+.facts > div {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 0.25em 1.5em;
+	padding-block: 0.6em;
+	border-bottom: 1px solid var(--rule);
+}
+
+.facts dt {
+	font-style: italic;
+	color: var(--ink-soft);
+}
+
+.facts dd {
+	margin: 0;
+	text-align: right;
+}
+
+.more {
+	font-size: 1.05rem;
+}
+
+.more a {
+	text-decoration: underline;
+	text-decoration-thickness: from-font;
+	text-underline-offset: 0.2em;
 }
 
 .visually-hidden {

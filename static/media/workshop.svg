@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1414" role="img" aria-label="Placeholder">
+	<rect width="1000" height="1414" fill="#16160f" />
+
+	<!-- A sheet, halved, and halved again. -->
+	<g opacity="0.92">
+		<rect x="70" y="70" width="600" height="849" fill="#f1f1ef" />
+		<rect x="370" y="70" width="300" height="424" fill="#e2e2dd" />
+		<rect x="520" y="70" width="150" height="212" fill="#ddf49a" />
+		<rect x="595" y="70" width="75" height="106" fill="#16160f" />
+	</g>
+
+	<g fill="none" stroke="#16160f" stroke-opacity="0.35" stroke-width="2">
+		<rect x="70" y="70" width="600" height="849" />
+		<rect x="370" y="70" width="300" height="424" />
+		<rect x="520" y="70" width="150" height="212" />
+	</g>
+
+	<!-- Off-cuts stacked at the edge. -->
+	<g fill="#ddf49a" opacity="0.9">
+		<rect x="720" y="960" width="210" height="297" />
+	</g>
+	<g fill="#f1f1ef" opacity="0.18">
+		<rect x="70" y="960" width="210" height="297" />
+		<rect x="325" y="960" width="210" height="297" />
+	</g>
+
+	<g fill="#f1f1ef" fill-opacity="0.55">
+		<rect x="70" y="1320" width="240" height="6" />
+		<rect x="690" y="1320" width="240" height="6" />
+	</g>
+</svg>

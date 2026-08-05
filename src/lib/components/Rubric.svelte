@@ -12,6 +12,8 @@
 
 <style>
 	.rubric {
+		width: min(100%, var(--band));
+		margin-inline: auto;
 		display: flex;
 		flex-wrap: wrap;
 		align-items: baseline;

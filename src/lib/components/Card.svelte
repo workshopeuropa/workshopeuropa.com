@@ -79,7 +79,7 @@
 	.card--landscape {
 		aspect-ratio: var(--ratio) / 1;
 		padding: clamp(1.1rem, 4.5cqi, 2.75rem);
-		max-width: 42rem;
+		max-width: var(--band);
 	}
 
 	.card--paper {
