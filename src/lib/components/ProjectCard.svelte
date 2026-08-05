@@ -6,7 +6,7 @@
 	let { project, label, heading = 'h2' }: Props = $props();
 </script>
 
-<Card orientation="portrait" href="/projects/{project.slug}" hue={project.hue}>
+<Card orientation="portrait" href="/projects/{project.slug}">
 	{#snippet top()}
 		<p class="eyebrow">{label ?? project.year}</p>
 	{/snippet}

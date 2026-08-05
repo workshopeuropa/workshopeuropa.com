@@ -15,8 +15,6 @@ export type Project = {
 	summary: string;
 	/** A tall screenshot for the project page — the card sits on top of it. */
 	image?: { src: string; alt: string };
-	/** A hue off the 25° scale. Omit and the card stays the house green. */
-	hue?: number;
 	/** The project page, one paragraph per string. */
 	body: string[];
 	credits?: { role: string; name: string }[];
@@ -37,7 +35,6 @@ export const projects: Project[] = [
 			src: '/media/vionio.svg',
 			alt: 'A shelf of films in the Vionio reading room, with notes running down the side.'
 		},
-		hue: 250,
 		body: [
 			'Vionio started as a complaint. Everything built for film is built for discovery: endless shelves, endless rows, an algorithm certain you have not yet met your favourite film. But most people already know what they love. What they lack is somewhere to keep it.',
 			'So Vionio is a reading room rather than a shop. You bring a small collection in, and the room gives it back to you organised: notes attached to timecodes, essays beside the films they argue about, a shelf that stays where you left it.',
@@ -63,7 +60,6 @@ export const projects: Project[] = [
 			src: '/media/bottega.svg',
 			alt: 'The Bottega bench log, showing what each person is holding this week.'
 		},
-		hue: 25,
 		body: [
 			'Bottega is how the workshop teaches. Two people join the bench for a year, work on real projects from the first week, and leave with a body of finished work rather than a certificate.',
 			'The software is deliberately thin: a shared log, a review queue, and a way to see what everyone is holding this week. It exists to make the arrangement legible, not to manage anybody.',
@@ -84,7 +80,6 @@ export const projects: Project[] = [
 			src: '/media/a-series.svg',
 			alt: 'An A4 sheet folded down through A5 and A6, each half the one before.'
 		},
-		hue: 75,
 		body: [
 			'A sheet of A4 halved is A5, halved again is A6, and the proportion never changes. It is the only paper standard that survives its own folding, and it makes a good grid for screens for the same reason it makes good paper.',
 			'A-Series is that idea written down: a set of card sizes, a type scale measured against the card rather than the viewport, and rules for when a card may grow beyond its ratio rather than clip what is inside it.',
@@ -105,7 +100,6 @@ export const projects: Project[] = [
 			src: '/media/nice-to-meet-you.svg',
 			alt: 'A letter folded once, ready for the envelope.'
 		},
-		hue: 325,
 		body: [
 			'Everybody who joins the workshop gets a letter. It is printed, folded once, and posted — four times a year, no more.',
 			'The letter carries whatever is on the bench: a drawing that did not work, a paragraph from a project brief, a note about something we read. It is not a newsletter and it does not measure whether you opened it.',

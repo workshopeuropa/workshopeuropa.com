@@ -79,40 +79,51 @@ proportion and point `image` at them in `projects.ts`.
 
 ## Colour
 
-One saturation, one lightness, a hue every 25°. Fourteen tints, `--tint-0` through `--tint-325`,
+One saturation, one lightness, a hue every 24°. Fifteen tints, `--tint-0` through `--tint-336`,
 defined at the top of `src/app.css`:
 
 ```css
 --tint-s: 80%;
 --tint-l: 80%;
---tint-75: hsl(75 var(--tint-s) var(--tint-l)); /* the house green */
+--tint-72: hsl(72 var(--tint-s) var(--tint-l));
 ```
 
-25 does not divide 360, so the wheel closes on a 35° step from 325 back to 0. A fifteenth stop at
-350 would land 10° off red and read as a duplicate of it, so there isn't one. `--card` is
-`--tint-75`, which is where the original green already sat.
+15 × 24 = 360, so the wheel closes exactly: every neighbouring pair is the same distance apart,
+including the wrap from 336 back to 0.
 
-| | | | | | | |
-|---|---|---|---|---|---|---|
-| 0° `#f5a3a3` | 25° `#f5c5a3` | 50° `#f5e7a3` | 75° `#e0f5a3` | 100° `#bef5a3` | 125° `#a3f5aa` | 150° `#a3f5cc` |
-| 175° `#a3f5ee` | 200° `#a3daf5` | 225° `#a3b8f5` | 250° `#b1a3f5` | 275° `#d3a3f5` | 300° `#f5a3f5` | 325° `#f5a3d3` |
+| | | | | |
+|---|---|---|---|---|
+| 0° `#f5a3a3` | 24° `#f5c4a3` | 48° `#f5e4a3` | 72° `#e4f5a3` | 96° `#c4f5a3` |
+| 120° `#a3f5a3` | 144° `#a3f5c4` | 168° `#a3f5e4` | 192° `#a3e4f5` | 216° `#a3c4f5` |
+| 240° `#a3a3f5` | 264° `#c4a3f5` | 288° `#e4a3f5` | 312° `#f5a3e4` | 336° `#f5a3c4` |
 
 Two properties follow from fixing s and l, and both are worth keeping:
 
-- **Every tint clears 8:1 against the ink** (worst is 250° at 8.16:1), so text is safe on any of
-  them without checking. AAA at every hue.
+- **Every tint clears 7.9:1 against the ink** (worst is 240°), so text is safe on any of them
+  without checking. AAA at every hue.
 - **No tint clears 2:1 against the paper** (1.05–1.97:1). They are for filling shapes. A tint will
   not hold as a hairline, a small mark, or a text colour on the page background.
 
-Cards take a hue with the `hue` prop, and a project carries its own in `projects.ts`:
+### One colour per page
+
+A page draws a tint at random and every card on it shares that one — the header, the projects, the
+people, the footer cards. Move to another page and it draws again.
+
+The draw happens in `src/routes/+layout.ts`, not in a component, for two reasons. A universal load
+runs on the server and its result is serialised into the page, so the client hydrates with the same
+colour instead of flashing a second one. And touching `url.pathname` in that load registers the URL
+as a dependency, so SvelteKit re-runs it on every navigation — without that line the load would run
+once and the colour would stick for the whole session.
+
+`+layout.svelte` puts it on the shell as `--card`, which every card reads:
 
 ```svelte
-<Card orientation="portrait" hue={project.hue}>
+<div class="shell" style="--card: hsl({data.hue} var(--tint-s) var(--tint-l))">
 ```
 
-Omit it and the card is the house green — which is what the header cards do, so the masthead stays
-constant while the projects below it change colour. Drop the `hue` field from `projects.ts` and the
-whole site returns to green.
+The scale itself is in `src/lib/tints.ts`. To pin the site to one colour, replace `pickHue()` with
+a constant; `--card` in `app.css` is still `--tint-72` and takes over wherever the shell's value
+does not reach.
 
 ## Widths
 

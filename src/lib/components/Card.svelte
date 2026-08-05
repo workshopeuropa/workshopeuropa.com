@@ -11,8 +11,6 @@
 		/** The page header, whose type is set at fixed sizes rather than
 		    against the card. */
 		masthead?: boolean;
-		/** A hue off the 25° scale. Left out, the card is the house green. */
-		hue?: number;
 		/** Extra classes for the caller. */
 		class?: string;
 		/** Three bands: something at the head, something in the middle, something at the foot. */
@@ -28,17 +26,12 @@
 		href,
 		wide = false,
 		masthead = false,
-		hue,
 		class: klass = '',
 		top,
 		middle,
 		bottom,
 		children
 	}: Props = $props();
-
-	let tint = $derived(
-		hue === undefined ? undefined : `--card: hsl(${hue} var(--tint-s) var(--tint-l))`
-	);
 </script>
 
 {#snippet body()}
@@ -56,7 +49,6 @@
 		class="card card--{orientation} card--link {klass}"
 		class:card--wide={wide}
 		class:card--masthead={masthead}
-		style={tint}
 		{href}
 	>
 		{@render body()}
@@ -66,7 +58,6 @@
 		class="card card--{orientation} {klass}"
 		class:card--wide={wide}
 		class:card--masthead={masthead}
-		style={tint}
 	>
 		{@render body()}
 	</article>
