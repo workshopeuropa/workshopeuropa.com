@@ -4,6 +4,7 @@
 	import Plate from '$lib/components/Plate.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Rubric from '$lib/components/Rubric.svelte';
+	import { projectsTitle } from '$lib/content/projects';
 	import { site } from '$lib/content/site';
 	import type { PageData } from './$types';
 
@@ -21,10 +22,10 @@
      the h1; the section card steps down to a p so there is only one. -->
 {#if project.image}
 	<Plate src={project.image.src} alt={project.image.alt}>
-		<HeaderCard title="Projects" heading="p" />
+		<HeaderCard title={projectsTitle} heading="p" />
 	</Plate>
 {:else}
-	<HeaderCard title="Projects" heading="p" />
+	<HeaderCard title={projectsTitle} heading="p" />
 {/if}
 
 <Deck columns={1}>
