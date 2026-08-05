@@ -5,12 +5,15 @@
 	import { site } from '$lib/content/site';
 
 	type Props = {
-		title: string;
+		/** Left out, the card is just the wordmark and the nav. */
+		title?: string;
 		/** The line above the title. Defaults to the site name. */
 		eyebrow?: string;
 		/** Where that line points. Defaults to the front page. */
 		eyebrowHref?: string;
 		orientation?: 'portrait' | 'landscape';
+		/** Half height — for a header with no title to carry. */
+		half?: boolean;
 		/** Drop to a p where something else on the page is the h1 — a project
 		    page names the section here and the project in the card below. */
 		heading?: 'h1' | 'p';
@@ -21,6 +24,7 @@
 		eyebrow = site.name,
 		eyebrowHref = '/',
 		orientation = 'landscape',
+		half = false,
 		heading = 'h1'
 	}: Props = $props();
 
@@ -45,13 +49,15 @@
 	</p>
 {/snippet}
 
-<Card {orientation} wide masthead>
+<Card {orientation} {half} wide masthead>
 	{#snippet top()}
 		{@render eyebrowLine()}
 	{/snippet}
 
 	{#snippet middle()}
-		<svelte:element this={heading} class="title">{title}</svelte:element>
+		{#if title}
+			<svelte:element this={heading} class="title">{title}</svelte:element>
+		{/if}
 	{/snippet}
 
 	{#snippet bottom()}
