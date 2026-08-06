@@ -117,6 +117,10 @@ body {
 	font-weight: 400;
 	font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
 	line-height: 1.5;
+	/* Georama sets a shade tight at this size; a hundredth of an em opens
+	   it up without reading as tracked-out. Anything that wants its own —
+	   card titles, the rubrics, the labels — says so. */
+	letter-spacing: 0.01em;
 	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;
 }
@@ -131,11 +135,14 @@ ol {
 	margin: 0;
 }
 
-/* Every heading is Spectral; a card sets the face for its own contents. */
+/* Every heading is Spectral; a card sets the face for its own contents.
+   The body's tracking is for Georama at reading size — Spectral is cut
+   with its own and wants none added. */
 h1,
 h2,
 h3 {
 	font-family: var(--font-display);
+	letter-spacing: 0;
 }
 
 ul,
@@ -219,12 +226,13 @@ textarea {
    does, and Georama picks up again in the paragraphs under it. */
 .lede {
 	font-family: var(--font-display);
+	letter-spacing: 0;
 	font-size: clamp(1.15rem, 1rem + 0.8vw, 1.5rem);
 	line-height: 1.45;
 }
 
-/* A list of things with a short label down the side: manifesto
-   clauses, dated notes, credits. */
+/* A list of things with a short label above each: principles, dated
+   notes, credits. */
 .entries {
 	display: grid;
 	gap: 0;
@@ -244,9 +252,13 @@ textarea {
 /* The label sits above the title on the entry's centre line rather than
    off in a column down the side — the rubric over the list is centred, and
    a label pinned left would be the only thing in the section that is not. */
+/* Spectral italic: the date over a note, and the numbering over a
+   principle, are captions rather than running text. */
 .entry__label {
+	font-family: var(--font-display);
 	font-size: 0.9rem;
 	font-style: italic;
+	letter-spacing: 0;
 	color: var(--ink-soft);
 	padding-top: 0.3em;
 	text-align: center;

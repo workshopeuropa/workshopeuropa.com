@@ -106,6 +106,9 @@
 		background: var(--card);
 		color: var(--ink);
 		font-family: var(--font-display);
+		/* A card is Spectral throughout, so it does not take the body's
+		   tracking. Titles set their own, tighter still. */
+		letter-spacing: 0;
 		text-align: center;
 		overflow-wrap: break-word;
 		/* aspect-ratio sets the floor — a card with more in it than the ratio

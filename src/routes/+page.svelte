@@ -2,7 +2,7 @@
 	import HeaderCard from '$lib/components/HeaderCard.svelte';
 	import Plate from '$lib/components/Plate.svelte';
 	import Rubric from '$lib/components/Rubric.svelte';
-	import { formatDate, manifesto, news, site } from '$lib/content/site';
+	import { formatDate, news, principles, site } from '$lib/content/site';
 	import { projects } from '$lib/content/projects';
 </script>
 
@@ -15,14 +15,14 @@
 	<HeaderCard title={site.tagline} />
 </Plate>
 
-<section class="section" aria-labelledby="manifesto">
-	<Rubric id="manifesto">Manifesto</Rubric>
+<section class="section" aria-labelledby="principles">
+	<Rubric id="principles">Principles</Rubric>
 
 	<div class="entries">
-		{#each manifesto as entry, i (entry.title)}
+		{#each principles as entry, i (entry.title)}
 			<article class="entry">
 				<p class="entry__label">
-					{String(i + 1).padStart(2, '0')} / {String(manifesto.length).padStart(2, '0')}
+					{String(i + 1).padStart(2, '0')} / {String(principles.length).padStart(2, '0')}
 				</p>
 				<div>
 					<h3 class="entry__title">{entry.title}</h3>
