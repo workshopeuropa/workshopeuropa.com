@@ -24,8 +24,8 @@ export const nav = [
 	{ href: '/join', label: 'Join' }
 ] as const;
 
-/** The manifesto. One card per entry. */
-export const manifesto: { title: string; body: string[] }[] = [
+/** The principles. One entry each. */
+export const principles: { title: string; body: string[] }[] = [
 	{
 		title: 'Make fewer things',
 		body: [
