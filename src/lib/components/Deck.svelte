@@ -4,14 +4,16 @@
 	type Props = {
 		/** Cards per row on a wide screen. Everything collapses to one column on small. */
 		columns?: 1 | 2;
+		/** Off to keep the columns on a phone rather than stacking them. */
+		collapse?: boolean;
 		class?: string;
 		children: Snippet;
 	};
 
-	let { columns = 2, class: klass = '', children }: Props = $props();
+	let { columns = 2, collapse = true, class: klass = '', children }: Props = $props();
 </script>
 
-<div class="deck deck--{columns} {klass}">
+<div class="deck deck--{columns} {collapse ? '' : 'deck--firm'} {klass}">
 	{@render children()}
 </div>
 
@@ -26,6 +28,12 @@
 		align-items: start;
 		width: min(100%, var(--band));
 		margin-inline: auto;
+	}
+
+	/* A firm deck keeps its columns all the way down. :global for the same
+	   reason as below — the children come from a snippet. */
+	:global(.deck--firm.deck--2:has(> :nth-child(2))) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
 	/* Only split into columns when there is something to put in them,
