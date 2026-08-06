@@ -163,9 +163,21 @@ project page uses it on previous and next, which with a short enough list can be
 the one you are looking at. `CardNav` takes its name as a prop for the same reason: the header's nav
 and the colophon's mark the same section, so they cannot both be `nav-pill`.
 
-The pill is the whole link rather than a layer behind the label, so the label travels inside it.
-Split them and the label is left `--card`-coloured on a `--card` card for as long as the pill is
-away from it — invisible for the length of the animation.
+The pill lies over its link with its own copy of the label, rather than being the link itself. It is
+the only thing lifted out, so the labels underneath stay where they are and the marker slides off
+one and onto the next. Putting the pill behind the label instead would leave that label
+`--card`-coloured on a `--card` card for as long as the pill was away from it — invisible for the
+length of the animation — and making the pill the whole link carried the label off with it.
+
+Only the header's pill is named. The colophon's has no name: two footers sit at different depths
+down two pages of different lengths and the scroll resets on the way, so a named pill down there
+swept thousands of pixels vertically on every navigation.
+
+Coming from the front page there is no current section, so there is nothing to slide from — and a
+pill lifted out with no counterpart is set down at its destination while the card is still arriving.
+The layout notices, raises `data-pill-rides` on `<html>` for the length of that navigation, and the
+pill travels inside the card's own snapshot instead. The flag comes down on `transition.finished`,
+not when the callback ends: it has to still be up when the new state is captured.
 
 None of it is load-bearing. Without the API, or with motion turned down in the OS, `onNavigate`
 returns early and the navigation happens exactly as it did before.

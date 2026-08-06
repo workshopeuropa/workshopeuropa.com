@@ -3,9 +3,9 @@
 	import { nav } from '$lib/content/site';
 
 	type Props = {
-		/** A name for the current item, so its pill slides from one label to
-		    the next across a navigation rather than blinking out and back.
-		    Every nav on the page needs its own — the header's and the
+		/** A name for the pill on the current item, so it slides from one
+		    label to the next across a navigation rather than blinking out and
+		    back. Every nav on the page needs its own — the header's and the
 		    colophon's mark the same section, and a name has to be unique. */
 		marker?: string;
 		class?: string;
@@ -26,9 +26,23 @@
 			class:is-current={isCurrent(item.href)}
 			href={item.href}
 			aria-current={isCurrent(item.href) ? 'page' : undefined}
-			style:view-transition-name={isCurrent(item.href) ? marker : undefined}
 		>
 			{item.label}
+			{#if isCurrent(item.href)}
+				<!-- The pill lies over the label with its own copy of it, so it
+				     is the only thing lifted out and moved on a navigation: the
+				     labels underneath stay where they are and the marker slides
+				     off one and onto the next. The copy is hidden from the
+				     reading order, since the label beneath is the real one. -->
+				<span
+					class="card-nav__pill"
+					data-pill
+					aria-hidden="true"
+					style:view-transition-name={marker}
+				>
+					{item.label}
+				</span>
+			{/if}
 		</a>
 	{/each}
 </nav>
@@ -55,6 +69,7 @@
 	/* A capsule, whose radius is what the card's rim is measured from — the
 	   pill sits concentric inside the corner it is tucked into. */
 	.card-nav__link {
+		position: relative;
 		padding: 0.2em 0.6em;
 		border-radius: calc(var(--pill-h, 1.6rem) / 2);
 		transition: background 140ms ease;
@@ -69,15 +84,30 @@
 
 	/* The page you are on wears a pill in the ink, with the card's own
 	   colour as the type — the same pairing as text on card, inverted, so
-	   it holds its contrast in both schemes. Already the strongest thing in
-	   the row, so hovering it changes nothing.
-
-	   The pill is the whole link rather than a layer behind the label, so
-	   that when it travels the label travels inside it: split them and the
-	   label is left card-coloured on a card while the pill is away. */
-	.is-current,
-	.is-current:hover {
+	   it holds its contrast in both schemes. Laid exactly over the link, so
+	   its copy of the label falls on the one underneath. */
+	.card-nav__pill {
+		position: absolute;
+		inset: 0;
+		display: grid;
+		place-items: center;
+		border-radius: inherit;
 		background: var(--ink);
 		color: var(--card);
+	}
+
+	/* The pill is already the strongest thing in the row; leave it alone. */
+	.is-current:hover {
+		background: none;
+	}
+
+	/* Coming from a page with no current section there is nothing for the
+	   pill to slide from, and a lifted-out pill would be set down at its
+	   destination while the card was still on its way. The layout raises
+	   this flag for the length of such a navigation, and the pill travels
+	   inside the card's own snapshot instead. Important, because it has to
+	   beat the inline name. */
+	:global([data-pill-rides]) .card-nav__pill {
+		view-transition-name: none !important;
 	}
 </style>
