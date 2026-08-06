@@ -51,7 +51,8 @@ grows downwards instead of clipping.
 
 Type inside a card is set, not scaled: `eyebrow` 1rem, `title` 2rem, `title--small` 1.5rem, `meta`
 0.875rem, the same in every card. Sizing against the card meant a small card whispered — a project
-card should read as loudly as the header card above it.
+card should read as loudly as the header card above it. `title--small` is only small where the card
+is: from 60rem it joins the rest at 2rem.
 
 ```svelte
 <Card orientation="portrait" href="/projects/vionio">
@@ -75,20 +76,28 @@ card's centre line however much the bands above and below weigh.
 between them. The page you are on wears a marker in `--ink` with `--card` as the type, the same
 pairing as text on a card, inverted, so it holds 5.45:1 at worst in either mode.
 
-The marker's box is what lines up, not the type inside it: it runs to the card's inner edge on both
-sides and sits on it at the foot, so the space left, right and below it is the card's own padding.
-Its corner is concentric with the card's — `--radius` less the padding it is inset by, which the
-card publishes as `--pad`:
+The marker stays a capsule, and the nav moves to suit it. A capsule of radius r sits concentric
+inside a corner of radius R when it is inset by `R - r`, which is far less than the card's padding —
+so the nav breaks out of that padding by the difference and runs close to the card's edges, while
+everything else in the card keeps its air:
 
 ```css
-border-radius: max(0px, calc(var(--radius) - var(--pad, 0px)));
+--pill-h: 1.6em;                 /* 1.2em of line between 0.2em of padding */
+--pill-r: calc(var(--pill-h) / 2);
+--inset: max(0px, calc(var(--radius) - var(--pill-r)));
+--break: calc(var(--inset) - var(--pad, 0px));
 ```
 
-At every width the site currently uses, the padding is the larger of the two and the marker comes
-out square. Raising `--radius` above the card's padding is what would give its corners a curve.
+Both numbers are cut from `--pill-h`, so the rounding and the inset cannot fall out of step. The nav
+breaks towards whichever edge it is against — the foot of a page header, the head of the colophon —
+and sets `align-self` there so the band cannot stretch it back over the margin it just took. Left,
+right and the near edge all come out at `--inset` exactly: 4.8px on a phone, 15.4px at 1280.
 
-Four labels do not fit a card narrower than about 360px, so below that the nav — and only the nav —
-steps down from 1rem.
+That `--pad` is why the card registers its padding with `@property` rather than leaving it a plain
+custom property. It is written in `cqi`, and an element is not its own query container: on the card
+those units answer to `.shell`, on a descendant they answer to the card. Registered as a `<length>`
+it resolves once, on the card, and inherits as that length — otherwise the nav computes a different
+padding from the one the card is actually using, and the inset drifts by as much as 16px.
 
 `Colophon.svelte` builds the footer from the same four sections, in a fixed order, minus whichever
 one you are on: the first becomes a landscape card across the top, the other two a portrait pair
