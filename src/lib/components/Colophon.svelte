@@ -13,9 +13,20 @@
 </script>
 
 <footer class="colophon">
-	<!-- Join across the top, then Projects and About side by side. -->
+	<!-- About across the top, then Join and Projects side by side. -->
 	<Deck columns={1}>
-		<Card orientation="landscape" href="/join">
+		<Card orientation="landscape" href="/about">
+			{#snippet top()}
+				<p class="eyebrow italic">About</p>
+			{/snippet}
+			{#snippet middle()}
+				<p class="title--small">{about.title}</p>
+			{/snippet}
+		</Card>
+	</Deck>
+
+	<Deck columns={2} collapse={false}>
+		<Card orientation="portrait" href="/join">
 			{#snippet top()}
 				<p class="eyebrow italic">Join</p>
 			{/snippet}
@@ -23,24 +34,13 @@
 				<p class="title--small">{join.title}</p>
 			{/snippet}
 		</Card>
-	</Deck>
 
-	<Deck columns={2} collapse={false}>
 		<Card orientation="portrait" href="/projects">
 			{#snippet top()}
 				<p class="eyebrow italic">Projects</p>
 			{/snippet}
 			{#snippet middle()}
 				<p class="title--small">{projectsTitle}</p>
-			{/snippet}
-		</Card>
-
-		<Card orientation="portrait" href="/about">
-			{#snippet top()}
-				<p class="eyebrow italic">About</p>
-			{/snippet}
-			{#snippet middle()}
-				<p class="title--small">{about.title}</p>
 			{/snippet}
 		</Card>
 	</Deck>
