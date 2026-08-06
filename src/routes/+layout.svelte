@@ -1,9 +1,7 @@
 <script lang="ts">
 	/* 400 for running text, 500 for anything that asks for it — headings,
-	   cards, rubrics. Both weights of both faces, or the browser synthesises
-	   the missing one. */
-	import '@fontsource/georama/400.css';
-	import '@fontsource/georama/500.css';
+	   cards, rubrics, the labels over a list. Italic is the wordmark and
+	   nothing else, so only the one weight of it is here. */
 	import '@fontsource/spectral/400.css';
 	import '@fontsource/spectral/500.css';
 	import '@fontsource/spectral/500-italic.css';

@@ -57,12 +57,12 @@
 	/* Derived from the ink, so it follows it into dark mode. */
 	--ink-soft: color-mix(in srgb, var(--ink) 70%, transparent);
 
-	/* Three faces with one job each: Georama sets the running text,
-	   Spectral every heading and every card, and Spectral SC the one
-	   heading that is set in caps. */
-	--font-body: 'Georama', 'Helvetica Neue', Arial, sans-serif;
-	--font-display: 'Spectral', 'Iowan Old Style', 'Times New Roman', serif;
-	--font-caps: 'Spectral SC', var(--font-display);
+	/* One face, set two ways: Spectral throughout, and the small caps it
+	   was cut with for the one heading that asks for them. The tokens stay
+	   apart because they are different jobs, not different faces. */
+	--font-text: 'Spectral', 'Iowan Old Style', 'Times New Roman', serif;
+	--font-display: var(--font-text);
+	--font-caps: 'Spectral SC', var(--font-text);
 
 	/* The card's corner is not a token: it is cut from the card's own
 	   padding and the pill that sits in it, in Card.svelte, so the two
@@ -110,15 +110,16 @@ body {
 	margin: 0;
 	background: var(--paper);
 	color: var(--ink);
-	font-family: var(--font-body);
+	font-family: var(--font-text);
 	/* Running text sits at 400; headings, cards and rubrics ask for 500
 	   themselves, so they keep it. */
 	font-weight: 400;
 	font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
 	line-height: 1.5;
-	/* Georama sets a shade tight at this size; a hundredth of an em opens
-	   it up without reading as tracked-out. Anything that wants its own —
-	   card titles, the rubrics, the labels — says so. */
+	/* A hundredth of an em, which the face wants at reading size and does
+	   not want at heading size — so everything larger sets it back to zero
+	   below. Anything with its own, like card titles or the rubrics, says
+	   so where it is declared. */
 	letter-spacing: 0.01em;
 	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;
@@ -134,13 +135,11 @@ ol {
 	margin: 0;
 }
 
-/* Every heading is Spectral; a card sets the face for its own contents.
-   The body's tracking is for Georama at reading size — Spectral is cut
-   with its own and wants none added. */
+/* The running text's tracking is for the size it is read at. A heading
+   is large enough not to want it. */
 h1,
 h2,
 h3 {
-	font-family: var(--font-display);
 	letter-spacing: 0;
 }
 
@@ -221,10 +220,9 @@ textarea {
 	line-height: 1.6;
 }
 
-/* The preamble is set in the display face: it opens a page the way a card
-   does, and Georama picks up again in the paragraphs under it. */
+/* The preamble opens a page the way a card does — big enough to want no
+   tracking, and set the way a headline is. */
 .lede {
-	font-family: var(--font-display);
 	letter-spacing: 0;
 	font-size: clamp(1.15rem, 1rem + 0.8vw, 1.5rem);
 	line-height: 1.45;
@@ -247,12 +245,14 @@ textarea {
 
 /* The label sits above the title on the entry's centre line rather than
    off in a column down the side — the rubric over the list is centred, and
-   a label pinned left would be the only thing in the section that is not. */
-/* Spectral: the date over a note, and the numbering over a principle,
-   are captions rather than running text. */
+   a label pinned left would be the only thing in the section that is not.
+
+   The date over a note, and the numbering over a principle, are captions
+   rather than running text: a size down and a weight up from the
+   paragraphs they head. */
 .entry__label {
-	font-family: var(--font-display);
 	font-size: 0.9rem;
+	font-weight: 500;
 	letter-spacing: 0;
 	color: var(--ink-soft);
 	padding-top: 0.3em;
