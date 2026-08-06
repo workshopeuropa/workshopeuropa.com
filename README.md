@@ -145,15 +145,19 @@ the full 320ms rather than settling early on a picture that is still being resiz
 
 ### Handing the masthead over
 
-Press one of the three cards in the footer and it is that card, not the header you have scrolled
-away from, that should become the header on the page you land on. `Colophon.svelte` moves the
-`masthead` name onto the card you clicked and takes it off the page's own header, so the card
-travels up from where you pressed it instead of the header flying in from off-screen.
+Press something in the footer and it is the card you are looking at, not the header you have
+scrolled away from, that should become the header on the page you land on. `Colophon.svelte` moves
+the `masthead` name onto that card and takes it off the page's own header, so it travels up from
+where you pressed instead of the header flying in from off-screen. Which card that is depends on
+what you pressed: one of the three section cards is its own answer, and the menu at the very bottom
+belongs to the colophon card around it — which lends its own name out for the length of the
+navigation and gets it back with the rest.
 
 That is done to the DOM in the click handler rather than through state: it has to be true before the
-navigation is snapshotted, and the click is the last moment that is certain. The card is marked with
-`data-handoff`, and the layout gives the name back inside the transition callback — after the new
-page is in place, before the new state is captured. The handler skips under the same two conditions
+navigation is snapshotted, and the click is the last moment that is certain. The elements are marked with
+`data-handoff`, and the layout gives the names back inside the transition callback — after the new
+page is in place, before the new state is captured — restoring each to whatever its `data-morph`
+declared rather than to nothing. The handler skips under the same two conditions
 the layout does, since a name moved when no transition runs would never be handed back, and it
 sweeps up any mark left by a navigation that never completed.
 

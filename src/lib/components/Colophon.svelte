@@ -32,15 +32,20 @@
 	const words = site.name.split(/\s+/).filter(Boolean);
 	const year = new Date().getFullYear();
 
-	/* Press a card down here and it is the one that should become the header
-	   card up there — not the header card you have scrolled away from, which
-	   is what the browser would otherwise fly in from off-screen.
+	/* Press something down here and it is the card you are looking at that
+	   should become the header card up there — not the header card you have
+	   scrolled away from, which is what the browser would otherwise fly in
+	   from off-screen.
 
-	   The name can only be on one element at a time, so the card takes it and
-	   the page's own header gives it up. Done to the DOM rather than through
-	   state because it has to be true before the navigation is snapshotted,
-	   and this click is the last moment that is certain. The layout hands it
-	   back once the new page is in place. */
+	   Which card that is depends on what you pressed: one of the three
+	   section cards is its own answer, and the menu at the very bottom
+	   belongs to the colophon card around it.
+
+	   The name can only be on one element at a time, so that card takes it
+	   and the page's own header gives it up. Done to the DOM rather than
+	   through state because it has to be true before the navigation is
+	   snapshotted, and this click is the last moment that is certain. The
+	   layout hands the names back once the new page is in place. */
 	function handOver(event: MouseEvent) {
 		/* The same two conditions the layout uses to decide whether to
 		   transition at all — without them the name would be moved and never
@@ -51,9 +56,14 @@
 		if (event.defaultPrevented || event.button !== 0) return;
 		if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
-		const card = (event.target as Element | null)?.closest('a.card');
-		if (!card || !(card instanceof HTMLElement)) return;
-		if (!sections.some((section) => section.href === card.getAttribute('href'))) return;
+		const target = event.target as Element | null;
+		const link = target?.closest('a[href]');
+		if (!link || !sections.some((section) => section.href === link.getAttribute('href'))) return;
+
+		const card = link.matches('a.card')
+			? link
+			: link.closest('.card-nav') && document.querySelector('[data-morph="colophon"]');
+		if (!(card instanceof HTMLElement)) return;
 
 		const header = document.querySelector<HTMLElement>('[data-morph="masthead"]');
 		if (!header || header === card) return;
@@ -62,11 +72,14 @@
 		   elements holding one name cancels the whole transition, so it is
 		   worth a sweep before taking it. */
 		for (const stale of document.querySelectorAll<HTMLElement>('[data-handoff]')) {
-			stale.style.viewTransitionName = '';
+			stale.style.viewTransitionName = stale.dataset.morph ?? '';
 			delete stale.dataset.handoff;
 		}
 
+		/* Marked as well, so a navigation that never completes leaves the
+		   header able to get its own name back. */
 		header.style.viewTransitionName = 'none';
+		header.dataset.handoff = '';
 		card.style.viewTransitionName = 'masthead';
 		card.dataset.handoff = '';
 	}
