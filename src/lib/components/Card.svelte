@@ -77,7 +77,11 @@
 		gap: 1rem;
 		width: 100%;
 		margin-inline: auto;
-		padding: clamp(1.1rem, 6cqi, 2.75rem);
+		/* Held in a variable so anything sitting against the card's inner
+		   edge can measure itself off it — the nav rounds its pill by
+		   --radius minus this. */
+		--pad: clamp(1.1rem, 6cqi, 2.75rem);
+		padding: var(--pad);
 		border-radius: var(--radius);
 		background: var(--card);
 		color: var(--ink);
@@ -92,7 +96,7 @@
 
 	.card--landscape {
 		aspect-ratio: var(--ratio) / 1;
-		padding: clamp(1.1rem, 4.5cqi, 2.75rem);
+		--pad: clamp(1.1rem, 4.5cqi, 2.75rem);
 		max-width: var(--band);
 	}
 
