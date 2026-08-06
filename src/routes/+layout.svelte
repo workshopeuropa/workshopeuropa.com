@@ -27,11 +27,17 @@
 		if (!document.startViewTransition) return;
 		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-		/* Nothing for the pill to slide from when the page you are leaving has
-		   no current section — the front page. Read before the transition
-		   starts, since by the time its callback runs the new page is on its
-		   way in. */
-		const rides = !document.querySelector('[data-pill]');
+		/* Every nav item carries a pill, but only one of them is ever named:
+		   the current section's, or on the front page whichever you just
+		   pressed. If none is — you left the front page by a footer card
+		   rather than the nav — there is nothing for the pill on the next page
+		   to come from, so let it ride inside the card's own snapshot instead
+		   of being set down at its destination while the card is still on its
+		   way. Read before the transition starts, since by the time the
+		   callback runs the new page is already coming in. */
+		const rides = ![...document.querySelectorAll('[data-pill]')].some(
+			(pill) => getComputedStyle(pill).viewTransitionName !== 'none'
+		);
 
 		return new Promise((resolve) => {
 			const transition = document.startViewTransition(async () => {
