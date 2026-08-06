@@ -10,13 +10,12 @@
 </div>
 
 <style>
+	/* No line under it: the small caps and the space around them are enough
+	   to say a section has started. */
 	.rubric {
 		width: min(100%, var(--band));
 		margin-inline: auto;
 		padding-inline: 0.25rem;
-		border-bottom: 1px solid var(--rule);
-		padding-bottom: 0.6rem;
-		margin-bottom: calc(var(--gutter) * -0.25);
 		text-align: center;
 	}
 
