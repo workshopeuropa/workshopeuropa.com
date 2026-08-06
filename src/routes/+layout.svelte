@@ -33,6 +33,15 @@
 			document.startViewTransition(async () => {
 				resolve();
 				await navigation.complete;
+				/* A footer card may have taken the masthead's name on the way
+				   out. The page it landed on has its own header card wearing
+				   that name now, so give it back before this state is
+				   snapshotted — two elements holding one name cancels the
+				   whole transition. */
+				for (const card of document.querySelectorAll<HTMLElement>('[data-handoff]')) {
+					card.style.viewTransitionName = '';
+					delete card.dataset.handoff;
+				}
 			});
 		});
 	});

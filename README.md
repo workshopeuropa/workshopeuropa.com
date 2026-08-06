@@ -143,6 +143,20 @@ card read as two cards laid over each other rather than one changing height. Its
 `height: 100%` and `object-fit: fill` instead, so they move with the box, and their cross-fade runs
 the full 320ms rather than settling early on a picture that is still being resized.
 
+### Handing the masthead over
+
+Press one of the three cards in the footer and it is that card, not the header you have scrolled
+away from, that should become the header on the page you land on. `Colophon.svelte` moves the
+`masthead` name onto the card you clicked and takes it off the page's own header, so the card
+travels up from where you pressed it instead of the header flying in from off-screen.
+
+That is done to the DOM in the click handler rather than through state: it has to be true before the
+navigation is snapshotted, and the click is the last moment that is certain. The card is marked with
+`data-handoff`, and the layout gives the name back inside the transition callback — after the new
+page is in place, before the new state is captured. The handler skips under the same two conditions
+the layout does, since a name moved when no transition runs would never be handed back, and it
+sweeps up any mark left by a navigation that never completed.
+
 A name has to be unique in the document — two cards claiming one cancels the whole transition — so
 `ProjectCard` takes `morph={false}` for a card whose project already has one on that page. The
 project page uses it on previous and next, which with a short enough list can be the same project as
