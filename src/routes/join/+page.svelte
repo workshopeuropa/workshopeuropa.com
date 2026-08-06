@@ -44,7 +44,7 @@
      fill it out, and still worth reading once you have. -->
 {#snippet helpList()}
 	<section class="section" aria-labelledby="help">
-		<Rubric id="help" note="{join.help.length} ways">How can I help?</Rubric>
+		<Rubric id="help">How can I help?</Rubric>
 
 		<ul class="entries">
 			{#each join.help as way, i (way)}
@@ -89,7 +89,7 @@
 	{@render helpList()}
 
 	<section class="section" aria-labelledby="form">
-		<Rubric id="form" note="Two minutes">Join the workshop</Rubric>
+		<Rubric id="form">Join the workshop</Rubric>
 
 		<form method="POST" action="?/join" class="form" novalidate use:enhance={track}>
 			<div class="field">

@@ -7,6 +7,8 @@
 	type Props = {
 		/** Left out, the card is just the wordmark and the nav. */
 		title?: string;
+		/** The title broken at named words rather than wherever it fits. */
+		lines?: string[];
 		/** The line above the title. Defaults to the site name. */
 		eyebrow?: string;
 		/** Where that line points. Defaults to the front page. */
@@ -21,6 +23,7 @@
 
 	let {
 		title,
+		lines,
 		eyebrow = site.name,
 		eyebrowHref = '/',
 		orientation = 'landscape',
@@ -56,7 +59,13 @@
 
 	{#snippet middle()}
 		{#if title}
-			<svelte:element this={heading} class="title">{title}</svelte:element>
+			<svelte:element this={heading} class="title">
+				{#if lines}
+					{#each lines as line, i (line)}{#if i}<br />{/if}{line}{/each}
+				{:else}
+					{title}
+				{/if}
+			</svelte:element>
 		{/if}
 	{/snippet}
 

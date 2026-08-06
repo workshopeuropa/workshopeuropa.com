@@ -3,7 +3,7 @@
 	import HeaderCard from '$lib/components/HeaderCard.svelte';
 	import PersonCard from '$lib/components/PersonCard.svelte';
 	import Rubric from '$lib/components/Rubric.svelte';
-	import { about } from '$lib/content/about';
+	import { about, aboutTitleLines } from '$lib/content/about';
 	import { people } from '$lib/content/people';
 	import { site } from '$lib/content/site';
 </script>
@@ -13,7 +13,7 @@
 	<meta name="description" content={about.body[0]} />
 </svelte:head>
 
-<HeaderCard title={about.title} />
+<HeaderCard title={about.title} lines={aboutTitleLines} />
 
 <section class="section">
 	<div class="text">
@@ -24,7 +24,7 @@
 </section>
 
 <section class="section" aria-labelledby="particulars">
-	<Rubric id="particulars" note="The short answers">Particulars</Rubric>
+	<Rubric id="particulars">Particulars</Rubric>
 
 	<div class="entries">
 		{#each about.facts as fact (fact.label)}
@@ -42,7 +42,7 @@
 </section>
 
 <section class="section" aria-labelledby="bench">
-	<Rubric id="bench" note="Who is at the bench">People</Rubric>
+	<Rubric id="bench">People</Rubric>
 
 	<Deck columns={2}>
 		{#each people as person (person.name)}

@@ -99,7 +99,9 @@ body {
 	background: var(--paper);
 	color: var(--ink);
 	font-family: var(--font-body);
-	font-weight: 500;
+	/* Running text sits at 400; headings, cards and rubrics ask for 500
+	   themselves, so they keep it. */
+	font-weight: 400;
 	font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
 	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
@@ -226,17 +228,15 @@ textarea {
 	border-bottom: 1px solid var(--rule);
 }
 
-@media (min-width: 44rem) {
-	.entry {
-		grid-template-columns: 7rem minmax(0, 1fr);
-	}
-}
-
+/* The label sits above the title on the entry's centre line rather than
+   off in a column down the side — the rubric over the list is centred, and
+   a label pinned left would be the only thing in the section that is not. */
 .entry__label {
 	font-size: 0.9rem;
 	font-style: italic;
 	color: var(--ink-soft);
 	padding-top: 0.3em;
+	text-align: center;
 }
 
 .entry__title {
@@ -244,6 +244,7 @@ textarea {
 	font-weight: 500;
 	line-height: 1.2;
 	margin-bottom: 0.4em;
+	text-align: center;
 }
 
 .entry__body {
@@ -284,8 +285,10 @@ textarea {
 	text-align: right;
 }
 
+/* Centred with the rubric above it and the list it follows on from. */
 .more {
 	font-size: 1.05rem;
+	text-align: center;
 }
 
 .more a {
