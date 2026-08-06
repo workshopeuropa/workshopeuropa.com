@@ -42,7 +42,7 @@
 </section>
 
 <section class="section" aria-labelledby="news">
-	<Rubric id="news" note="Notes from the bench">News</Rubric>
+	<Rubric id="news" note="Newest first">News</Rubric>
 
 	<div class="entries">
 		{#each news as item (item.title)}
@@ -59,6 +59,10 @@
 			</article>
 		{/each}
 	</div>
+
+	<p class="more">
+		<a href="/news">All notes</a>
+	</p>
 </section>
 
 <section class="section" aria-labelledby="bench">

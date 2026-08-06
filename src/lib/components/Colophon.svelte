@@ -1,11 +1,32 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import Card from './Card.svelte';
 	import CardNav from './CardNav.svelte';
 	import Deck from './Deck.svelte';
 	import { about } from '$lib/content/about';
 	import { join } from '$lib/content/join';
 	import { projectsTitle } from '$lib/content/projects';
-	import { site } from '$lib/content/site';
+	import { newsTitle, site } from '$lib/content/site';
+
+	/** The four sections, in the order the footer would rather have them.
+	    A page drops its own card and the next one moves up, so every page
+	    points at the three places you have not got to yet. The front page
+	    belongs to none of them, so it keeps the first three. */
+	const sections = [
+		{ href: '/about', label: 'About', title: about.title },
+		{ href: '/join', label: 'Join', title: join.title },
+		{ href: '/projects', label: 'Projects', title: projectsTitle },
+		{ href: '/news', label: 'News', title: newsTitle }
+	];
+
+	function isCurrent(href: string) {
+		const path = page.url.pathname;
+		return path === href || path.startsWith(href + '/');
+	}
+
+	let shown = $derived(sections.filter((section) => !isCurrent(section.href)).slice(0, 3));
+	let lead = $derived(shown[0]);
+	let pair = $derived(shown.slice(1));
 
 	/** The wordmark stacks a word per row, the way it does in the header. */
 	const words = site.name.split(/\s+/).filter(Boolean);
@@ -13,36 +34,29 @@
 </script>
 
 <footer class="colophon">
-	<!-- About across the top, then Join and Projects side by side. -->
+	<!-- The first across the top, the other two side by side under it. -->
 	<Deck columns={1}>
-		<Card orientation="landscape" href="/about">
+		<Card orientation="landscape" href={lead.href}>
 			{#snippet top()}
-				<p class="eyebrow italic">About</p>
+				<p class="eyebrow">{lead.label}</p>
 			{/snippet}
 			{#snippet middle()}
-				<p class="title--small">{about.title}</p>
+				<p class="title--small">{lead.title}</p>
 			{/snippet}
 		</Card>
 	</Deck>
 
 	<Deck columns={2} collapse={false}>
-		<Card orientation="portrait" href="/join">
-			{#snippet top()}
-				<p class="eyebrow italic">Join</p>
-			{/snippet}
-			{#snippet middle()}
-				<p class="title--small">{join.title}</p>
-			{/snippet}
-		</Card>
-
-		<Card orientation="portrait" href="/projects">
-			{#snippet top()}
-				<p class="eyebrow italic">Projects</p>
-			{/snippet}
-			{#snippet middle()}
-				<p class="title--small">{projectsTitle}</p>
-			{/snippet}
-		</Card>
+		{#each pair as section (section.href)}
+			<Card orientation="portrait" href={section.href}>
+				{#snippet top()}
+					<p class="eyebrow">{section.label}</p>
+				{/snippet}
+				{#snippet middle()}
+					<p class="title--small">{section.title}</p>
+				{/snippet}
+			</Card>
+		{/each}
 	</Deck>
 
 	<Deck columns={1}>

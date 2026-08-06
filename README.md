@@ -4,7 +4,7 @@ The Workshop Europa site. Cards in the ISO 216 ratio — 1 : √2 — portrait o
 paper or on an image; everything else is plain type in a column down the middle.
 
 - **SvelteKit 2** (Svelte 5 runes) on `adapter-node`
-- **Spectral** via `@fontsource/spectral`
+- **Georama**, **Spectral** and **Spectral SC** via Fontsource
 - **Better Auth** + **Drizzle ORM** + **SQLite** behind the Join form
 
 ## Running it
@@ -33,7 +33,7 @@ A card is a device, not the page. Four things get one:
 | Page header      | Landscape, portrait on a plate on desktop | Top of every page, carrying the nav |
 | A project        | Portrait                   | `/projects`, and the bench on the front page |
 | A person         | Portrait                   | About                                        |
-| Related projects | Portrait                   | Foot of a project page                       |
+| A section        | One landscape, then two portrait | The footer of every page               |
 
 A project page wears two of them: the section's own header card, exactly as `/projects` wears it,
 and then that project's card from the index laid on its side. The section card steps its heading
@@ -49,8 +49,9 @@ onto the paper in a centred column. Adding a fifth kind of card is a decision, n
 `aspect-ratio` acting as a floor rather than a cage: a card holding more than the ratio allows
 grows downwards instead of clipping.
 
-Type inside a card is sized in container query units (`cqi`), so a card's composition is identical
-at any size, and the landscape variant scales its own type back down because it is wider.
+Type inside a card is set, not scaled: `eyebrow` 1rem, `title` 2rem, `title--small` 1.5rem, `meta`
+0.875rem, the same in every card. Sizing against the card meant a small card whispered — a project
+card should read as loudly as the header card above it.
 
 ```svelte
 <Card orientation="portrait" href="/projects/vionio">
@@ -67,6 +68,21 @@ rather than leaving a hole when there is a single card.
 
 Rows are `1fr auto 1fr`: the outer tracks are equal by definition, so the middle band sits on the
 card's centre line however much the bands above and below weigh.
+
+## The nav and the footer
+
+`CardNav.svelte` is the four sections — Join, About, Projects, News — in equal grid tracks rather
+than `space-between`: with labels of different widths, spreading them puts the inner ones off the
+card's centre line. The page you are on wears a pill in `--ink` with `--card` as the type, the same
+pairing as text on a card, inverted, so it holds 5.45:1 at worst in either mode. The pill's padding
+is pulled back off the first and last labels, so the type still lines up with the card's edges and
+only the pill overhangs into the padding. Four labels and their pills do not fit a card narrower
+than about 360px, so below that the nav — and only the nav — steps down from 1rem.
+
+`Colophon.svelte` builds the footer from the same four sections, in a fixed order, minus whichever
+one you are on: the first becomes a landscape card across the top, the other two a portrait pair
+under it that keeps its columns on a phone. Every page therefore points at the three places you
+have not got to. The front page belongs to none of the four, so it keeps the first three.
 
 ## Plates
 
@@ -164,24 +180,42 @@ falls below AA, and text on the page clears AAA in both modes.
 `--ink-soft` and `--rule` are mixed down from `--ink`, so they follow it into dark mode rather than
 staying a fixed grey.
 
+## Type
+
+Three faces with one job each:
+
+| Token | Face | What it sets |
+| --- | --- | --- |
+| `--font-body` | Georama | Running text, labels, the form |
+| `--font-display` | Spectral | Every heading, every card, and `.lede` |
+| `--font-caps` | Spectral SC | `Rubric` — the one heading set in caps |
+
+Spectral SC cuts its own small caps, so `Rubric` carries no `text-transform`: uppercasing it would
+swap them back for full capitals. `.lede` — the preamble that opens a page — is set in the display
+face too, so a page opens the way a card does and Georama picks up again underneath it.
+
 ### One colour per page
 
-A page draws a tint at random and every card on it shares that one — the header, the projects, the
-people, the footer cards. Move to another page and it draws again.
+A page takes one tint and every card on it shares it — the header, the projects, the people, the
+footer cards. The next page takes the next one along the scale, so a visit walks the wheel a step
+at a time from Lime rather than jumping about.
 
-The draw happens in `src/routes/+layout.ts`, not in a component, for two reasons. A universal load
-runs on the server and its result is serialised into the page, so the client hydrates with the same
-colour instead of flashing a second one. And touching `url.pathname` in that load registers the URL
-as a dependency, so SvelteKit re-runs it on every navigation — without that line the load would run
-once and the colour would stick for the whole session.
+The walk lives in `src/routes/+layout.server.ts` and its position is kept in a `we-tint` cookie —
+per visitor, not per server, since a shared counter would skip several stops whenever somebody else
+loaded a page in between. Touching `url.pathname` in that load registers the URL as a dependency,
+so SvelteKit re-runs it on every navigation; without that line the load would run once and the
+colour would stick for the whole session. Running on the server and serialising the result into the
+page means the client hydrates with the same colour instead of flashing a second one.
 
 `+layout.svelte` writes the hue into a `<style>` in the head rather than onto the shell, because
 the shell is capped at `--page` and the body paints everything outside it — a background set on the
-shell would leave the margins the wrong colour on a wide screen. `data-tint` names the hue on the
-shell, so which one you are looking at is legible in the inspector and assertable in a test.
+shell would leave the margins the wrong colour on a wide screen. It writes `:root:root`, not
+`:root`: `svelte:head` renders above the stylesheet links, so at equal specificity `app.css`'s
+default would win on document order and every page would come out Lime. `data-tint` names the hue
+on the shell, so which one you are looking at is legible in the inspector and assertable in a test.
 
-To pin the site to one colour, replace `pickTint()` with a constant; `--hue` in `app.css` defaults
-to 75, Lime, for anything the layout does not reach.
+To pin the site to one colour, return a constant from the layout load instead of `stepTint()`;
+`--hue` in `app.css` defaults to 75, Lime, for anything the layout does not reach.
 
 ## Widths
 
@@ -209,6 +243,9 @@ No CMS. Text lives in `src/lib/content/`:
 | `join.ts`     | Join copy and the list of disciplines                   |
 
 Adding a project is one object in `projects.ts`; `/projects/<slug>` starts working immediately.
+Adding a note is one object in `site.ts`; it appears on `/news` and in the front page's list at
+once. Adding a section means a line in `nav` and a matching entry in `Colophon.svelte`, which is
+where the footer's fixed order lives.
 
 The project copy currently in the repo is a first draft — real text goes in the same shape.
 
