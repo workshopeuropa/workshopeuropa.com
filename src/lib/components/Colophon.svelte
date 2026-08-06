@@ -20,7 +20,7 @@
 				<p class="eyebrow italic">Join</p>
 			{/snippet}
 			{#snippet middle()}
-				<p class="title">{join.title}</p>
+				<p class="title--small">{join.title}</p>
 			{/snippet}
 		</Card>
 	</Deck>
@@ -31,7 +31,7 @@
 				<p class="eyebrow italic">Projects</p>
 			{/snippet}
 			{#snippet middle()}
-				<p class="title">{projectsTitle}</p>
+				<p class="title--small">{projectsTitle}</p>
 			{/snippet}
 		</Card>
 
@@ -40,7 +40,7 @@
 				<p class="eyebrow italic">About</p>
 			{/snippet}
 			{#snippet middle()}
-				<p class="title">{about.title}</p>
+				<p class="title--small">{about.title}</p>
 			{/snippet}
 		</Card>
 	</Deck>
