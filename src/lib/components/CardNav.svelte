@@ -30,28 +30,47 @@
 	   space between every pair. There is no middle item to knock off the
 	   card's centre line now that there are four of them. */
 	.card-nav {
+		/* A pill of 1.2em of line between 0.2em of padding, so a capsule is
+		   half of that. Both the rounding and the inset below are cut from
+		   this one number, and cannot fall out of step. */
+		--pill-h: 1.6em;
+		--pill-r: calc(var(--pill-h) / 2);
+		/* A capsule sits concentric inside the card's corner when it is
+		   inset by the difference between the two radii — much less than
+		   the card's padding, so the nav breaks out of it and runs close to
+		   the edges. Everything else in the card keeps the padding. */
+		--inset: max(0px, calc(var(--radius) - var(--pill-r)));
+		--break: calc(var(--inset) - var(--pad, 0px));
+		margin-inline: var(--break);
+
 		display: flex;
 		justify-content: space-between;
 		align-items: baseline;
-		gap: 0.6em;
-		/* 1rem, which is where it sits on every phone from 360px up. Four
-		   labels and their pills do not fit a narrower card than that, so
-		   below it the nav — and only the nav — gives back a little. */
-		font-size: clamp(0.8rem, 5.5cqi, 1rem);
+		/* The narrowest card the site is built for holds four labels at 1rem
+		   with this much between them and this much inside each pill, and
+		   nothing narrower is a target — so the type is set, like the rest
+		   of the card's. */
+		gap: 0.4em;
+		font-size: 1rem;
 		line-height: 1.2;
 	}
 
-	/* The pill is what you see, so the pill is what lines up: its box runs
-	   to the card's inner edge on both sides and sits on it at the foot, so
-	   the space left, right and below it is the card's own padding.
+	/* Whichever edge the nav is against is the one it breaks towards — the
+	   foot of a page header, the head of the colophon. align-self keeps the
+	   band from stretching it back over the negative margin it just took. */
+	:global(.band--bottom) > .card-nav {
+		align-self: end;
+		margin-block-end: var(--break);
+	}
 
-	   Rounded to fit inside the card's corner rather than to a capsule —
-	   concentric with it, which is the card's radius less the padding the
-	   pill is inset by. That can come out at or below zero, in which case
-	   the corner is square, and the two curves still agree. */
+	:global(.band--top) > .card-nav {
+		align-self: start;
+		margin-block-start: var(--break);
+	}
+
 	.card-nav__link {
-		padding: 0.2em 0.7em;
-		border-radius: max(0px, calc(var(--radius) - var(--pad, 0px)));
+		padding: 0.2em 0.6em;
+		border-radius: var(--pill-r);
 		transition:
 			background 140ms ease,
 			color 140ms ease;
