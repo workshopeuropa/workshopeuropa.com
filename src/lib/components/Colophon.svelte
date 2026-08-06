@@ -3,7 +3,7 @@
 	import Card from './Card.svelte';
 	import CardNav from './CardNav.svelte';
 	import Deck from './Deck.svelte';
-	import { about } from '$lib/content/about';
+	import { about, aboutTitleLines } from '$lib/content/about';
 	import { join } from '$lib/content/join';
 	import { projectsTitle } from '$lib/content/projects';
 	import { newsTitle, site } from '$lib/content/site';
@@ -12,8 +12,8 @@
 	    A page drops its own card and the next one moves up, so every page
 	    points at the three places you have not got to yet. The front page
 	    belongs to none of them, so it keeps the first three. */
-	const sections = [
-		{ href: '/about', label: 'About', title: about.title },
+	const sections: { href: string; label: string; title: string; lines?: string[] }[] = [
+		{ href: '/about', label: 'About', title: about.title, lines: aboutTitleLines },
 		{ href: '/join', label: 'Join', title: join.title },
 		{ href: '/projects', label: 'Projects', title: projectsTitle },
 		{ href: '/news', label: 'News', title: newsTitle }
@@ -33,6 +33,17 @@
 	const year = new Date().getFullYear();
 </script>
 
+<!-- A section's headline, broken at the words it names if it names any. -->
+{#snippet headline(section: (typeof sections)[number])}
+	<p class="title--small">
+		{#if section.lines}
+			{#each section.lines as line, i (line)}{#if i}<br />{/if}{line}{/each}
+		{:else}
+			{section.title}
+		{/if}
+	</p>
+{/snippet}
+
 <footer class="colophon">
 	<!-- The first across the top, the other two side by side under it. -->
 	<Deck columns={1}>
@@ -41,7 +52,7 @@
 				<p class="eyebrow">{lead.label}</p>
 			{/snippet}
 			{#snippet middle()}
-				<p class="title--small">{lead.title}</p>
+				{@render headline(lead)}
 			{/snippet}
 		</Card>
 	</Deck>
@@ -53,7 +64,7 @@
 					<p class="eyebrow">{section.label}</p>
 				{/snippet}
 				{#snippet middle()}
-					<p class="title--small">{section.title}</p>
+					{@render headline(section)}
 				{/snippet}
 			</Card>
 		{/each}

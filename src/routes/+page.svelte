@@ -1,13 +1,9 @@
 <script lang="ts">
-	import Deck from '$lib/components/Deck.svelte';
 	import HeaderCard from '$lib/components/HeaderCard.svelte';
 	import Plate from '$lib/components/Plate.svelte';
-	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Rubric from '$lib/components/Rubric.svelte';
 	import { formatDate, manifesto, news, site } from '$lib/content/site';
 	import { projects } from '$lib/content/projects';
-
-	const featured = projects.slice(0, 2);
 </script>
 
 <svelte:head>
@@ -20,7 +16,7 @@
 </Plate>
 
 <section class="section" aria-labelledby="manifesto">
-	<Rubric id="manifesto" note="What the workshop is for">Manifesto</Rubric>
+	<Rubric id="manifesto">Manifesto</Rubric>
 
 	<div class="entries">
 		{#each manifesto as entry, i (entry.title)}
@@ -42,7 +38,7 @@
 </section>
 
 <section class="section" aria-labelledby="news">
-	<Rubric id="news" note="Newest first">News</Rubric>
+	<Rubric id="news">News</Rubric>
 
 	<div class="entries">
 		{#each news as item (item.title)}
@@ -66,13 +62,7 @@
 </section>
 
 <section class="section" aria-labelledby="bench">
-	<Rubric id="bench" note="A handful at a time">On the bench</Rubric>
-
-	<Deck columns={2}>
-		{#each featured as project (project.slug)}
-			<ProjectCard {project} heading="h3" />
-		{/each}
-	</Deck>
+	<Rubric id="bench">On the bench</Rubric>
 
 	<p class="more">
 		<a href="/projects">All {projects.length} projects</a>
@@ -80,7 +70,7 @@
 </section>
 
 <section class="section" aria-labelledby="join">
-	<Rubric id="join" note="Two places from September">Join</Rubric>
+	<Rubric id="join">Join</Rubric>
 
 	<div class="text">
 		<p class="lede">

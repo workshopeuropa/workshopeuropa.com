@@ -1,7 +1,15 @@
 /** The About page, in one place. */
 
+/**
+ * The headline, broken where a card should break it. Two lines at every
+ * width — on a wide card it would otherwise set as one long line and stop
+ * looking like the rest of the set. `title` is joined back up from this, so
+ * the two cannot drift apart.
+ */
+export const aboutTitleLines = ['Independence', 'is infrastructure'];
+
 export const about = {
-	title: 'Independence is infrastructure',
+	title: aboutTitleLines.join(' '),
 	subtitle: 'Workshop Europa',
 	body: [
 		'Workshop Europa is a small design workshop. It exists because the two ways of making things that were on offer — the agency and the platform — both ask you to work faster than the work deserves.',

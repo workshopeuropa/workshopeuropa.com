@@ -32,7 +32,7 @@ A card is a device, not the page. Four things get one:
 | ---------------- | -------------------------- | -------------------------------------------- |
 | Page header      | Landscape, portrait on a plate on desktop | Top of every page, carrying the nav |
 | A project        | Portrait                   | `/projects`, and the bench on the front page |
-| A person         | Portrait                   | About                                        |
+| A person         | Landscape                  | About                                        |
 | A section        | One landscape, then two portrait | The footer of every page               |
 
 A project page wears two of them: the section's own header card, exactly as `/projects` wears it,
@@ -199,11 +199,20 @@ Three faces with one job each:
 | --- | --- | --- |
 | `--font-body` | Georama | Running text, labels, the form |
 | `--font-display` | Spectral | Every heading, every card, and `.lede` |
-| `--font-caps` | Spectral SC | `Rubric` — the one heading set in caps |
+| `--font-caps` | Spectral SC | `Rubric` — the one heading set in small caps |
 
-Spectral SC cuts its own small caps, so `Rubric` carries no `text-transform`: uppercasing it would
-swap them back for full capitals. `.lede` — the preamble that opens a page — is set in the display
-face too, so a page opens the way a card does and Georama picks up again underneath it.
+Spectral SC cuts its small caps for the lowercase, so `Rubric` is set `text-transform: lowercase`,
+not uppercase: a capital comes through as a full-height capital and leaves the first letter of every
+rubric a size out from the rest of it. The rubric is centred over its section, and running text is
+400 while headings, cards and rubrics ask for 500 themselves. Both weights of both faces are
+loaded, or the browser synthesises the one it is missing. The old note, set italic off to the
+right, is gone.
+
+The lists under a rubric — the manifesto clauses, the notes, the ways in — centre their label and
+their headline under it rather than running the label down a column at the side.
+
+`.lede` — the preamble that opens a page — is set in the display face too, so a page opens the way
+a card does and Georama picks up again underneath it.
 
 ### One colour per page
 

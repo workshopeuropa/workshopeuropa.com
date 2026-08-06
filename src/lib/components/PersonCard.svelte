@@ -5,7 +5,7 @@
 	let { person }: { person: Person } = $props();
 </script>
 
-<Card orientation="portrait">
+<Card orientation="landscape">
 	{#snippet top()}
 		<p class="eyebrow">{person.role}</p>
 	{/snippet}
