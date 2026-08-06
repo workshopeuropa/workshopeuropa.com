@@ -71,13 +71,24 @@ card's centre line however much the bands above and below weigh.
 
 ## The nav and the footer
 
-`CardNav.svelte` is the four sections — Join, About, Projects, News — in equal grid tracks rather
-than `space-between`: with labels of different widths, spreading them puts the inner ones off the
-card's centre line. The page you are on wears a pill in `--ink` with `--card` as the type, the same
-pairing as text on a card, inverted, so it holds 5.45:1 at worst in either mode. The pill's padding
-is pulled back off the first and last labels, so the type still lines up with the card's edges and
-only the pill overhangs into the padding. Four labels and their pills do not fit a card narrower
-than about 360px, so below that the nav — and only the nav — steps down from 1rem.
+`CardNav.svelte` is the four sections — Join, About, Projects, News — spread with equal gaps
+between them. The page you are on wears a marker in `--ink` with `--card` as the type, the same
+pairing as text on a card, inverted, so it holds 5.45:1 at worst in either mode.
+
+The marker's box is what lines up, not the type inside it: it runs to the card's inner edge on both
+sides and sits on it at the foot, so the space left, right and below it is the card's own padding.
+Its corner is concentric with the card's — `--radius` less the padding it is inset by, which the
+card publishes as `--pad`:
+
+```css
+border-radius: max(0px, calc(var(--radius) - var(--pad, 0px)));
+```
+
+At every width the site currently uses, the padding is the larger of the two and the marker comes
+out square. Raising `--radius` above the card's padding is what would give its corners a curve.
+
+Four labels do not fit a card narrower than about 360px, so below that the nav — and only the nav —
+steps down from 1rem.
 
 `Colophon.svelte` builds the footer from the same four sections, in a fixed order, minus whichever
 one you are on: the first becomes a landscape card across the top, the other two a portrait pair
