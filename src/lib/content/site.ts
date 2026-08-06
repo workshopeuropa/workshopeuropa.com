@@ -18,10 +18,10 @@ export const site = {
 } as const;
 
 export const nav = [
-	{ href: '/join', label: 'Join' },
+	{ href: '/news', label: 'News' },
 	{ href: '/about', label: 'About' },
 	{ href: '/projects', label: 'Projects' },
-	{ href: '/news', label: 'News' }
+	{ href: '/join', label: 'Join' }
 ] as const;
 
 /** The manifesto. One card per entry. */
