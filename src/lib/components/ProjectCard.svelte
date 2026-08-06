@@ -7,8 +7,8 @@
 		heading?: 'h1' | 'h2' | 'h3';
 		orientation?: 'portrait' | 'landscape';
 		/** A card that is pointing somewhere rather than presenting a
-		    project: the headline drops a size and the name is set upright,
-		    since it is a signpost and not a title page. */
+		    project: the headline drops a size, since it is a signpost and not
+		    a title page. */
 		quiet?: boolean;
 		/** Off when the card is the project it sits on — a page should not
 		    link to itself. */
@@ -31,22 +31,66 @@
 	/* The name the browser follows from the index to the project's own page.
 	   Sanitised because it has to be a valid identifier, not a URL segment. */
 	let name = $derived(morph ? `project-${project.slug.replace(/[^a-z0-9-]+/gi, '-')}` : undefined);
+
+	/* A project with more than one name, or more than one address, carries
+	   them in one string with a bullet between. The bullet is drawn in CSS
+	   rather than kept in the text, so a narrow card can drop it and set the
+	   parts on their own lines instead. */
+	const parts = (value: string) =>
+		value
+			.split('•')
+			.map((part) => part.trim())
+			.filter(Boolean);
+
+	let names = $derived(parts(project.title));
+	let urls = $derived(project.url ? parts(project.url) : []);
 </script>
+
+{#snippet series(items: string[])}
+	{#each items as item (item)}<span class="part">{item}</span>{/each}
+{/snippet}
 
 <Card {orientation} morph={name} href={link ? `/projects/${project.slug}` : undefined}>
 	{#snippet top()}
 		<!-- The name carries the heading: the headline below is the bigger
 		     type, but the project is what this card is. -->
-		<svelte:element this={heading} class="eyebrow {quiet ? '' : 'italic'}">
-			{project.title}
+		<svelte:element this={heading} class="eyebrow series">
+			{@render series(names)}
 		</svelte:element>
 	{/snippet}
 	{#snippet middle()}
 		<p class={quiet ? 'title--small' : 'title'}>{project.headline}</p>
 	{/snippet}
 	{#snippet bottom()}
-		{#if project.url}
-			<p class="meta">{project.url}</p>
+		{#if urls.length}
+			<p class="meta series">{@render series(urls)}</p>
 		{/if}
 	{/snippet}
 </Card>
+
+<style>
+	/* A mini bullet between the parts, well under the size of the type it
+	   separates, and drawn rather than typed so a narrow card can leave it
+	   out. */
+	.series :global(.part + .part::before) {
+		content: '•';
+		font-size: 0.55em;
+		vertical-align: 0.18em;
+		margin-inline: 0.5em;
+	}
+
+	/* Half-width cards on a phone have no room for a run of names on one
+	   line: the parts take a line each and the bullets come off, rather than
+	   the line breaking wherever it lands. Measured against the card's own
+	   content box, which is around 8rem for the pair on a phone and 15rem
+	   for the same pair on a desktop, so only the phone gets it. */
+	@container (max-width: 12rem) {
+		.series :global(.part) {
+			display: block;
+		}
+
+		.series :global(.part + .part::before) {
+			content: none;
+		}
+	}
+</style>

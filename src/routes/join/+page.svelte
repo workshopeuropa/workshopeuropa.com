@@ -274,7 +274,6 @@
 
 	label {
 		font-size: 0.9rem;
-		font-style: italic;
 	}
 
 	.optional {
@@ -336,7 +335,7 @@
 	}
 
 	.error {
-		font-style: italic;
+		font-weight: 500;
 	}
 
 	.submit {
@@ -369,7 +368,6 @@
 		padding: 0;
 		cursor: pointer;
 		font-size: inherit;
-		font-style: italic;
 		text-decoration: underline;
 		text-decoration-thickness: from-font;
 		text-underline-offset: 0.2em;
