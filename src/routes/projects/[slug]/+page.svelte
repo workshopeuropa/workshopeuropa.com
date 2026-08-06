@@ -8,6 +8,13 @@
 
 	let { data }: { data: PageData } = $props();
 	let project = $derived(data.project);
+	/* The card at the top of the page already carries this project's name,
+	   and with a short list previous and next can be the same project. Only
+	   hand out a name that nothing else on the page has claimed. */
+	let previousMorphs = $derived(data.previous.slug !== project.slug);
+	let nextMorphs = $derived(
+		data.next.slug !== project.slug && data.next.slug !== data.previous.slug
+	);
 	let hasParticulars = $derived(
 		Boolean(
 			project.year || project.discipline || project.credits?.length || project.links?.length
@@ -66,8 +73,8 @@
 	<Rubric id="next">More projects</Rubric>
 
 	<Deck columns={2}>
-		<ProjectCard project={data.previous} label="Previous" heading="h3" />
-		<ProjectCard project={data.next} label="Next" heading="h3" />
+		<ProjectCard project={data.previous} label="Previous" heading="h3" morph={previousMorphs} />
+		<ProjectCard project={data.next} label="Next" heading="h3" morph={nextMorphs} />
 	</Deck>
 </section>
 

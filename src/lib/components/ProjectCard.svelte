@@ -10,6 +10,10 @@
 		/** Off when the card is the project it sits on — a page should not
 		    link to itself. */
 		link?: boolean;
+		/** Off where the same project already has a card on this page: a
+		    name has to be unique in the document, and two cards claiming one
+		    cancel the whole transition. */
+		morph?: boolean;
 	};
 
 	let {
@@ -17,11 +21,16 @@
 		label,
 		heading = 'h2',
 		orientation = 'portrait',
-		link = true
+		link = true,
+		morph = true
 	}: Props = $props();
+
+	/* The name the browser follows from the index to the project's own page.
+	   Sanitised because it has to be a valid identifier, not a URL segment. */
+	let name = $derived(morph ? `project-${project.slug.replace(/[^a-z0-9-]+/gi, '-')}` : undefined);
 </script>
 
-<Card {orientation} href={link ? `/projects/${project.slug}` : undefined}>
+<Card {orientation} morph={name} href={link ? `/projects/${project.slug}` : undefined}>
 	{#snippet top()}
 		<!-- The name carries the heading: the headline below is the bigger
 		     type, but the project is what this card is. -->

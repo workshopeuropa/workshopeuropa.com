@@ -14,6 +14,10 @@
 		/** Half the height of a landscape card — the ratio folded the long
 		    way, for a header with nothing in the middle to hold. */
 		half?: boolean;
+		/** A name the browser can follow across a navigation, so this card
+		    travels to where its counterpart sits on the next page instead of
+		    being cut away. Must be unique in the document. */
+		morph?: string;
 		/** Extra classes for the caller. */
 		class?: string;
 		/** Three bands: something at the head, something in the middle, something at the foot. */
@@ -30,6 +34,7 @@
 		wide = false,
 		masthead = false,
 		half = false,
+		morph,
 		class: klass = '',
 		top,
 		middle,
@@ -54,6 +59,7 @@
 		class:card--wide={wide}
 		class:card--masthead={masthead}
 		class:card--half={half}
+		style:view-transition-name={morph}
 		{href}
 	>
 		{@render body()}
@@ -64,6 +70,7 @@
 		class:card--wide={wide}
 		class:card--masthead={masthead}
 		class:card--half={half}
+		style:view-transition-name={morph}
 	>
 		{@render body()}
 	</article>

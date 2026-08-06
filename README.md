@@ -106,6 +106,31 @@ one you are on: the first becomes a landscape card across the top, the other two
 under it that keeps its columns on a phone. Every page therefore points at the three places you
 have not got to. The front page belongs to none of the four, so it keeps the first three.
 
+## Moving between pages
+
+Navigations go through the View Transitions API: `+layout.svelte` hands the navigation to
+`document.startViewTransition`, and every duration and curve is CSS in `app.css`. Cards that pass a
+`morph` name to `Card.svelte` are lifted out of both pages and tweened between the two positions
+instead of being cut away:
+
+| Name | The card |
+| --- | --- |
+| `masthead` | The page header — full height everywhere, half height on a project page |
+| `colophon` | The card at the foot of the footer |
+| `project-<slug>` | A project's card: portrait on the index, landscape at the top of its own page |
+
+The group animates over 320ms while the type on a card crosses over in the first 150, so what you
+watch is the card travelling rather than two sets of type lying on top of each other the whole way.
+The page underneath cross-fades in 180ms, faster than the cards moving across it.
+
+A name has to be unique in the document — two cards claiming one cancels the whole transition — so
+`ProjectCard` takes `morph={false}` for a card whose project already has one on that page. The
+project page uses it on previous and next, which with a short enough list can be the same project as
+the one you are looking at.
+
+None of it is load-bearing. Without the API, or with motion turned down in the OS, `onNavigate`
+returns early and the navigation happens exactly as it did before.
+
 ## Plates
 
 `Plate.svelte` is the interplay between a card and an image: an image filling the screen, with a

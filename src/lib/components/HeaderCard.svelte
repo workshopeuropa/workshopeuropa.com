@@ -52,7 +52,10 @@
 	</p>
 {/snippet}
 
-<Card {orientation} {half} wide masthead>
+<!-- Every page has one, so it is the same card throughout a visit: the
+     browser carries it from where it sits on this page to where it sits on
+     the next, half height on a project page and full height elsewhere. -->
+<Card {orientation} {half} wide masthead morph="masthead">
 	{#snippet top()}
 		{@render eyebrowLine()}
 	{/snippet}
