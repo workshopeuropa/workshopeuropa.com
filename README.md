@@ -65,6 +65,11 @@ scoped there so the small pair at the foot of a project page stays small at ever
 
 Available classes inside a card: `eyebrow`, `title`, `title--small`, `meta`, `prose`, `italic`.
 Titles carry `text-wrap: balance`, so a headline never leaves one word stranded on the last line.
+Below 16rem of card, hyphenation comes off — at eight characters a line it stops helping and starts
+chopping, and `overflow-wrap: break-word` still catches a word that genuinely cannot fit.
+
+Italic is the wordmark and nothing else. Only Spectral's 500 italic is loaded, so anything that
+asks for italic elsewhere gets a synthesised slant — which is the point: ask deliberately.
 `Deck.svelte` lays cards out — one or two columns, collapsing to one on small screens, and centring
 rather than leaving a hole when there is a single card. A firm deck (`collapse={false}`) keeps its
 columns all the way down and stretches them level, so a card that outgrows the ratio takes its
@@ -320,7 +325,11 @@ No CMS. Text lives in `src/lib/content/`:
 | `about.ts`    | The About page                                          |
 | `join.ts`     | Join copy and the list of disciplines                   |
 
-Adding a project is one object in `projects.ts`; `/projects/<slug>` starts working immediately.
+Adding a project is one object in `projects.ts`; `/projects/<slug>` starts working immediately. A
+project with more than one name, or more than one address, writes them into the one string with a
+bullet between — `Inlägg • Indlæg • Innlegg`. `ProjectCard` splits on the bullet and draws its own
+in CSS at 0.55em, and below 12rem of card it drops the bullet and sets the parts on their own lines:
+half-width cards on a phone have no room for a run of names across one.
 Adding a note is one object in `site.ts`; it appears on `/news` and in the front page's list at
 once. Adding a section means a line in `nav` and a matching entry in `Colophon.svelte`, which is
 where the footer's fixed order lives.

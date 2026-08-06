@@ -202,6 +202,17 @@
 		font-size: 1.5rem;
 	}
 
+	/* Below about eight characters a line, hyphenation stops helping and
+	   starts chopping: a half-width card reads better ragged. break-word
+	   still catches a word that genuinely cannot fit. */
+	@container (max-width: 16rem) {
+		.card :global(.title),
+		.card :global(.title--small) {
+			hyphens: manual;
+			overflow-wrap: break-word;
+		}
+	}
+
 	.card :global(.italic) {
 		font-style: italic;
 	}
