@@ -173,11 +173,18 @@ Only the header's pill is named. The colophon's has no name: two footers sit at 
 down two pages of different lengths and the scroll resets on the way, so a named pill down there
 swept thousands of pixels vertically on every navigation.
 
-Coming from the front page there is no current section, so there is nothing to slide from — and a
-pill lifted out with no counterpart is set down at its destination while the card is still arriving.
-The layout notices, raises `data-pill-rides` on `<html>` for the length of that navigation, and the
-pill travels inside the card's own snapshot instead. The flag comes down on `transition.finished`,
-not when the callback ends: it has to still be up when the new state is captured.
+Every item carries a pill; all but the current one are invisible. They are there so the marker has
+somewhere to come from on a page that is in none of the sections — the front page. Pressing an item
+there hands its own invisible pill the name, so the marker travels out of the word you pressed and
+fades up on the way, instead of being set down at its destination while the card is still arriving.
+`CardNav` does that in the click handler, for the same reason `Colophon` does its hand-over there:
+it has to be true before the navigation is snapshotted.
+
+There is one way left to leave the front page without arming a pill — by a footer card rather than
+the nav. The layout notices that nothing holds the name, raises `data-pill-rides` on `<html>` for
+the length of that navigation, and the pill travels inside the card's own snapshot. The flag comes
+down on `transition.finished`, not when the callback ends: it has to still be up when the new state
+is captured.
 
 None of it is load-bearing. Without the API, or with motion turned down in the OS, `onNavigate`
 returns early and the navigation happens exactly as it did before.

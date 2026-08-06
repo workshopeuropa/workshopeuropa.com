@@ -17,9 +17,38 @@
 		const path = page.url.pathname;
 		return path === href || path.startsWith(href + '/');
 	}
+
+	/** True on the front page, which belongs to none of the four. */
+	let nowhere = $derived(!nav.some((item) => isCurrent(item.href)));
+
+	/* Every item carries a pill; only the current one is visible. On a page
+	   that is in none of the sections there is no current one, so the pill on
+	   the next page would have nothing to come from and would be set down at
+	   its destination while the card was still arriving. Pressing an item
+	   hands its own invisible pill the name, so the marker travels out of the
+	   word you pressed and fades up on the way.
+
+	   Done to the DOM rather than through state, for the same reason as the
+	   footer's hand-over: it has to be true before the navigation is
+	   snapshotted. The layout clears the mark once the new page is in. */
+	function armPill(event: MouseEvent) {
+		if (!marker || !nowhere) return;
+		if (!document.startViewTransition) return;
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+		if (event.defaultPrevented || event.button !== 0) return;
+		if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+		const link = (event.target as Element | null)?.closest('a.card-nav__link');
+		const pill = link?.querySelector<HTMLElement>('[data-pill]');
+		if (!pill) return;
+
+		pill.style.viewTransitionName = marker;
+		pill.dataset.handoff = '';
+	}
 </script>
 
-<nav class="card-nav {klass}" aria-label="Sections">
+<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
+<nav class="card-nav {klass}" aria-label="Sections" onclick={armPill}>
 	{#each nav as item (item.href)}
 		<a
 			class="card-nav__link"
@@ -28,21 +57,23 @@
 			aria-current={isCurrent(item.href) ? 'page' : undefined}
 		>
 			{item.label}
-			{#if isCurrent(item.href)}
-				<!-- The pill lies over the label with its own copy of it, so it
-				     is the only thing lifted out and moved on a navigation: the
-				     labels underneath stay where they are and the marker slides
-				     off one and onto the next. The copy is hidden from the
-				     reading order, since the label beneath is the real one. -->
-				<span
-					class="card-nav__pill"
-					data-pill
-					aria-hidden="true"
-					style:view-transition-name={marker}
-				>
-					{item.label}
-				</span>
-			{/if}
+			<!-- The pill lies over the label with its own copy of it, so it is
+			     the only thing lifted out and moved on a navigation: the labels
+			     underneath stay where they are and the marker slides off one
+			     and onto the next. The copy is hidden from the reading order,
+			     since the label beneath is the real one.
+
+			     Every item has one, and every one but the current is invisible
+			     — a place for the marker to come from on a page where none of
+			     them is current. -->
+			<span
+				class="card-nav__pill"
+				data-pill
+				aria-hidden="true"
+				style:view-transition-name={isCurrent(item.href) ? marker : undefined}
+			>
+				{item.label}
+			</span>
 		</a>
 	{/each}
 </nav>
@@ -94,6 +125,14 @@
 		border-radius: inherit;
 		background: var(--ink);
 		color: var(--card);
+		/* Only the current one is there to be seen. The rest are kept for the
+		   marker to travel out of, and are invisible until then — the browser
+		   snapshots them all the same. */
+		opacity: 0;
+	}
+
+	.is-current .card-nav__pill {
+		opacity: 1;
 	}
 
 	/* The pill is already the strongest thing in the row; leave it alone. */
@@ -101,12 +140,11 @@
 		background: none;
 	}
 
-	/* Coming from a page with no current section there is nothing for the
-	   pill to slide from, and a lifted-out pill would be set down at its
-	   destination while the card was still on its way. The layout raises
-	   this flag for the length of such a navigation, and the pill travels
-	   inside the card's own snapshot instead. Important, because it has to
-	   beat the inline name. */
+	/* The last resort: leaving a page where no pill was named at all — the
+	   front page by way of a footer card rather than the nav. The layout
+	   raises this for the length of such a navigation and the pill travels
+	   inside the card's own snapshot. Important, because it has to beat the
+	   inline name. */
 	:global([data-pill-rides]) .card-nav__pill {
 		view-transition-name: none !important;
 	}
