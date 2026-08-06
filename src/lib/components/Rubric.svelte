@@ -25,15 +25,18 @@
 		margin-bottom: calc(var(--gutter) * -0.25);
 	}
 
+	/* Spectral SC cuts its own small caps, so the text is left alone —
+	   uppercasing it would swap them back for full capitals. */
 	.rubric__title {
-		font-size: 1rem;
+		font-family: var(--font-caps);
+		font-size: 1.15rem;
 		font-weight: 500;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
+		letter-spacing: 0.04em;
 	}
 
 	.rubric__note {
-		font-size: 0.9rem;
+		font-family: var(--font-display);
+		font-size: 0.95rem;
 		font-style: italic;
 		color: var(--ink-soft);
 	}
