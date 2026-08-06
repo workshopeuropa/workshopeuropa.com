@@ -44,14 +44,16 @@
 				if (rides) document.documentElement.dataset.pillRides = '';
 				resolve();
 				await navigation.complete;
-				/* A footer card may have taken the masthead's name on the way
-				   out. The page it landed on has its own header card wearing
-				   that name now, so give it back before this state is
+				/* Something in the footer may have taken the masthead's name on
+				   the way out. The page it landed on has its own header card
+				   wearing that name now, so give it back before this state is
 				   snapshotted — two elements holding one name cancels the
-				   whole transition. */
-				for (const card of document.querySelectorAll<HTMLElement>('[data-handoff]')) {
-					card.style.viewTransitionName = '';
-					delete card.dataset.handoff;
+				   whole transition. Back to whatever the element declared
+				   rather than to nothing: the colophon card lends its name out
+				   and needs its own returned. */
+				for (const el of document.querySelectorAll<HTMLElement>('[data-handoff]')) {
+					el.style.viewTransitionName = el.dataset.morph ?? '';
+					delete el.dataset.handoff;
 				}
 			});
 
