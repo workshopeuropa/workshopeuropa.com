@@ -32,7 +32,6 @@
     "vite": "^8.2.0"
   },
   "dependencies": {
-    "@fontsource/georama": "^5.3.0",
     "@fontsource/spectral": "^5.3.0",
     "@fontsource/spectral-sc": "^5.3.0",
     "better-auth": "^1.6.26",
