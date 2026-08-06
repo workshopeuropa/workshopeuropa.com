@@ -20,7 +20,8 @@ export const site = {
 export const nav = [
 	{ href: '/join', label: 'Join' },
 	{ href: '/about', label: 'About' },
-	{ href: '/projects', label: 'Projects' }
+	{ href: '/projects', label: 'Projects' },
+	{ href: '/news', label: 'News' }
 ] as const;
 
 /** The manifesto. One card per entry. */
@@ -54,6 +55,9 @@ export const manifesto: { title: string; body: string[] }[] = [
 		]
 	}
 ];
+
+/** The headline the News page and its footer card carry. */
+export const newsTitle = 'Notes from the bench';
 
 /** Short notes, newest first. */
 export const news: { date: string; title: string; body: string }[] = [

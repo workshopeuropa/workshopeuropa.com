@@ -15,9 +15,14 @@
 
 	/* The page's hue, and the same hue moved towards the cold pole. Set on
 	   :root rather than the shell so the page background takes it too — the
-	   shell is capped at --page, and body paints everything outside it. */
+	   shell is capped at --page, and body paints everything outside it.
+
+	   :root:root, not :root: svelte:head renders above the stylesheet links,
+	   so at equal specificity app.css's default hue would win on document
+	   order and every page would come out the same colour. Doubling the
+	   selector settles it on specificity instead, wherever the tag lands. */
 	let hues = $derived(
-		`:root{--hue:${data.tint.hue};--hue-cold:${shadeHue(data.tint)}}`
+		`:root:root{--hue:${data.tint.hue};--hue-cold:${shadeHue(data.tint)}}`
 	);
 </script>
 
