@@ -65,6 +65,16 @@ export const projects: Project[] = [
 			src: '/media/risved.svg',
 			alt: 'Racks of hardware, some of them ours and some of them yours.'
 		}
+	},
+	{
+		slug: 'idun',
+		title: 'Idun',
+		headline: 'Open protocol for federated identity',
+		summary: 'An open protocol bridging identity to the federated social web.',
+		image: {
+			src: '/media/idun.svg',
+			alt: 'One identity on the left, a span across to the servers that accept it.'
+		}
 	}
 ];
 
