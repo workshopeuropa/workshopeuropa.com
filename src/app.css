@@ -200,7 +200,10 @@ textarea {
 	line-height: 1.6;
 }
 
+/* The preamble is set in the display face: it opens a page the way a card
+   does, and Georama picks up again in the paragraphs under it. */
 .lede {
+	font-family: var(--font-display);
 	font-size: clamp(1.15rem, 1rem + 0.8vw, 1.5rem);
 	line-height: 1.45;
 }
