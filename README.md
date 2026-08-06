@@ -40,7 +40,7 @@ and then that project's card from the index laid on its side. The section card s
 down to a `p` and the project's card takes the `h1`, so the page still has one — and the project's
 card drops its link there, since a page should not link to itself.
 
-Everything else — the manifesto, news, project text, particulars, the join form — is set straight
+Everything else — the principles, news, project text, particulars, the join form — is set straight
 onto the paper in a centred column. Adding a fifth kind of card is a decision, not a default.
 
 ## The cards
@@ -244,11 +244,17 @@ rubric a size out from the rest of it. The rubric is centred over its section, a
 loaded, or the browser synthesises the one it is missing. The old note, set italic off to the
 right, is gone.
 
-The lists under a rubric — the manifesto clauses, the notes, the ways in — centre their label and
+The lists under a rubric — the principles, the notes, the ways in — centre their label and
 their headline under it rather than running the label down a column at the side.
 
 `.lede` — the preamble that opens a page — is set in the display face too, so a page opens the way
-a card does and Georama picks up again underneath it.
+a card does and Georama picks up again underneath it. The small label over each entry in a list —
+the date on a note, the numbering on a principle — is Spectral italic, since it is a caption rather
+than running text.
+
+Running text carries `letter-spacing: 0.01em`, which Georama wants at reading size. It is declared
+on `body`, so headings, cards and `.lede` set it back to zero: Spectral is cut with its own and
+wants none added, and card titles go tighter still at `-0.01em`.
 
 ### One colour per page
 
@@ -293,7 +299,7 @@ No CMS. Text lives in `src/lib/content/`:
 
 | File          | What it holds                                          |
 | ------------- | ------------------------------------------------------ |
-| `site.ts`     | Site name, nav, the manifesto clauses, the news notes   |
+| `site.ts`     | Site name, nav, the principles, the news notes          |
 | `projects.ts` | One object per project — drives the index and the pages |
 | `people.ts`   | One object per person — one card each                   |
 | `about.ts`    | The About page                                          |

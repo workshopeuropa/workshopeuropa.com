@@ -46,10 +46,11 @@ export const projects: Project[] = [
 	},
 	{
 		slug: 'inlagg',
-		title: 'Inlägg / Indlæg / Innlegg',
+		title: 'Inlägg • Indlæg • Innlegg',
 		headline: 'Authentic Nordic social platform',
 		summary:
 			'A Nordic social platform where every account is verified with BankID or MitID.',
+		url: 'inlägg.com • indlæg.com • innlegg.com',
 		image: {
 			src: '/media/inlagg.svg',
 			alt: 'A column of posts, each one carrying a verification mark.'
@@ -61,6 +62,7 @@ export const projects: Project[] = [
 		headline: 'Open-source hosting interface',
 		summary:
 			'Open-source European hosting — run it on our cloud or your own hardware.',
+		url: 'risved.org • risved.com',
 		image: {
 			src: '/media/risved.svg',
 			alt: 'Racks of hardware, some of them ours and some of them yours.'
@@ -71,6 +73,7 @@ export const projects: Project[] = [
 		title: 'Idun',
 		headline: 'Open protocol for federated identity',
 		summary: 'An open protocol bridging identity to the federated social web.',
+		url: 'idun.org',
 		image: {
 			src: '/media/idun.svg',
 			alt: 'One identity on the left, a span across to the servers that accept it.'
