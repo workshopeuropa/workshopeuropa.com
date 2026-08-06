@@ -76,9 +76,13 @@ card's centre line however much the bands above and below weigh.
 ## The nav and the footer
 
 `CardNav.svelte` is the four sections — News, About, Projects, Join — spread with equal gaps
-between them. The page you are on wears a marker in `--ink` with `--card` as the type, the same
-pairing as text on a card, inverted, so it holds 5.45:1 at worst in either mode. The marker is a
+between them. The page you are on wears a pill in `--ink` with `--card` as the type, the same
+pairing as text on a card, inverted, so it holds 5.45:1 at worst in either mode. The pill is a
 capsule, and the card's rim is measured from it.
+
+Nothing in a masthead card underlines on hover — a line under a word would be the only hard edge on
+a card made of soft rectangles. A nav item fills its own pill shape faintly instead, and the
+wordmark lightens.
 
 A capsule of radius r sits concentric inside a corner of radius R when it is inset by `R - r`. The
 card has one inset — its padding — and everything sits on it: the wordmark at the head, the nav at
@@ -121,6 +125,7 @@ instead of being cut away:
 | `masthead` | The page header — full height everywhere, half height on a project page |
 | `colophon` | The card at the foot of the footer |
 | `project-<slug>` | A project's card: portrait on the index, landscape at the top of its own page |
+| `nav-pill`, `nav-pill-foot` | The pill on the current nav item, sliding to the next section |
 
 The group animates over 320ms while the type on a card crosses over in the first 150, so what you
 watch is the card travelling rather than two sets of type lying on top of each other the whole way.
@@ -129,7 +134,12 @@ The page underneath cross-fades in 180ms, faster than the cards moving across it
 A name has to be unique in the document — two cards claiming one cancels the whole transition — so
 `ProjectCard` takes `morph={false}` for a card whose project already has one on that page. The
 project page uses it on previous and next, which with a short enough list can be the same project as
-the one you are looking at.
+the one you are looking at. `CardNav` takes its name as a prop for the same reason: the header's nav
+and the colophon's mark the same section, so they cannot both be `nav-pill`.
+
+The pill is the whole link rather than a layer behind the label, so the label travels inside it.
+Split them and the label is left `--card`-coloured on a `--card` card for as long as the pill is
+away from it — invisible for the length of the animation.
 
 None of it is load-bearing. Without the API, or with motion turned down in the OS, `onNavigate`
 returns early and the navigation happens exactly as it did before.
