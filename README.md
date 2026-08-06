@@ -4,7 +4,7 @@ The Workshop Europa site. Cards in the ISO 216 ratio — 1 : √2 — portrait o
 paper or on an image; everything else is plain type in a column down the middle.
 
 - **SvelteKit 2** (Svelte 5 runes) on `adapter-node`
-- **Georama**, **Spectral** and **Spectral SC** via Fontsource
+- **Spectral** and **Spectral SC** via Fontsource
 - **Better Auth** + **Drizzle ORM** + **SQLite** behind the Join form
 
 ## Running it
@@ -280,34 +280,32 @@ fixed grey.
 
 ## Type
 
-Three faces with one job each:
+One face, set two ways:
 
 | Token | Face | What it sets |
 | --- | --- | --- |
-| `--font-body` | Georama | Running text, labels, the form |
-| `--font-display` | Spectral | Every heading, every card, and `.lede` |
+| `--font-text` | Spectral | Everything — running text, headings, cards, the form |
+| `--font-display` | (the same) | Kept apart because it is a different job, not a different face |
 | `--font-caps` | Spectral SC | `Rubric` — the one heading set in small caps |
+
+Four weights ship: Spectral 400 and 500, its 500 italic for the wordmark, and Spectral SC 500.
+Running text is 400; headings, cards, rubrics and the labels over a list ask for 500 themselves.
 
 Spectral SC cuts its small caps for the lowercase, so `Rubric` is set `text-transform: lowercase`,
 not uppercase: a capital comes through as a full-height capital and leaves the first letter of every
-rubric a size out from the rest of it. The rubric is centred over its section, and running text is
-400 while headings, cards and rubrics ask for 500 themselves. Both weights of both faces are
-loaded, or the browser synthesises the one it is missing. The old note, set italic off to the
-right, is gone.
+rubric a size out from the rest of it. The rubric is centred over its section.
 
 The lists under a rubric — the principles, the notes, the ways in — centre their label and their
 headline under it rather than running the label down a column at the side. Nothing is ruled off:
 no line under a rubric, none between one entry and the next, none under a row of particulars. The
 spacing carries it.
 
-`.lede` — the preamble that opens a page — is set in the display face too, so a page opens the way
-a card does and Georama picks up again underneath it. The small label over each entry in a list —
-the date on a note, the numbering on a principle — is Spectral italic, since it is a caption rather
-than running text.
+The small label over each entry — the date on a note, the numbering on a principle — is a size down
+and a weight up from the paragraph it heads, since it is a caption rather than running text.
 
-Running text carries `letter-spacing: 0.01em`, which Georama wants at reading size. It is declared
-on `body`, so headings, cards and `.lede` set it back to zero: Spectral is cut with its own and
-wants none added, and card titles go tighter still at `-0.01em`.
+Running text carries `letter-spacing: 0.01em`, which the face wants at the size it is read at and
+does not want at heading size. It is declared on `body`, so headings, cards and `.lede` set it back
+to zero, and card titles go tighter still at `-0.01em`.
 
 ### One colour per page
 
