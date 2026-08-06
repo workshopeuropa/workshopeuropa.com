@@ -75,7 +75,7 @@
 	{/snippet}
 
 	{#snippet bottom()}
-		<CardNav />
+		<CardNav marker="nav-pill" />
 	{/snippet}
 </Card>
 
@@ -85,13 +85,15 @@
 		display: block;
 	}
 
+	/* No underline on hover: the wordmark is two stacked words, and ruling
+	   under both of them is the only hard edge on the card. It lightens
+	   instead. */
 	.eyebrow__link {
 		display: inline-block;
+		transition: color 140ms ease;
 	}
 
 	.eyebrow__link:hover {
-		text-decoration: underline;
-		text-decoration-thickness: from-font;
-		text-underline-offset: 0.2em;
+		color: color-mix(in srgb, currentColor 65%, transparent);
 	}
 </style>

@@ -2,7 +2,16 @@
 	import { page } from '$app/state';
 	import { nav } from '$lib/content/site';
 
-	let { class: klass = '' }: { class?: string } = $props();
+	type Props = {
+		/** A name for the current item, so its pill slides from one label to
+		    the next across a navigation rather than blinking out and back.
+		    Every nav on the page needs its own — the header's and the
+		    colophon's mark the same section, and a name has to be unique. */
+		marker?: string;
+		class?: string;
+	};
+
+	let { marker, class: klass = '' }: Props = $props();
 
 	function isCurrent(href: string) {
 		const path = page.url.pathname;
@@ -17,6 +26,7 @@
 			class:is-current={isCurrent(item.href)}
 			href={item.href}
 			aria-current={isCurrent(item.href) ? 'page' : undefined}
+			style:view-transition-name={isCurrent(item.href) ? marker : undefined}
 		>
 			{item.label}
 		</a>
@@ -47,27 +57,27 @@
 	.card-nav__link {
 		padding: 0.2em 0.6em;
 		border-radius: calc(var(--pill-h, 1.6rem) / 2);
-		transition:
-			background 140ms ease,
-			color 140ms ease;
+		transition: background 140ms ease;
 	}
 
+	/* Hovering fills the same shape faintly rather than ruling under the
+	   word — the card is a set of soft rectangles, and a line under one of
+	   them would be the only hard edge on it. */
 	.card-nav__link:hover {
-		text-decoration: underline;
-		text-decoration-thickness: from-font;
-		text-underline-offset: 0.2em;
+		background: color-mix(in srgb, currentColor 12%, transparent);
 	}
 
 	/* The page you are on wears a pill in the ink, with the card's own
 	   colour as the type — the same pairing as text on card, inverted, so
-	   it holds its contrast in both schemes. */
-	.is-current {
+	   it holds its contrast in both schemes. Already the strongest thing in
+	   the row, so hovering it changes nothing.
+
+	   The pill is the whole link rather than a layer behind the label, so
+	   that when it travels the label travels inside it: split them and the
+	   label is left card-coloured on a card while the pill is away. */
+	.is-current,
+	.is-current:hover {
 		background: var(--ink);
 		color: var(--card);
 	}
-
-	.is-current:hover {
-		text-decoration: none;
-	}
-
 </style>
