@@ -3,7 +3,7 @@
 	import '@fontsource/spectral/500-italic.css';
 	import '../app.css';
 
-	import { site } from '$lib/content/site';
+	import Colophon from '$lib/components/Colophon.svelte';
 	import { shadeHue } from '$lib/tints';
 	import type { Snippet } from 'svelte';
 	import type { LayoutData } from './$types';
@@ -33,10 +33,7 @@
 		{@render children()}
 	</main>
 
-	<footer class="colophon">
-		<p>{site.name}</p>
-		<p><a href="mailto:{site.email}">{site.email}</a></p>
-	</footer>
+	<Colophon />
 </div>
 
 <style>
@@ -78,16 +75,4 @@
 		align-content: start;
 	}
 
-	.colophon {
-		width: min(100% - var(--gutter) * 2, 64rem);
-		margin-inline: auto;
-		padding-block: clamp(2rem, 6vw, 4rem);
-		padding-bottom: calc(clamp(2rem, 6vw, 4rem) + var(--safe-bottom));
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		gap: 0.5rem 1.5rem;
-		font-size: 0.85rem;
-		color: var(--ink-soft);
-	}
 </style>
