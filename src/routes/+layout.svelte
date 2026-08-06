@@ -29,8 +29,15 @@
 		if (!document.startViewTransition) return;
 		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+		/* Nothing for the pill to slide from when the page you are leaving has
+		   no current section — the front page. Read before the transition
+		   starts, since by the time its callback runs the new page is on its
+		   way in. */
+		const rides = !document.querySelector('[data-pill]');
+
 		return new Promise((resolve) => {
-			document.startViewTransition(async () => {
+			const transition = document.startViewTransition(async () => {
+				if (rides) document.documentElement.dataset.pillRides = '';
 				resolve();
 				await navigation.complete;
 				/* A footer card may have taken the masthead's name on the way
@@ -42,6 +49,12 @@
 					card.style.viewTransitionName = '';
 					delete card.dataset.handoff;
 				}
+			});
+
+			/* Lowered once the animation is over, not when the callback ends:
+			   the flag has to still be up when the new state is captured. */
+			transition.finished.finally(() => {
+				delete document.documentElement.dataset.pillRides;
 			});
 		});
 	});
