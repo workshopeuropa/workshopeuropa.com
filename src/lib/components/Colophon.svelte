@@ -73,7 +73,7 @@
 	</Deck>
 
 	<Deck columns={1}>
-		<Card orientation="landscape" masthead>
+		<Card orientation="landscape" masthead morph="colophon">
 			{#snippet top()}
 				<CardNav />
 			{/snippet}
