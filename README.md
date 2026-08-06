@@ -72,32 +72,32 @@ card's centre line however much the bands above and below weigh.
 
 ## The nav and the footer
 
-`CardNav.svelte` is the four sections — Join, About, Projects, News — spread with equal gaps
+`CardNav.svelte` is the four sections — News, About, Projects, Join — spread with equal gaps
 between them. The page you are on wears a marker in `--ink` with `--card` as the type, the same
-pairing as text on a card, inverted, so it holds 5.45:1 at worst in either mode.
+pairing as text on a card, inverted, so it holds 5.45:1 at worst in either mode. The marker is a
+capsule, and the card's rim is measured from it.
 
-The marker stays a capsule, and the nav moves to suit it. A capsule of radius r sits concentric
-inside a corner of radius R when it is inset by `R - r`, which is far less than the card's padding —
-so the nav breaks out of that padding by the difference and runs close to the card's edges, while
-everything else in the card keeps its air:
+A capsule of radius r sits concentric inside a corner of radius R when it is inset by `R - r`, far
+less than the card's padding. The card publishes that inset as `--rim`, and a masthead lays its
+outer bands on it — the wordmark at the head, the nav at the foot, the line of copyright under the
+colophon's — so everything against an edge keeps the same distance from it as the pill's own curve
+does. The middle band keeps the padding, since nothing there is against an edge.
 
 ```css
---pill-h: 1.6em;                 /* 1.2em of line between 0.2em of padding */
---pill-r: calc(var(--pill-h) / 2);
---inset: max(0px, calc(var(--radius) - var(--pill-r)));
---break: calc(var(--inset) - var(--pad, 0px));
+--pill-h: 1.6rem;                                       /* the nav's pill */
+--rim: max(0px, calc(var(--radius) - var(--pill-h) / 2));
 ```
 
-Both numbers are cut from `--pill-h`, so the rounding and the inset cannot fall out of step. The nav
-breaks towards whichever edge it is against — the foot of a page header, the head of the colophon —
-and sets `align-self` there so the band cannot stretch it back over the margin it just took. Left,
-right and the near edge all come out at `--inset` exactly: 4.8px on a phone, 15.4px at 1280.
+Both the rounding and the inset come off `--pill-h`, so they cannot fall out of step; it is in rem
+rather than em because the card's own font-size is not the nav's. Every edge lands on `--rim`
+exactly — 4.8px on a phone, 15.4px at 1280, against the 17.6 to 44px of padding everything else in
+the card sits behind.
 
-That `--pad` is why the card registers its padding with `@property` rather than leaving it a plain
-custom property. It is written in `cqi`, and an element is not its own query container: on the card
-those units answer to `.shell`, on a descendant they answer to the card. Registered as a `<length>`
-it resolves once, on the card, and inherits as that length — otherwise the nav computes a different
-padding from the one the card is actually using, and the inset drifts by as much as 16px.
+`--pad` is why the card registers its padding with `@property` rather than leaving it a plain custom
+property. It is written in `cqi`, and an element is not its own query container: on the card those
+units answer to `.shell`, on a descendant they answer to the card. Registered as a `<length>` it
+resolves once, on the card, and inherits as that length — otherwise a band computes a different
+padding from the one the card is actually using, and the rim drifts by as much as 16px.
 
 `Colophon.svelte` builds the footer from the same four sections, in a fixed order, minus whichever
 one you are on: the first becomes a landscape card across the top, the other two a portrait pair

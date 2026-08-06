@@ -77,11 +77,18 @@
 		gap: 1rem;
 		width: 100%;
 		margin-inline: auto;
-		/* Held in a variable so anything sitting against the card's inner
-		   edge can measure itself off it — the nav rounds its pill by
-		   --radius minus this. */
+		/* The padding, published so anything inside can measure itself off
+		   it. */
 		--pad: clamp(1.1rem, 6cqi, 2.75rem);
 		padding: var(--pad);
+		/* The nav's pill: 1rem of type, 1.2 of line, 0.2em of padding above
+		   and below. In rem rather than em because the card's own font-size
+		   is not the nav's. */
+		--pill-h: 1.6rem;
+		/* What anything laid against the card's rim is inset by, rather than
+		   the padding: the inset that puts a capsule of half --pill-h
+		   concentric inside a corner of --radius. */
+		--rim: max(0px, calc(var(--radius) - var(--pill-h) / 2));
 		border-radius: var(--radius);
 		background: var(--card);
 		color: var(--ink);
@@ -143,6 +150,23 @@
 
 	.band--bottom {
 		align-self: end;
+	}
+
+	/* A masthead lays its outer bands on the card's rim — the wordmark, the
+	   nav, the line at the foot — so they all keep the same distance from
+	   the edge as the pill's curve does. The middle band keeps the padding,
+	   since nothing there is against an edge. */
+	.card--masthead > .band--top,
+	.card--masthead > .band--bottom {
+		margin-inline: calc(var(--rim) - var(--pad));
+	}
+
+	.card--masthead > .band--top {
+		margin-block-start: calc(var(--rim) - var(--pad));
+	}
+
+	.card--masthead > .band--bottom {
+		margin-block-end: calc(var(--rim) - var(--pad));
 	}
 
 	/* --- Typography inside a card ---------------------------------------
