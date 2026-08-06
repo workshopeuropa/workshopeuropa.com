@@ -136,6 +136,13 @@ The group animates over 320ms while the type on a card crosses over in the first
 watch is the card travelling rather than two sets of type lying on top of each other the whole way.
 The page underneath cross-fades in 180ms, faster than the cards moving across it.
 
+The masthead is the exception, because it is the one card that changes shape rather than place: full
+height on most pages, half on a project page. By default a snapshot is drawn at its own height and
+pinned to the top of the group, so the box grew while the two pictures inside it sat still — the
+card read as two cards laid over each other rather than one changing height. Its snapshots take
+`height: 100%` and `object-fit: fill` instead, so they move with the box, and their cross-fade runs
+the full 320ms rather than settling early on a picture that is still being resized.
+
 A name has to be unique in the document — two cards claiming one cancels the whole transition — so
 `ProjectCard` takes `morph={false}` for a card whose project already has one on that page. The
 project page uses it on previous and next, which with a short enough list can be the same project as
