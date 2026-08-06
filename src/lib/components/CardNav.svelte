@@ -24,14 +24,14 @@
 </nav>
 
 <style>
-	/* Equal columns rather than space-between: with items of different
-	   widths, spreading them leaves the middle one off the card's centre
-	   line. A track each puts it on it, and the outer two still reach the
-	   edges by aligning within their own track. */
+	/* Equal gaps, not equal tracks. A track each centred the inner labels
+	   in their own column while the outer two reached for the edges, which
+	   left three different-sized holes; spreading the items puts the same
+	   space between every pair. There is no middle item to knock off the
+	   card's centre line now that there are four of them. */
 	.card-nav {
-		display: grid;
-		grid-auto-flow: column;
-		grid-auto-columns: 1fr;
+		display: flex;
+		justify-content: space-between;
 		align-items: baseline;
 		gap: 0.6em;
 		/* 1rem, which is where it sits on every phone from 360px up. Four
@@ -41,21 +41,17 @@
 		line-height: 1.2;
 	}
 
-	.card-nav__link {
-		justify-self: center;
-	}
+	/* The pill is what you see, so the pill is what lines up: its box runs
+	   to the card's inner edge on both sides and sits on it at the foot, so
+	   the space left, right and below it is the card's own padding.
 
-	.card-nav__link:first-child {
-		justify-self: start;
-	}
-
-	.card-nav__link:last-child {
-		justify-self: end;
-	}
-
+	   Rounded to fit inside the card's corner rather than to a capsule —
+	   concentric with it, which is the card's radius less the padding the
+	   pill is inset by. That can come out at or below zero, in which case
+	   the corner is square, and the two curves still agree. */
 	.card-nav__link {
 		padding: 0.2em 0.7em;
-		border-radius: 999px;
+		border-radius: max(0px, calc(var(--radius) - var(--pad, 0px)));
 		transition:
 			background 140ms ease,
 			color 140ms ease;
@@ -77,17 +73,6 @@
 
 	.is-current:hover {
 		text-decoration: none;
-	}
-
-	/* The pill's padding would push the outer two labels off the line the
-	   rest of the card is set to; pulling it back keeps the type aligned
-	   with the card's edges and lets only the pill overhang. */
-	.card-nav__link:first-child {
-		margin-inline-start: -0.7em;
-	}
-
-	.card-nav__link:last-child {
-		margin-inline-end: -0.7em;
 	}
 
 </style>
