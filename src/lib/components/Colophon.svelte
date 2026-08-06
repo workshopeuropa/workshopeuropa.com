@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Card from './Card.svelte';
+	import CardNav from './CardNav.svelte';
 	import Deck from './Deck.svelte';
 	import { about } from '$lib/content/about';
 	import { join } from '$lib/content/join';
@@ -47,7 +48,7 @@
 	<Deck columns={1}>
 		<Card orientation="landscape" masthead>
 			{#snippet top()}
-				<p class="eyebrow italic">Menu</p>
+				<CardNav />
 			{/snippet}
 			{#snippet middle()}
 				<p class="title">

@@ -81,6 +81,7 @@
 		border-radius: var(--radius);
 		background: var(--card);
 		color: var(--ink);
+		font-family: var(--font-display);
 		text-align: center;
 		overflow-wrap: break-word;
 		/* aspect-ratio sets the floor — a card with more in it than the ratio
@@ -140,10 +141,14 @@
 		align-self: end;
 	}
 
-	/* --- Typography inside a card, sized against the card itself --------- */
+	/* --- Typography inside a card ---------------------------------------
+	   Set, not scaled. Every card carries the same three sizes, so a
+	   project card reads as loudly as the header card above it — sizing
+	   against the card meant a small card whispered.
+	   --------------------------------------------------------------------- */
 
 	.card :global(.eyebrow) {
-		font-size: clamp(0.85rem, 4.4cqi, 1.4rem);
+		font-size: 1rem;
 		font-weight: 500;
 		line-height: 1.2;
 	}
@@ -152,17 +157,17 @@
 	.card :global(.title--small) {
 		/* Even the last line: a headline should not leave one word alone. */
 		text-wrap: balance;
-	}
-
-	.card :global(.title) {
-		font-size: clamp(1.4rem, 8.4cqi, 3.4rem);
 		font-weight: 500;
 		line-height: 1.05;
 		letter-spacing: -0.01em;
 	}
 
+	.card :global(.title) {
+		font-size: 2rem;
+	}
+
 	.card :global(.title--small) {
-		font-size: clamp(1.15rem, 6cqi, 2.2rem);
+		font-size: 1.5rem;
 	}
 
 	.card :global(.italic) {
@@ -170,13 +175,13 @@
 	}
 
 	.card :global(.meta) {
-		font-size: clamp(0.75rem, 3.3cqi, 1rem);
+		font-size: 0.875rem;
 		/* Follows whatever ink the card is using rather than the page's. */
 		color: color-mix(in srgb, currentColor 72%, transparent);
 	}
 
 	.card :global(.prose) {
-		font-size: clamp(0.95rem, 3.6cqi, 1.1rem);
+		font-size: 1rem;
 		line-height: 1.55;
 		text-align: left;
 		max-width: var(--measure);
@@ -185,35 +190,9 @@
 		gap: 0.85em;
 	}
 
-	/* A landscape card is wider, so cqi buys more pixels — pull it back. */
-	.card--landscape :global(.eyebrow) {
-		font-size: clamp(0.85rem, 3.1cqi, 1.4rem);
-	}
-
-	.card--landscape :global(.title) {
-		font-size: clamp(1.4rem, 5.9cqi, 3.6rem);
-	}
-
-	.card--landscape :global(.title--small) {
-		font-size: clamp(1.15rem, 4.2cqi, 2.2rem);
-	}
-
-	.card--landscape :global(.meta) {
-		font-size: clamp(0.75rem, 2.3cqi, 1rem);
-	}
-
-	.card--landscape :global(.prose) {
-		font-size: clamp(0.95rem, 2.4cqi, 1.1rem);
-	}
-
-	/* The masthead is set, not scaled: the same three sizes whatever the
-	   card is doing. Declared last so it beats the landscape rules above. */
+	/* The masthead's wordmark is the one italic in the set. */
 	.card--masthead :global(.eyebrow) {
-		font-size: 1rem;
 		font-style: italic;
 	}
 
-	.card--masthead :global(.title) {
-		font-size: 2rem;
-	}
 </style>

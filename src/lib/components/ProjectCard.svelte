@@ -34,6 +34,8 @@
 		{#if label}
 			<p class="meta">{label}</p>
 		{/if}
-		<p class="meta">{project.summary}</p>
+		{#if project.url}
+			<p class="meta">{project.url}</p>
+		{/if}
 	{/snippet}
 </Card>

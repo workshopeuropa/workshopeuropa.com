@@ -47,6 +47,10 @@
 	--ink-soft: color-mix(in srgb, var(--ink) 70%, transparent);
 	--rule: color-mix(in srgb, var(--ink) 18%, transparent);
 
+	/* Georama sets the running text; Spectral stays on the cards. */
+	--font-body: 'Georama', 'Helvetica Neue', Arial, sans-serif;
+	--font-display: 'Spectral', 'Iowan Old Style', 'Times New Roman', serif;
+
 	--radius: clamp(1.1rem, 2.2vw, 1.9rem);
 	/* The page's padding, on every edge. */
 	--gutter: 1rem;
@@ -91,7 +95,7 @@ body {
 	margin: 0;
 	background: var(--paper);
 	color: var(--ink);
-	font-family: 'Spectral', 'Iowan Old Style', 'Times New Roman', serif;
+	font-family: var(--font-body);
 	font-weight: 500;
 	font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
 	line-height: 1.5;
