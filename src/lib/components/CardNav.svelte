@@ -38,7 +38,7 @@
 		   nothing narrower is a target — so the type is set, like the rest
 		   of the card's. */
 		gap: 0.4em;
-		font-size: 1rem;
+		font-size: var(--nav-size, 1rem);
 		line-height: 1.2;
 	}
 

@@ -77,18 +77,24 @@
 		gap: 1rem;
 		width: 100%;
 		margin-inline: auto;
-		/* The padding, published so anything inside can measure itself off
-		   it. */
-		--pad: clamp(1.1rem, 6cqi, 2.75rem);
+		/* One inset for everything the card holds: the wordmark, the nav, the
+		   line at the foot all sit this far in, so nothing is closer to an
+		   edge than anything else. Published so a child can read it. */
+		--pad: clamp(1rem, 6cqi, 2.75rem);
 		padding: var(--pad);
-		/* The nav's pill: 1rem of type, 1.2 of line, 0.2em of padding above
-		   and below. In rem rather than em because the card's own font-size
-		   is not the nav's. */
-		--pill-h: 1.6rem;
-		/* What anything laid against the card's rim is inset by, rather than
-		   the padding: the inset that puts a capsule of half --pill-h
-		   concentric inside a corner of --radius. */
-		--rim: max(0px, calc(var(--radius) - var(--pill-h) / 2));
+		/* The nav's type, and the pill it makes: 1.2 of line and 0.2em of
+		   padding above and below, so 1.6 times the size. Set here rather
+		   than in the nav because the corner below is cut from it, and the
+		   card's own font-size is not the nav's. 1rem from 364px up; four
+		   labels do not fit a narrower card than that at full size, and in
+		   vw rather than cqi so both places resolve it against the same
+		   thing. */
+		--nav-size: clamp(0.9rem, 4.4vw, 1rem);
+		--pill-h: calc(var(--nav-size) * 1.6);
+		/* The corner is cut to fit what sits in it, rather than the other way
+		   round: a capsule of half --pill-h, inset by the padding, is
+		   concentric with a corner of exactly this. */
+		--radius: calc(var(--pad) + var(--pill-h) / 2);
 		border-radius: var(--radius);
 		background: var(--card);
 		color: var(--ink);
@@ -103,7 +109,7 @@
 
 	.card--landscape {
 		aspect-ratio: var(--ratio) / 1;
-		--pad: clamp(1.1rem, 4.5cqi, 2.75rem);
+		--pad: clamp(1rem, 4.5cqi, 2.75rem);
 		max-width: var(--band);
 	}
 
@@ -150,23 +156,6 @@
 
 	.band--bottom {
 		align-self: end;
-	}
-
-	/* A masthead lays its outer bands on the card's rim — the wordmark, the
-	   nav, the line at the foot — so they all keep the same distance from
-	   the edge as the pill's curve does. The middle band keeps the padding,
-	   since nothing there is against an edge. */
-	.card--masthead > .band--top,
-	.card--masthead > .band--bottom {
-		margin-inline: calc(var(--rim) - var(--pad));
-	}
-
-	.card--masthead > .band--top {
-		margin-block-start: calc(var(--rim) - var(--pad));
-	}
-
-	.card--masthead > .band--bottom {
-		margin-block-end: calc(var(--rim) - var(--pad));
 	}
 
 	/* --- Typography inside a card ---------------------------------------
