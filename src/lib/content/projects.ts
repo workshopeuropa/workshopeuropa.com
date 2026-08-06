@@ -47,7 +47,7 @@ export const projects: Project[] = [
 	{
 		slug: 'inlagg',
 		title: 'Inlägg • Indlæg • Innlegg',
-		headline: 'Authentic Nordic social platform',
+		headline: 'Authentic Nordic social platforms',
 		summary:
 			'A Nordic social platform where every account is verified with BankID or MitID.',
 		url: 'inlägg.com • indlæg.com • innlegg.com',
