@@ -328,9 +328,15 @@ textarea {
    The layout only starts the transition; every duration is here.
    --------------------------------------------------------------- */
 
+/* Eased at both ends rather than launched. The curve this used to carry
+   spent 63% of the journey in its first 113ms, which over the width of a
+   card reads as a jump followed by a creep — the marker sliding between two
+   nav items looked like it was not animating at all. This one puts the
+   halfway point at halfway, so a long journey is legible and a short one is
+   still quick. */
 ::view-transition-group(*) {
 	animation-duration: 320ms;
-	animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+	animation-timing-function: cubic-bezier(0.45, 0, 0.15, 1);
 }
 
 /* What is written on a card changes over in the first half of the move,
