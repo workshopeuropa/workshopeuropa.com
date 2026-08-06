@@ -44,7 +44,7 @@
      has none, rather than a rule over an empty list. -->
 {#if hasParticulars}
 	<section class="section" aria-labelledby="particulars">
-		<Rubric id="particulars" note={project.status}>Particulars</Rubric>
+		<Rubric id="particulars">Particulars</Rubric>
 
 		<dl class="facts">
 			{#if project.year}<div><dt>Year</dt><dd>{project.year}</dd></div>{/if}
@@ -63,7 +63,7 @@
 {/if}
 
 <section class="section" aria-labelledby="next">
-	<Rubric id="next" note="Back and forwards">More projects</Rubric>
+	<Rubric id="next">More projects</Rubric>
 
 	<Deck columns={2}>
 		<ProjectCard project={data.previous} label="Previous" heading="h3" />
