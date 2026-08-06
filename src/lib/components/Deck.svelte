@@ -36,6 +36,13 @@
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
+	/* Side by side at every width, so they come out level: where one card
+	   holds more than the ratio allows and grows, the other grows with it
+	   rather than leaving a step between them. */
+	.deck--firm {
+		align-items: stretch;
+	}
+
 	/* Only split into columns when there is something to put in them,
 	   so a deck of one centres instead of leaving a hole. */
 	/* :global because the children come from a snippet — Svelte cannot see

@@ -72,9 +72,12 @@
 <section class="section" aria-labelledby="next">
 	<Rubric id="next">More projects</Rubric>
 
-	<Deck columns={2}>
-		<ProjectCard project={data.previous} label="Previous" heading="h3" morph={previousMorphs} />
-		<ProjectCard project={data.next} label="Next" heading="h3" morph={nextMorphs} />
+	<!-- A pair of signposts rather than two more title pages: the columns
+	     hold on a phone, the name is upright, and the foot of each carries
+	     the project's own address instead of which way it lies. -->
+	<Deck columns={2} collapse={false}>
+		<ProjectCard project={data.previous} heading="h3" quiet morph={previousMorphs} />
+		<ProjectCard project={data.next} heading="h3" quiet morph={nextMorphs} />
 	</Deck>
 </section>
 
