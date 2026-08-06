@@ -51,8 +51,9 @@ grows downwards instead of clipping.
 
 Type inside a card is set, not scaled: `eyebrow` 1rem, `title` 2rem, `title--small` 1.5rem, `meta`
 0.875rem, the same in every card. Sizing against the card meant a small card whispered — a project
-card should read as loudly as the header card above it. `title--small` is only small where the card
-is: from 60rem it joins the rest at 2rem.
+card should read as loudly as the header card above it. `title--small` is the one exception, and
+`Colophon.svelte` takes it back to 2rem from 60rem up, where the footer's cards have the room —
+scoped there so the small pair at the foot of a project page stays small at every width.
 
 ```svelte
 <Card orientation="portrait" href="/projects/vionio">
@@ -65,7 +66,9 @@ is: from 60rem it joins the rest at 2rem.
 Available classes inside a card: `eyebrow`, `title`, `title--small`, `meta`, `prose`, `italic`.
 Titles carry `text-wrap: balance`, so a headline never leaves one word stranded on the last line.
 `Deck.svelte` lays cards out — one or two columns, collapsing to one on small screens, and centring
-rather than leaving a hole when there is a single card.
+rather than leaving a hole when there is a single card. A firm deck (`collapse={false}`) keeps its
+columns all the way down and stretches them level, so a card that outgrows the ratio takes its
+neighbour with it rather than leaving a step.
 
 Rows are `1fr auto 1fr`: the outer tracks are equal by definition, so the middle band sits on the
 card's centre line however much the bands above and below weigh.
@@ -224,8 +227,8 @@ Measured in a browser across all twelve hues in both modes:
 Text on a card is the same pair either way round, which is what makes the inversion safe. Nothing
 falls below AA, and text on the page clears AAA in both modes.
 
-`--ink-soft` and `--rule` are mixed down from `--ink`, so they follow it into dark mode rather than
-staying a fixed grey.
+`--ink-soft` is mixed down from `--ink`, so it follows it into dark mode rather than staying a
+fixed grey.
 
 ## Type
 
@@ -244,8 +247,10 @@ rubric a size out from the rest of it. The rubric is centred over its section, a
 loaded, or the browser synthesises the one it is missing. The old note, set italic off to the
 right, is gone.
 
-The lists under a rubric — the principles, the notes, the ways in — centre their label and
-their headline under it rather than running the label down a column at the side.
+The lists under a rubric — the principles, the notes, the ways in — centre their label and their
+headline under it rather than running the label down a column at the side. Nothing is ruled off:
+no line under a rubric, none between one entry and the next, none under a row of particulars. The
+spacing carries it.
 
 `.lede` — the preamble that opens a page — is set in the display face too, so a page opens the way
 a card does and Georama picks up again underneath it. The small label over each entry in a list —
@@ -284,7 +289,7 @@ To pin the site to one colour, return a constant from the layout load instead of
 All centred on one axis, in `src/app.css`:
 
 - `--column` (38rem) — running text
-- `--band` (44rem) — cards, decks, and the rules above each section
+- `--band` (44rem) — cards, decks, and the rubric above each section
 - `--page` (80rem) — the widest the page gets, and what a full-bleed plate spans
 - `--gutter` (1rem) — the page's padding, on every edge, and the inset of a card on its plate
 - `--gap` — space between cards in a deck, and `--stack` between sections. Not padding, so they

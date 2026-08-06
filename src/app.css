@@ -54,9 +54,8 @@
 	--card: var(--tint);
 	--ink: var(--shade);
 
-	/* Both derived from the ink, so they follow it into dark mode. */
+	/* Derived from the ink, so it follows it into dark mode. */
 	--ink-soft: color-mix(in srgb, var(--ink) 70%, transparent);
-	--rule: color-mix(in srgb, var(--ink) 18%, transparent);
 
 	/* Three faces with one job each: Georama sets the running text,
 	   Spectral every heading and every card, and Spectral SC the one
@@ -238,15 +237,12 @@ textarea {
 	gap: 0;
 }
 
+/* Nothing between one entry and the next but the space itself — the
+   list is held together by its own rhythm rather than by ruling. */
 .entry {
 	display: grid;
 	gap: 0.4rem 2rem;
 	padding-block: clamp(1.25rem, 3vw, 2rem);
-	border-top: 1px solid var(--rule);
-}
-
-.entry:last-child {
-	border-bottom: 1px solid var(--rule);
 }
 
 /* The label sits above the title on the entry's centre line rather than
@@ -297,7 +293,6 @@ textarea {
 	align-items: baseline;
 	gap: 0.25em 1.5em;
 	padding-block: 0.6em;
-	border-bottom: 1px solid var(--rule);
 }
 
 .facts dt {

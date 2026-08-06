@@ -4,9 +4,12 @@
 
 	type Props = {
 		project: Project;
-		label?: string;
 		heading?: 'h1' | 'h2' | 'h3';
 		orientation?: 'portrait' | 'landscape';
+		/** A card that is pointing somewhere rather than presenting a
+		    project: the headline drops a size and the name is set upright,
+		    since it is a signpost and not a title page. */
+		quiet?: boolean;
 		/** Off when the card is the project it sits on — a page should not
 		    link to itself. */
 		link?: boolean;
@@ -18,9 +21,9 @@
 
 	let {
 		project,
-		label,
 		heading = 'h2',
 		orientation = 'portrait',
+		quiet = false,
 		link = true,
 		morph = true
 	}: Props = $props();
@@ -34,15 +37,14 @@
 	{#snippet top()}
 		<!-- The name carries the heading: the headline below is the bigger
 		     type, but the project is what this card is. -->
-		<svelte:element this={heading} class="eyebrow italic">{project.title}</svelte:element>
+		<svelte:element this={heading} class="eyebrow {quiet ? '' : 'italic'}">
+			{project.title}
+		</svelte:element>
 	{/snippet}
 	{#snippet middle()}
-		<p class="title">{project.headline}</p>
+		<p class={quiet ? 'title--small' : 'title'}>{project.headline}</p>
 	{/snippet}
 	{#snippet bottom()}
-		{#if label}
-			<p class="meta">{label}</p>
-		{/if}
 		{#if project.url}
 			<p class="meta">{project.url}</p>
 		{/if}

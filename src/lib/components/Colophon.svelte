@@ -104,4 +104,14 @@
 	.word {
 		display: block;
 	}
+
+	/* Only small where the card is: on a desktop the footer's cards have the
+	   room to carry the same 2rem as every other card. Kept here rather than
+	   in Card so a small card elsewhere — the pair at the foot of a project
+	   page — stays small at every width. */
+	@media (min-width: 60rem) {
+		.colophon :global(.title--small) {
+			font-size: 2rem;
+		}
+	}
 </style>
