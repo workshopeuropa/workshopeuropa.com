@@ -25,7 +25,7 @@
 		</Card>
 	</Deck>
 
-	<Deck columns={2}>
+	<Deck columns={2} collapse={false}>
 		<Card orientation="portrait" href="/projects">
 			{#snippet top()}
 				<p class="eyebrow italic">Projects</p>
@@ -51,7 +51,7 @@
 				<CardNav />
 			{/snippet}
 			{#snippet middle()}
-				<p class="title">
+				<p class="title italic">
 					{#each words as word (word)}
 						<span class="word">{word}</span>
 					{/each}

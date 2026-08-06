@@ -160,6 +160,11 @@
 		font-weight: 500;
 		line-height: 1.05;
 		letter-spacing: -0.01em;
+		/* A word longer than its column hyphenates rather than hanging out
+		   of the card — two columns on a phone leave about eight characters
+		   a line at this size. */
+		hyphens: auto;
+		overflow-wrap: anywhere;
 	}
 
 	.card :global(.title) {
