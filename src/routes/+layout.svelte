@@ -3,6 +3,7 @@
 	import '@fontsource/georama/500-italic.css';
 	import '@fontsource/spectral/500.css';
 	import '@fontsource/spectral/500-italic.css';
+	import '@fontsource/spectral-sc/500.css';
 	import '../app.css';
 
 	import Colophon from '$lib/components/Colophon.svelte';

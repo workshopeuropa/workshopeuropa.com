@@ -47,9 +47,12 @@
 	--ink-soft: color-mix(in srgb, var(--ink) 70%, transparent);
 	--rule: color-mix(in srgb, var(--ink) 18%, transparent);
 
-	/* Georama sets the running text; Spectral stays on the cards. */
+	/* Three faces with one job each: Georama sets the running text,
+	   Spectral every heading and every card, and Spectral SC the one
+	   heading that is set in caps. */
 	--font-body: 'Georama', 'Helvetica Neue', Arial, sans-serif;
 	--font-display: 'Spectral', 'Iowan Old Style', 'Times New Roman', serif;
+	--font-caps: 'Spectral SC', var(--font-display);
 
 	--radius: clamp(1.1rem, 2.2vw, 1.9rem);
 	/* The page's padding, on every edge. */
@@ -111,6 +114,13 @@ figure,
 ul,
 ol {
 	margin: 0;
+}
+
+/* Every heading is Spectral; a card sets the face for its own contents. */
+h1,
+h2,
+h3 {
+	font-family: var(--font-display);
 }
 
 ul,
