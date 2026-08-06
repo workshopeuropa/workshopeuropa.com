@@ -39,6 +39,9 @@
 			(pill) => getComputedStyle(pill).viewTransitionName !== 'none'
 		);
 
+		/** Where we are coming from, for the mirror of that on the way back. */
+		const leaving = navigation.from?.url.pathname;
+
 		return new Promise((resolve) => {
 			const transition = document.startViewTransition(async () => {
 				if (rides) document.documentElement.dataset.pillRides = '';
@@ -55,12 +58,36 @@
 					el.style.viewTransitionName = el.dataset.morph ?? '';
 					delete el.dataset.handoff;
 				}
+
+				/* The other way round: landing on a page that is in none of the
+				   sections leaves the pill you set off with nothing to land on,
+				   so it would fade out where it stood while the card carried on
+				   without it. Give the name to the invisible pill on the item
+				   you came from and it falls with the card and goes out there
+				   instead. The mirror of what CardNav does on the way up. */
+				if (leaving) {
+					const pills = [...document.querySelectorAll<HTMLElement>('#main [data-pill]')];
+					const landed = pills.some((pill) => getComputedStyle(pill).viewTransitionName !== 'none');
+					const home = pills.find((pill) => {
+						const href = pill.closest('a')?.getAttribute('href');
+						return href && (leaving === href || leaving.startsWith(href + '/'));
+					});
+					if (!landed && home) {
+						home.style.viewTransitionName = 'nav-pill';
+						home.dataset.fell = '';
+					}
+				}
 			});
 
 			/* Lowered once the animation is over, not when the callback ends:
-			   the flag has to still be up when the new state is captured. */
+			   the flag and the name have to still be there when the new state
+			   is captured. */
 			transition.finished.finally(() => {
 				delete document.documentElement.dataset.pillRides;
+				for (const pill of document.querySelectorAll<HTMLElement>('[data-fell]')) {
+					pill.style.viewTransitionName = '';
+					delete pill.dataset.fell;
+				}
 			});
 		});
 	});

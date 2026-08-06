@@ -70,6 +70,7 @@ chopping, and `overflow-wrap: break-word` still catches a word that genuinely ca
 
 Italic is the wordmark and nothing else. Only Spectral's 500 italic is loaded, so anything that
 asks for italic elsewhere gets a synthesised slant — which is the point: ask deliberately.
+
 `Deck.svelte` lays cards out — one or two columns, collapsing to one on small screens, and centring
 rather than leaving a hole when there is a single card. A firm deck (`collapse={false}`) keeps its
 columns all the way down and stretches them level, so a card that outgrows the ratio takes its
@@ -130,11 +131,16 @@ instead of being cut away:
 | `masthead` | The page header — full height everywhere, half height on a project page |
 | `colophon` | The card at the foot of the footer |
 | `project-<slug>` | A project's card: portrait on the index, landscape at the top of its own page |
-| `nav-pill`, `nav-pill-foot` | The pill on the current nav item, sliding to the next section |
+| `nav-pill` | The pill on the current nav item, sliding to the next section |
 
 The group animates over 320ms while the type on a card crosses over in the first 150, so what you
 watch is the card travelling rather than two sets of type lying on top of each other the whole way.
 The page underneath cross-fades in 180ms, faster than the cards moving across it.
+
+The curve is eased at both ends rather than launched. It used to be `cubic-bezier(0.2, 0, 0, 1)`,
+which put 63% of the journey in its first 113ms — fine over the few pixels a card grows by, but over
+the width of a card it reads as a jump followed by a creep, and the marker sliding between two nav
+items looked as though it were not animating at all.
 
 The masthead is the exception, because it is the one card that changes shape rather than place: full
 height on most pages, half on a project page. By default a snapshot is drawn at its own height and
@@ -183,6 +189,11 @@ there hands its own invisible pill the name, so the marker travels out of the wo
 fades up on the way, instead of being set down at its destination while the card is still arriving.
 `CardNav` does that in the click handler, for the same reason `Colophon` does its hand-over there:
 it has to be true before the navigation is snapshotted.
+
+The way back is the mirror: landing on a page that is in none of the sections leaves the pill you set
+off with nothing to land on, so the layout gives the name to the invisible pill on the item you came
+from and it falls with the card and goes out there, instead of fading where it stood while the card
+carried on without it.
 
 There is one way left to leave the front page without arming a pill — by a footer card rather than
 the nav. The layout notices that nothing holds the name, raises `data-pill-rides` on `<html>` for
