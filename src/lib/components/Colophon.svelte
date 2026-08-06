@@ -118,7 +118,13 @@
 	<Deck columns={1}>
 		<Card orientation="landscape" masthead morph="colophon">
 			{#snippet top()}
-				<CardNav marker="nav-pill-foot" />
+				<!-- No name on this one. The two footers sit at different
+				     depths down two pages of different lengths, and the scroll
+				     resets on the way, so a named pill here swept thousands of
+				     pixels down the page on every navigation — the curve you
+				     see out of the corner of your eye. Sliding the marker is a
+				     header gesture; down here it simply changes over. -->
+				<CardNav />
 			{/snippet}
 			{#snippet middle()}
 				<p class="title italic">

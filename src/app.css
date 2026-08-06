@@ -342,6 +342,15 @@ textarea {
 	animation-timing-function: linear;
 }
 
+/* Coming from the front page there is no pill to slide from — no section
+   is current there — so the new one simply appears. Given the group's own
+   duration it settles as the card arrives, rather than snapping into place
+   while the card is still moving under it. */
+::view-transition-old(nav-pill),
+::view-transition-new(nav-pill) {
+	animation-duration: 320ms;
+}
+
 /* The header card is the one that changes shape: full height on most
    pages, half on a project page. By default both snapshots are drawn at
    their own height and pinned to the top of the box, so a card halving
