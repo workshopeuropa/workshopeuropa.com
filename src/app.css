@@ -4,6 +4,17 @@
    portrait or landscape, laid on paper.
    --------------------------------------------------------------- */
 
+/* The card's padding, published so anything inside can measure itself off
+   it. Registered rather than left as a plain custom property so it resolves
+   to a length once, on the card, and inherits as that length: the card's own
+   container units answer to the shell, a descendant's answer to the card, and
+   an unregistered property would re-resolve at each and quietly disagree. */
+@property --pad {
+	syntax: '<length>';
+	inherits: true;
+	initial-value: 0px;
+}
+
 :root {
 	/* The ratio. Everything else is built around it. */
 	--ratio: 1.41421;

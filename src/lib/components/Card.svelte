@@ -179,6 +179,14 @@
 		font-size: 1.5rem;
 	}
 
+	/* Only small where the card is: on a desktop the footer's cards have
+	   the room to carry the same 2rem as every other card. */
+	@media (min-width: 60rem) {
+		.card :global(.title--small) {
+			font-size: 2rem;
+		}
+	}
+
 	.card :global(.italic) {
 		font-style: italic;
 	}

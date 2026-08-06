@@ -37,7 +37,9 @@
 {#snippet headline(section: (typeof sections)[number])}
 	<p class="title--small">
 		{#if section.lines}
-			{#each section.lines as line, i (line)}{#if i}<br />{/if}{line}{/each}
+			<!-- The space keeps the headline one string to copy or read out;
+			     it collapses at the break. -->
+			{#each section.lines as line, i (line)}{#if i}{' '}<br />{/if}{line}{/each}
 		{:else}
 			{section.title}
 		{/if}

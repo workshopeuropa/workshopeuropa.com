@@ -61,7 +61,9 @@
 		{#if title}
 			<svelte:element this={heading} class="title">
 				{#if lines}
-					{#each lines as line, i (line)}{#if i}<br />{/if}{line}{/each}
+					<!-- The space keeps the headline one string to copy or read
+				     out; it collapses at the break. -->
+				{#each lines as line, i (line)}{#if i}{' '}<br />{/if}{line}{/each}
 				{:else}
 					{title}
 				{/if}
