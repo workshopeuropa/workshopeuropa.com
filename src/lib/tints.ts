@@ -60,7 +60,15 @@ export function shadeHue(tint: Tint) {
 	return colder(tint.hue);
 }
 
-/** The one a page shows. Every card on that page shares it. */
-export function pickTint(): Tint {
-	return tints[Math.floor(Math.random() * tints.length)];
+/** Where the walk begins: Lime, the colour the site started from. */
+export const START = tints.findIndex((tint) => tint.hue === 75);
+
+/**
+ * The next colour along. Pages step round the wheel one stop at a time
+ * rather than jumping about, so moving through the site reads as a
+ * progression instead of a shuffle.
+ */
+export function stepTint(previous: number | null): { index: number; tint: Tint } {
+	const index = previous === null ? START : (previous + 1) % tints.length;
+	return { index, tint: tints[index] };
 }

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import '@fontsource/georama/500.css';
+	import '@fontsource/georama/500-italic.css';
 	import '@fontsource/spectral/500.css';
 	import '@fontsource/spectral/500-italic.css';
 	import '../app.css';

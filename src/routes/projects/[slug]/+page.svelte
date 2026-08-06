@@ -29,17 +29,16 @@
 	<ProjectCard {project} orientation="landscape" heading="h1" link={false} />
 </Deck>
 
-<!-- Only when there is body copy: the summary is already the last line of
-     the card above, and printing it again is not a paragraph. -->
-{#if project.body?.length}
-	<section class="section">
-		<div class="text">
-			{#each project.body as paragraph, i (paragraph)}
-				<p class={i === 0 ? 'lede' : ''}>{paragraph}</p>
-			{/each}
-		</div>
-	</section>
-{/if}
+<!-- The description opens the page: the card carries the url now, so this
+     is where it says what the project actually is. -->
+<section class="section">
+	<div class="text">
+		<p class="lede">{project.summary}</p>
+		{#each project.body ?? [] as paragraph (paragraph)}
+			<p>{paragraph}</p>
+		{/each}
+	</div>
+</section>
 
 <!-- Only the particulars this project actually has; nothing at all if it
      has none, rather than a rule over an empty list. -->

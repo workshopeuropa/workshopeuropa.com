@@ -8,8 +8,12 @@ export type Project = {
 	title: string;
 	/** The claim the project makes, in the big type on its card. */
 	headline: string;
-	/** What it actually is, at the foot of the card and as the meta description. */
+	/** What it actually is. Opens the project page and serves as the meta
+	    description; the card carries the url instead. */
 	summary: string;
+	/** At the foot of the card. Plain text, since the card is already a link
+	    and a link inside a link is not valid. */
+	url?: string;
 	/** A full-width image for the card to sit on. */
 	image?: { src: string; alt: string };
 	/** The project page, one paragraph per string. */
@@ -34,6 +38,7 @@ export const projects: Project[] = [
 		headline: 'Made in Europe, owned by you',
 		summary:
 			'A creator platform on open protocols — your audience travels with you.',
+		url: 'vionio.com',
 		image: {
 			src: '/media/vionio.svg',
 			alt: 'A creator’s following moving between two servers, the connection unbroken.'
