@@ -75,7 +75,7 @@
 	<Deck columns={1}>
 		<Card orientation="landscape" masthead morph="colophon">
 			{#snippet top()}
-				<CardNav />
+				<CardNav marker="nav-pill-foot" />
 			{/snippet}
 			{#snippet middle()}
 				<p class="title italic">
