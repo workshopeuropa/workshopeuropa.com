@@ -310,6 +310,41 @@ textarea {
 	text-underline-offset: 0.2em;
 }
 
+/* ---------------------------------------------------------------
+   Page transitions
+
+   A card that names itself in `morph` is lifted out of both pages and
+   tweened between the two positions: the header card from full height to
+   half on a project page, a project's card from the portrait one on the
+   index to the landscape one at the top of its own page. The rest of the
+   page cross-fades under them, faster, so the cards read as the thing
+   that carried over.
+
+   The layout only starts the transition; every duration is here.
+   --------------------------------------------------------------- */
+
+::view-transition-group(*) {
+	animation-duration: 320ms;
+	animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* What is written on a card changes over in the first half of the move,
+   so what you watch is the card travelling rather than two sets of type
+   lying on top of each other the whole way. */
+::view-transition-old(*),
+::view-transition-new(*) {
+	animation-duration: 150ms;
+	animation-timing-function: linear;
+}
+
+/* The page underneath changes over before the cards have finished
+   moving across it. Declared after the rules above so it wins on order. */
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+
 .visually-hidden {
 	position: absolute;
 	width: 1px;

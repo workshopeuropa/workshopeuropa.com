@@ -13,12 +13,32 @@
 	import '@fontsource/spectral-sc/500.css';
 	import '../app.css';
 
+	import { onNavigate } from '$app/navigation';
 	import Colophon from '$lib/components/Colophon.svelte';
 	import { shadeHue } from '$lib/tints';
 	import type { Snippet } from 'svelte';
 	import type { LayoutData } from './$types';
 
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
+
+	/* Hand the navigation to the browser so it can tween between the two
+	   pages rather than swapping them. Cards that name themselves travel to
+	   where their counterpart sits on the next page; everything else
+	   cross-fades. The animation itself is in app.css.
+
+	   Nothing here is load-bearing: without the API, or with motion turned
+	   down, the navigation happens exactly as it did before. */
+	onNavigate((navigation) => {
+		if (!document.startViewTransition) return;
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+		return new Promise((resolve) => {
+			document.startViewTransition(async () => {
+				resolve();
+				await navigation.complete;
+			});
+		});
+	});
 
 	/* The page's hue, and the same hue moved towards the cold pole. Set on
 	   :root rather than the shell so the page background takes it too — the
