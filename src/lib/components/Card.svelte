@@ -60,6 +60,7 @@
 		class:card--masthead={masthead}
 		class:card--half={half}
 		style:view-transition-name={morph}
+		data-morph={morph}
 		{href}
 	>
 		{@render body()}
@@ -71,6 +72,7 @@
 		class:card--masthead={masthead}
 		class:card--half={half}
 		style:view-transition-name={morph}
+		data-morph={morph}
 	>
 		{@render body()}
 	</article>
