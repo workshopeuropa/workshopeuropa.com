@@ -248,12 +248,11 @@ textarea {
 /* The label sits above the title on the entry's centre line rather than
    off in a column down the side — the rubric over the list is centred, and
    a label pinned left would be the only thing in the section that is not. */
-/* Spectral italic: the date over a note, and the numbering over a
-   principle, are captions rather than running text. */
+/* Spectral: the date over a note, and the numbering over a principle,
+   are captions rather than running text. */
 .entry__label {
 	font-family: var(--font-display);
 	font-size: 0.9rem;
-	font-style: italic;
 	letter-spacing: 0;
 	color: var(--ink-soft);
 	padding-top: 0.3em;
@@ -296,7 +295,6 @@ textarea {
 }
 
 .facts dt {
-	font-style: italic;
 	color: var(--ink-soft);
 }
 

@@ -3,11 +3,8 @@
 	   cards, rubrics. Both weights of both faces, or the browser synthesises
 	   the missing one. */
 	import '@fontsource/georama/400.css';
-	import '@fontsource/georama/400-italic.css';
 	import '@fontsource/georama/500.css';
-	import '@fontsource/georama/500-italic.css';
 	import '@fontsource/spectral/400.css';
-	import '@fontsource/spectral/400-italic.css';
 	import '@fontsource/spectral/500.css';
 	import '@fontsource/spectral/500-italic.css';
 	import '@fontsource/spectral-sc/500.css';
