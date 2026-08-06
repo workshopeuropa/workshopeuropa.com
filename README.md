@@ -77,27 +77,29 @@ between them. The page you are on wears a marker in `--ink` with `--card` as the
 pairing as text on a card, inverted, so it holds 5.45:1 at worst in either mode. The marker is a
 capsule, and the card's rim is measured from it.
 
-A capsule of radius r sits concentric inside a corner of radius R when it is inset by `R - r`, far
-less than the card's padding. The card publishes that inset as `--rim`, and a masthead lays its
-outer bands on it — the wordmark at the head, the nav at the foot, the line of copyright under the
-colophon's — so everything against an edge keeps the same distance from it as the pill's own curve
-does. The middle band keeps the padding, since nothing there is against an edge.
+A capsule of radius r sits concentric inside a corner of radius R when it is inset by `R - r`. The
+card has one inset — its padding — and everything sits on it: the wordmark at the head, the nav at
+the foot, the line of copyright under the colophon's, the headline in between. So the corner is cut
+to fit what sits in it, rather than the other way round:
 
 ```css
---pill-h: 1.6rem;                                       /* the nav's pill */
---rim: max(0px, calc(var(--radius) - var(--pill-h) / 2));
+--nav-size: clamp(0.9rem, 4.4vw, 1rem);        /* the nav's type */
+--pill-h: calc(var(--nav-size) * 1.6);         /* 1.2 of line, 0.2em either side */
+--radius: calc(var(--pad) + var(--pill-h) / 2);
 ```
 
-Both the rounding and the inset come off `--pill-h`, so they cannot fall out of step; it is in rem
-rather than em because the card's own font-size is not the nav's. Every edge lands on `--rim`
-exactly — 4.8px on a phone, 15.4px at 1280, against the 17.6 to 44px of padding everything else in
-the card sits behind.
+Everything comes off those two numbers, so nothing can fall out of step: at 1280 the padding is 44px,
+the pill's radius 12.8, and the card's corner 56.8 — the difference is the padding exactly, at every
+width the site runs at. `--nav-size` is set on the card rather than in the nav because the corner is
+cut from it, and in `vw` rather than `cqi` so both places resolve it against the same thing. Four
+labels at full size do not fit a card narrower than about 364px, which is the only reason it is not
+a constant.
 
 `--pad` is why the card registers its padding with `@property` rather than leaving it a plain custom
 property. It is written in `cqi`, and an element is not its own query container: on the card those
 units answer to `.shell`, on a descendant they answer to the card. Registered as a `<length>` it
-resolves once, on the card, and inherits as that length — otherwise a band computes a different
-padding from the one the card is actually using, and the rim drifts by as much as 16px.
+resolves once, on the card, and inherits as that length — otherwise a child computes a different
+padding from the one the card is actually using, and the two curves drift apart.
 
 `Colophon.svelte` builds the footer from the same four sections, in a fixed order, minus whichever
 one you are on: the first becomes a landscape card across the top, the other two a portrait pair
@@ -257,7 +259,8 @@ All centred on one axis, in `src/app.css`:
 - `--gap` — space between cards in a deck, and `--stack` between sections. Not padding, so they
   keep their own measure rather than collapsing to 1rem with the page.
 
-Tokens — the ratio, the tints, the radius — live at the top of the same file.
+Tokens — the ratio, the tints, the faces — live at the top of the same file. The card's corner is
+not among them: it is derived, in `Card.svelte`, from the card's own padding.
 
 ## Editing the content
 
