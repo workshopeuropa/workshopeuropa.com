@@ -35,7 +35,7 @@ export const projects: Project[] = [
 	{
 		slug: 'vionio',
 		title: 'Vionio',
-		headline: 'Creator platform on open protocols',
+		headline: 'Dual protocol social platform',
 		summary:
 			'A creator platform on open protocols — your audience travels with you.',
 		url: 'vionio.com',
