@@ -1,41 +1,48 @@
 /** The About page, in one place. */
 
-/**
- * The headline, broken where a card should break it. Two lines at every
- * width — on a wide card it would otherwise set as one long line and stop
- * looking like the rest of the set. `title` is joined back up from this, so
- * the two cannot drift apart.
- */
-export const aboutTitleLines = ['Independence', 'is infrastructure'];
-
 export const about = {
-	title: aboutTitleLines.join(' '),
-	subtitle: 'Workshop Europa',
-	body: [
-		'Workshop Europa is a small design workshop. It exists because the two ways of making things that were on offer — the agency and the platform — both ask you to work faster than the work deserves.',
-		'A workshop is the older arrangement. A bench, a few people around it, a small number of commissions taken on at a time, and an apprentice who is there long enough to learn something. The tools have changed; the arrangement still works.',
-		'We design and build digital things end to end: the idea, the identity, the interface and the software underneath it. We prefer projects we can finish, clients who want to be in the room, and formats that will still open in ten years.'
-	],
-	facts: [
-		{
-			label: 'What',
-			title: 'Design and build',
-			note: 'Identity, interface, and the software underneath — done by the same hands.'
-		},
-		{
-			label: 'How',
-			title: 'A few at a time',
-			note: 'Three or four commissions a year, shown in progress from the first week.'
-		},
-		{
-			label: 'Who',
-			title: 'A bench, not a staff',
-			note: 'A permanent core, plus two apprentices a year through Bottega.'
-		},
-		{
-			label: 'Where',
-			title: 'Europe',
-			note: 'Wherever the bench is. Correspondence by post, four times a year.'
-		}
-	]
+	title: 'Why this exists.',
+
+	/** Section one: the argument, and the claim it lands on. */
+	argument: {
+		body: [
+			'Software you depend on can be sold, closed, or quietly turned against you. Not because anyone is a villain, but because the money usually comes from somewhere other than you.',
+			'Europe has spent a decade regulating the symptoms and almost no time building the alternative. Workshop Europa is a small attempt at the second thing: build the software, publish the commitments, and keep a public list of everyone else doing the same.'
+		],
+		claim: 'Independence is infrastructure.'
+	},
+
+	/** Section two: a typographic device, not a language switcher. The words
+	    link to nothing. */
+	languages: {
+		words: ['Bottega', 'Atelier', 'Verkstad', 'Werkstatt', 'Warsztat', 'Workshop'],
+		line: 'Same room, same bench, six languages.'
+	},
+
+	/** Section three: where the name comes from, both ways. */
+	europa: {
+		body: [
+			'Europa was carried across the sea and gave the continent its name. Europa was also the name of Europe’s first launcher programme, in the 1960s — an attempt, mostly unsuccessful, to reach orbit without depending on anyone else’s rockets.',
+			'Both readings are the point. The second one more than the first.'
+		]
+	},
+
+	/** Section four: how it is run, which is the only reason the register is
+	    worth reading. */
+	run: {
+		body: [
+			'Workshop Europa is a name, not an institution. It publishes a handful of products and it keeps the register.',
+			'There’s no approval step, no fee, and no board. Adding yourself to the register doesn’t go through anyone. Our own projects are listed on the same terms as everyone else’s, which is the only reason the list is worth reading.',
+			'If the register outgrows one person looking after it, stewardship moves to an association. That’s a promise about structure, not about intent.'
+		]
+	},
+
+	/** Section five: one paragraph and one outbound link. The biography lives
+	    on alfrednerstu.com — this site is the umbrella, not the CV. */
+	who: {
+		before: 'Started in Copenhagen by ',
+		link: { label: 'Alfred Nerstu', href: 'https://alfrednerstu.com' },
+		after:
+			', an independent designer and developer. Twenty years of work for other people’s brands, turned toward software that answers to the people using it.'
+	}
 };

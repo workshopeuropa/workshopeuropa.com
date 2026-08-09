@@ -94,11 +94,12 @@
 		/* The nav's type, and the pill it makes: 1.2 of line and 0.2em of
 		   padding above and below, so 1.6 times the size. Set here rather
 		   than in the nav because the corner below is cut from it, and the
-		   card's own font-size is not the nav's. 1rem from 364px up; four
-		   labels do not fit a narrower card than that at full size, and in
-		   vw rather than cqi so both places resolve it against the same
-		   thing. */
-		--nav-size: clamp(0.9rem, 4.4vw, 1rem);
+		   card's own font-size is not the nav's. In vw rather than cqi so both
+		   places resolve it against the same thing. Six labels wrap on a
+		   narrow card rather than shrink, so the floor is the smallest size
+		   the nav is still comfortable to press at rather than the size at
+		   which the whole row happens to fit. */
+		--nav-size: clamp(0.8rem, 3.2vw, 1rem);
 		--pill-h: calc(var(--nav-size) * 1.6);
 		/* The corner is cut to fit what sits in it, rather than the other way
 		   round: a capsule of half --pill-h, inset by the padding, is
@@ -219,10 +220,13 @@
 		font-style: italic;
 	}
 
+	/* Set down a size, not down a tone. A card's ink and its fill are only
+	   5.45:1 apart at the closest hue on the scale, so there is no room on a
+	   card to soften text and still clear AA — 72% of the ink landed at 3.15,
+	   and anything that does clear 4.5 is too close to the ink to read as a
+	   different tone at all. The size difference does the work instead. */
 	.card :global(.meta) {
 		font-size: 0.875rem;
-		/* Follows whatever ink the card is using rather than the page's. */
-		color: color-mix(in srgb, currentColor 72%, transparent);
 	}
 
 	.card :global(.prose) {
@@ -233,6 +237,21 @@
 		margin-inline: auto;
 		display: grid;
 		gap: 0.85em;
+	}
+
+	/* A card's contrast pair is ink on card, not ink on paper, so a button
+	   sitting on one inverts to the card's own fill rather than the page's —
+	   the same pairing as the nav's pill, which is filled the same way. */
+	.card :global(.action:hover),
+	.card :global(.action--lead) {
+		color: var(--card);
+	}
+
+	/* One class deeper than the rule above, so the lead's hover — which
+	   empties the fill rather than laying one on — still gets the ink back
+	   instead of drawing the card's colour on the card. */
+	.card :global(.action--lead:hover) {
+		color: var(--ink);
 	}
 
 	/* The masthead's wordmark is the one italic in the set. */

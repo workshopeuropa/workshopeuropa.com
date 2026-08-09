@@ -17,6 +17,11 @@
 		    name has to be unique in the document, and two cards claiming one
 		    cancel the whole transition. */
 		morph?: boolean;
+		/** The card carries the project's status and its calls to action, and
+		    stops being one big link so it can hold them: a link inside a link
+		    is not valid, and the point of a call to action is that it goes
+		    somewhere the card does not. */
+		cta?: boolean;
 	};
 
 	let {
@@ -25,7 +30,8 @@
 		orientation = 'portrait',
 		quiet = false,
 		link = true,
-		morph = true
+		morph = true,
+		cta = false
 	}: Props = $props();
 
 	/* The name the browser follows from the index to the project's own page.
@@ -44,25 +50,51 @@
 
 	let names = $derived(parts(project.title));
 	let urls = $derived(project.url ? parts(project.url) : []);
+	/** The whole card is the link only where it is not carrying its own. */
+	let href = $derived(cta || !link ? undefined : `/projects/${project.slug}`);
 </script>
 
 {#snippet series(items: string[])}
 	{#each items as item (item)}<span class="part">{item}</span>{/each}
 {/snippet}
 
-<Card {orientation} morph={name} href={link ? `/projects/${project.slug}` : undefined}>
+<Card {orientation} morph={name} {href}>
 	{#snippet top()}
 		<!-- The name carries the heading: the headline below is the bigger
-		     type, but the project is what this card is. -->
+		     type, but the project is what this card is. On a card holding its
+		     own calls to action the name is the way in to the project's page,
+		     since the card itself is no longer a link. -->
 		<svelte:element this={heading} class="eyebrow series">
-			{@render series(names)}
+			{#if cta && link}
+				<a class="name" href="/projects/{project.slug}">{@render series(names)}</a>
+			{:else}
+				{@render series(names)}
+			{/if}
 		</svelte:element>
+		{#if cta}
+			<p class="meta">{project.status}</p>
+		{/if}
 	{/snippet}
 	{#snippet middle()}
 		<p class={quiet ? 'title--small' : 'title'}>{project.headline}</p>
 	{/snippet}
 	{#snippet bottom()}
-		{#if urls.length}
+		{#if cta}
+			<p class="actions">
+				{#each project.ctas as action, i (action.href)}
+					<a
+						class="action {i === 0 ? 'action--lead' : ''}"
+						href={action.href}
+						rel={action.external ? 'noreferrer' : undefined}
+					>
+						{action.label}
+					</a>
+				{/each}
+			</p>
+			{#if project.note}
+				<p class="meta">{project.note}</p>
+			{/if}
+		{:else if urls.length}
 			<p class="meta series">{@render series(urls)}</p>
 		{/if}
 	{/snippet}
@@ -77,6 +109,16 @@
 		font-size: 0.55em;
 		vertical-align: 0.18em;
 		margin-inline: 0.5em;
+	}
+
+	/* The name is a link on a card that is not one. It lightens rather than
+	   ruling under itself, the way the wordmark in the masthead does. */
+	.name {
+		transition: color 140ms ease;
+	}
+
+	.name:hover {
+		color: color-mix(in srgb, currentColor 65%, transparent);
 	}
 
 	/* Half-width cards on a phone have no room for a run of names on one
