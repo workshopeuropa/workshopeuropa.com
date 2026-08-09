@@ -1,9 +1,9 @@
 <script lang="ts">
 	import HeaderCard from '$lib/components/HeaderCard.svelte';
 	import Plate from '$lib/components/Plate.svelte';
-	import Rubric from '$lib/components/Rubric.svelte';
-	import { formatDate, news, principles, site } from '$lib/content/site';
-	import { projects } from '$lib/content/projects';
+	import { commitments, commitmentsSummary } from '$lib/content/commitments';
+	import { registerSummary } from '$lib/content/register';
+	import { links, site } from '$lib/content/site';
 </script>
 
 <svelte:head>
@@ -15,68 +15,64 @@
 	<HeaderCard title={site.tagline} />
 </Plate>
 
-<section class="section" aria-labelledby="principles">
-	<Rubric id="principles">Principles</Rubric>
+<!-- The wedge. Every other list of European software sorts by jurisdiction —
+     where it is hosted, who owns it, where the data sits. This one sorts by
+     structure, and the two lines are the whole difference. -->
+<section class="section">
+	<p class="lede wedge">
+		{#each site.wedge as line, i (line)}{#if i}<br />{/if}{line}{/each}
+	</p>
 
-	<div class="entries">
-		{#each principles as entry, i (entry.title)}
-			<article class="entry">
-				<p class="entry__label">
-					{String(i + 1).padStart(2, '0')} / {String(principles.length).padStart(2, '0')}
-				</p>
-				<div>
-					<h3 class="entry__title">{entry.title}</h3>
-					<div class="entry__body">
-						{#each entry.body as paragraph (paragraph)}
-							<p>{paragraph}</p>
-						{/each}
-					</div>
-				</div>
-			</article>
-		{/each}
-	</div>
-</section>
-
-<section class="section" aria-labelledby="news">
-	<Rubric id="news">News</Rubric>
-
-	<div class="entries">
-		{#each news as item (item.title)}
-			<article class="entry">
-				<p class="entry__label">
-					<time datetime={item.date}>{formatDate(item.date)}</time>
-				</p>
-				<div>
-					<h3 class="entry__title">{item.title}</h3>
-					<div class="entry__body">
-						<p>{item.body}</p>
-					</div>
-				</div>
-			</article>
-		{/each}
-	</div>
-
-	<p class="more">
-		<a href="/news">All notes</a>
+	<p class="actions">
+		<a class="action action--lead" href="/commitments">Read the commitments</a>
+		<a class="action" href="/register">See the register</a>
+		<a class="action" href={links.matrix} rel="noreferrer">Open the room</a>
 	</p>
 </section>
 
-<section class="section" aria-labelledby="bench">
-	<Rubric id="bench">On the bench</Rubric>
+<!-- The titles only. The commitments themselves, and the tests that come
+     with them, are one page away and are not worth saying twice. -->
+<section class="section" aria-labelledby="commitments">
+	<h2 class="headline" id="commitments">{commitmentsSummary.title}</h2>
+	<p class="standfirst">{commitmentsSummary.note}</p>
 
-	<p class="more">
-		<a href="/projects">All {projects.length} projects</a>
+	<ul class="entries">
+		{#each commitments as commitment (commitment.slug)}
+			<li class="entry entry--single">
+				<p class="entry__label">{commitment.n}</p>
+				<h3 class="entry__title">
+					<a href="/commitments#{commitment.slug}">{commitment.title}</a>
+				</h3>
+			</li>
+		{/each}
+	</ul>
+</section>
+
+<section class="section" aria-labelledby="register">
+	<h2 class="headline" id="register">{registerSummary.title}</h2>
+	<p class="standfirst">{registerSummary.note}</p>
+
+	<p class="actions">
+		<a class="action action--lead" href="/register">See the register</a>
+		<a class="action" href="/join#register">Add yourself</a>
 	</p>
 </section>
 
-<section class="section" aria-labelledby="join">
-	<Rubric id="join">Join</Rubric>
-
-	<div class="text">
-		<p class="lede">
-			Joining means the letter four times a year, and a place in the pile we read from when the
-			bench has room.
-		</p>
-		<p><a href="/join">Tell us what you make →</a></p>
-	</div>
+<section class="section">
+	<p class="pull">{site.pullQuote}</p>
 </section>
+
+<style>
+	/* Two lines, broken where they are written rather than where they fit —
+	   the second answers the first, and a break anywhere else loses that. */
+	.wedge {
+		text-align: center;
+		text-wrap: balance;
+	}
+
+	.entry--single .entry__title a {
+		text-decoration: underline;
+		text-decoration-thickness: from-font;
+		text-underline-offset: 0.2em;
+	}
+</style>

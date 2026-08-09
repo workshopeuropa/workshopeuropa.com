@@ -1,14 +1,17 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import HeaderCard from '$lib/components/HeaderCard.svelte';
+	import { site } from '$lib/content/site';
 </script>
 
 <svelte:head>
-	<title>{page.status} — Workshop Europa</title>
+	<title>{page.status} — {site.name}</title>
 </svelte:head>
 
-<HeaderCard title={String(page.status)} />
+<HeaderCard title="Nothing at this address." />
 
 <section class="section">
-	<p class="text"><a href="/">Back to the front page →</a></p>
+	<p class="actions">
+		<a class="action action--lead" href="/register">Back to the register</a>
+	</p>
 </section>
