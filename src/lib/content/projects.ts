@@ -29,8 +29,11 @@ export type Project = {
 	group: Group;
 	/** The word on the card. Short — the group heading says the rest. */
 	status: string;
-	/** Where the card points. One, except where a project has a reason for
-	    more: the CTA is the whole invitation, so a second is a decision. */
+	/** Where the card points. One each for now: the products' own sites do
+	    not have the routes a second would need yet, and two buttons landing
+	    on the same page is worse than one. The shape takes more when they do
+	    — a running project wants Pricing beside Open, a self-hostable one
+	    Source beside its docs, and Idun the two below. */
 	ctas: Cta[];
 	/** A line under the card, where a project needs one said out loud. */
 	note?: string;
@@ -71,10 +74,7 @@ export const projects: Project[] = [
 		summary: 'A creator platform on open protocols — your audience travels with you.',
 		group: 'running',
 		status: 'Running',
-		ctas: [
-			{ label: 'Open', href: 'https://vionio.com', external: true },
-			{ label: 'Pricing', href: 'https://vionio.com/pricing', external: true }
-		],
+		ctas: [{ label: 'Open', href: 'https://vionio.com', external: true }],
 		url: 'vionio.com',
 		image: {
 			src: '/media/vionio.svg',
@@ -88,10 +88,7 @@ export const projects: Project[] = [
 		summary: 'Open-source European hosting — run it on our cloud or your own hardware.',
 		group: 'self-hostable',
 		status: 'Self-hostable',
-		ctas: [
-			{ label: 'Read the docs', href: 'https://risved.org/docs', external: true },
-			{ label: 'Source', href: 'https://risved.org/source', external: true }
-		],
+		ctas: [{ label: 'Read the docs', href: 'https://risved.org', external: true }],
 		url: 'risved.org • risved.com',
 		image: {
 			src: '/media/risved.svg',
@@ -105,7 +102,10 @@ export const projects: Project[] = [
 		summary: 'A Nordic social platform where every account is verified with BankID or MitID.',
 		group: 'early',
 		status: 'Early',
-		ctas: [{ label: 'Follow along', href: '/news', external: false }],
+		/* Unicode rather than punycode, so the browser does the encoding: a
+		   hand-written xn-- is one transposed letter away from a domain
+		   somebody else owns. */
+		ctas: [{ label: 'Follow along', href: 'https://inlägg.com', external: true }],
 		url: 'inlägg.com • indlæg.com • innlegg.com',
 		image: {
 			src: '/media/inlagg.svg',
@@ -121,12 +121,10 @@ export const projects: Project[] = [
 		status: 'Early',
 		/* Never a sign-up. Idun is a specification other people implement, and
 		   an invitation to join it as a product would be the opposite of what
-		   commitment 5 asks of whoever stewards a shared layer. */
-		ctas: [
-			{ label: 'Read the spec', href: 'https://idun.org/spec', external: true },
-			{ label: 'Implement it', href: 'https://idun.org/implement', external: true },
-			{ label: 'Join the association', href: 'https://idun.org/association', external: true }
-		],
+		   commitment 5 asks of whoever stewards a shared layer. "Implement it"
+		   and "Join the association" belong beside this one and go back the
+		   moment idun.org has somewhere for them to land. */
+		ctas: [{ label: 'Read the spec', href: 'https://idun.org', external: true }],
 		note: 'Stewarded by Föreningen Idun — a non-profit association, so no single company can close it.',
 		url: 'idun.org',
 		image: {
