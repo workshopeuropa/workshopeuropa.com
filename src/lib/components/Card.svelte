@@ -94,12 +94,11 @@
 		/* The nav's type, and the pill it makes: 1.2 of line and 0.2em of
 		   padding above and below, so 1.6 times the size. Set here rather
 		   than in the nav because the corner below is cut from it, and the
-		   card's own font-size is not the nav's. In vw rather than cqi so both
-		   places resolve it against the same thing. Six labels wrap on a
-		   narrow card rather than shrink, so the floor is the smallest size
-		   the nav is still comfortable to press at rather than the size at
-		   which the whole row happens to fit. */
-		--nav-size: clamp(0.8rem, 3.2vw, 1rem);
+		   card's own font-size is not the nav's. 1rem from 364px up; four
+		   labels do not fit a narrower card than that at full size, and in
+		   vw rather than cqi so both places resolve it against the same
+		   thing. */
+		--nav-size: clamp(0.9rem, 4.4vw, 1rem);
 		--pill-h: calc(var(--nav-size) * 1.6);
 		/* The corner is cut to fit what sits in it, rather than the other way
 		   round: a capsule of half --pill-h, inset by the padding, is

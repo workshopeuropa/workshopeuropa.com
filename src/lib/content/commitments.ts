@@ -1,19 +1,23 @@
 /**
- * The five commitments.
+ * The five commitments. They are the front page: you get to them by pressing
+ * the wordmark in the header or the footer.
  *
- * No product is named on this page or in this file. Commitment 5 is the
- * argument a protocol makes, stated generally — naming the protocol inside a
- * standard other people sign turns a commitment into a moat.
+ * No product is named here. Commitment 5 is the argument a protocol makes,
+ * stated generally — naming the protocol inside a standard other people sign
+ * turns a commitment into a moat. What each project declares against these
+ * lives with the project, in projects.ts.
  */
 
 export type Commitment = {
 	/** 1–5. The number is part of how a commitment is referred to. */
 	n: number;
-	/** The anchor on /commitments, and what the register filters by. */
+	/** The anchor on the front page. A project's page links to it for each
+	    commitment it declares. */
 	slug: string;
 	/** The commitment itself. */
 	title: string;
-	/** The filter label and the register's indicator, without the number. */
+	/** The short label a project's declaration is listed under, without the
+	    number. */
 	short: string;
 	/** One paragraph per string. */
 	body: string[];
@@ -86,17 +90,11 @@ export const commitments: Commitment[] = [
 	}
 ];
 
-/** The h1, and the headline the footer's card carries. */
+/** The heading over the set on the front page. */
 export const commitmentsTitle = 'Five things, each with a test.';
 
 export const commitmentsIntro =
 	'Anyone can claim principles. These come with the conditions under which we’d have failed them.';
-
-/** The summary the front page carries, in place of the commitments themselves. */
-export const commitmentsSummary = {
-	title: 'Five things we hold to.',
-	note: 'Each one comes with a test. If we fail the test, say so publicly.'
-};
 
 export const commitmentsFooter =
 	'These are written to be repeated, not attributed. Take them, use them in your own voice, hold yourself to them. Nothing here names a company, and nothing here needs our permission.';

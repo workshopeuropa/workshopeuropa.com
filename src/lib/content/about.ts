@@ -27,13 +27,13 @@ export const about = {
 		]
 	},
 
-	/** Section four: how it is run, which is the only reason the register is
-	    worth reading. */
+	/** Section four: how it is run, which is the only reason a declaration
+	    here is worth reading. */
 	run: {
 		body: [
-			'Workshop Europa is a name, not an institution. It publishes a handful of products and it keeps the register.',
-			'There’s no approval step, no fee, and no board. Adding yourself to the register doesn’t go through anyone. Our own projects are listed on the same terms as everyone else’s, which is the only reason the list is worth reading.',
-			'If the register outgrows one person looking after it, stewardship moves to an association. That’s a promise about structure, not about intent.'
+			'Workshop Europa is a name, not an institution. It publishes a handful of products and it publishes the commitments they answer to.',
+			'There’s no approval step, no fee, and no board. The commitments are written to be repeated rather than attributed, so holding to them doesn’t go through anyone. Our own projects declare against them in public, and can be held to the same tests as anyone else.',
+			'If this outgrows one person looking after it, stewardship moves to an association. That’s a promise about structure, not about intent.'
 		]
 	},
 
