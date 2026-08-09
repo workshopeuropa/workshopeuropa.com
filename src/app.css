@@ -54,8 +54,13 @@
 	--card: var(--tint);
 	--ink: var(--shade);
 
-	/* Derived from the ink, so it follows it into dark mode. */
-	--ink-soft: color-mix(in srgb, var(--ink) 70%, transparent);
+	/* Derived from the ink, so it follows it into dark mode. 85% rather than
+	   70: the ink pairs with the paper at 7.33:1 at the closest hue on the
+	   scale, and 70% of it spent enough of that to land at 3.54 — under AA
+	   for a caption, a standfirst or a test that has to be readable. At 85%
+	   the worst hue on the wheel still clears 5.03:1 in both modes, and the
+	   tone is still visibly a step back from the ink. */
+	--ink-soft: color-mix(in srgb, var(--ink) 85%, transparent);
 
 	/* One face, set two ways: Spectral throughout, and the small caps it
 	   was cut with for the one heading that asks for them. The tokens stay
@@ -154,7 +159,20 @@ a {
 	text-decoration: none;
 }
 
-a:not([class]) {
+/* A link in running text is ruled under; a link that is a card, a nav item
+   or a button is not. Named by the places running text lives rather than by
+   `a:not([class])`, which looked like it said the same thing and did not:
+   Svelte stamps its scoping class onto elements in any component with a
+   `<style>` block, so an unadorned `<a>` in a page that happens to style
+   something else quietly stopped matching and lost its underline.
+
+   `a:not([class])` is kept as the catch-all under it, for prose that ends up
+   somewhere this list has not thought of. */
+a:not([class]),
+.text a,
+.entry__body a,
+.standfirst a,
+.facts dd a {
 	text-decoration: underline;
 	text-decoration-thickness: from-font;
 	text-underline-offset: 0.18em;
@@ -197,8 +215,8 @@ textarea {
 }
 
 /* ---------------------------------------------------------------
-   Plain type. Cards are for headers, projects, people and the
-   footer; everything else is set straight onto the paper.
+   Plain type. Cards are for headers, projects and the footer;
+   everything else is set straight onto the paper.
    --------------------------------------------------------------- */
 
 .section {
@@ -208,8 +226,7 @@ textarea {
 
 .text,
 .entries,
-.facts,
-.more {
+.facts {
 	width: min(100%, var(--column));
 	margin-inline: auto;
 }
@@ -226,6 +243,85 @@ textarea {
 	letter-spacing: 0;
 	font-size: clamp(1.15rem, 1rem + 0.8vw, 1.5rem);
 	line-height: 1.45;
+}
+
+/* A section's own headline, where the section has one to carry. Set like a
+   card's title rather than like running text — the same weight, the same
+   absence of tracking — so a heading on the paper and a heading on a card
+   are recognisably the same thing at two sizes. */
+.headline {
+	width: min(100%, var(--column));
+	margin-inline: auto;
+	font-size: clamp(1.6rem, 1.35rem + 1.2vw, 2.2rem);
+	font-weight: 500;
+	line-height: 1.1;
+	letter-spacing: -0.01em;
+	text-align: center;
+	text-wrap: balance;
+}
+
+/* The line under a headline: what the section is, in one sentence. */
+.standfirst {
+	width: min(100%, var(--column));
+	margin-inline: auto;
+	text-align: center;
+	text-wrap: pretty;
+	color: var(--ink-soft);
+}
+
+/* A row of things to press. Verb-first, sentence case, and never more than
+   a page has genuine next steps — every extra one costs the others. */
+.actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.6rem 0.75rem;
+	width: min(100%, var(--band));
+	margin-inline: auto;
+}
+
+/* The same capsule as the nav's pill and the card's corner, at the size a
+   finger wants. Outlined rather than filled, so a row of three does not
+   read as three competing decisions. */
+.action {
+	padding: 0.5rem 1.15rem;
+	border: 1px solid var(--ink);
+	border-radius: 999px;
+	font-size: 1rem;
+	line-height: 1.2;
+	transition:
+		background 140ms ease,
+		color 140ms ease;
+}
+
+.action:hover {
+	background: var(--ink);
+	color: var(--paper);
+}
+
+/* The first one in a row is the one we would press. */
+.action--lead {
+	background: var(--ink);
+	color: var(--paper);
+}
+
+.action--lead:hover {
+	background: transparent;
+	color: var(--ink);
+}
+
+/* One line, on its own, at the size of a headline and with nothing else on
+   the screen arguing with it. */
+.pull {
+	width: min(100%, var(--band));
+	margin-inline: auto;
+	padding-block: clamp(1.5rem, 5vw, 3.5rem);
+	font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem);
+	font-weight: 500;
+	line-height: 1.1;
+	letter-spacing: -0.015em;
+	text-align: center;
+	text-wrap: balance;
 }
 
 /* A list of things with a short label above each: principles, dated
@@ -301,18 +397,6 @@ textarea {
 .facts dd {
 	margin: 0;
 	text-align: right;
-}
-
-/* Centred with the rubric above it and the list it follows on from. */
-.more {
-	font-size: 1.05rem;
-	text-align: center;
-}
-
-.more a {
-	text-decoration: underline;
-	text-decoration-thickness: from-font;
-	text-underline-offset: 0.2em;
 }
 
 /* ---------------------------------------------------------------
