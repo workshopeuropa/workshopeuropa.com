@@ -4,21 +4,20 @@
 	import CardNav from './CardNav.svelte';
 	import Deck from './Deck.svelte';
 	import { about } from '$lib/content/about';
-	import { commitmentsTitle } from '$lib/content/commitments';
 	import { join } from '$lib/content/join';
 	import { newsTitle } from '$lib/content/news';
 	import { projectsTitle } from '$lib/content/projects';
-	import { registerTitle } from '$lib/content/register';
 	import { links, site } from '$lib/content/site';
 
-	/** The six sections, in the order the nav has them. */
+	/** The four sections, in the order the footer would rather have them.
+	    A page drops its own card and the next one moves up, so every page
+	    points at the three places you have not got to yet. The front page
+	    belongs to none of them, so it keeps the first three. */
 	const sections: { href: string; label: string; title: string }[] = [
-		{ href: '/commitments', label: 'Commitments', title: commitmentsTitle },
-		{ href: '/register', label: 'Register', title: registerTitle },
-		{ href: '/projects', label: 'Projects', title: projectsTitle },
-		{ href: '/news', label: 'News', title: newsTitle },
 		{ href: '/about', label: 'About', title: about.title },
-		{ href: '/join', label: 'Join', title: join.title }
+		{ href: '/join', label: 'Join', title: join.title },
+		{ href: '/projects', label: 'Projects', title: projectsTitle },
+		{ href: '/news', label: 'News', title: newsTitle }
 	];
 
 	function isCurrent(href: string) {
@@ -26,19 +25,7 @@
 		return path === href || path.startsWith(href + '/');
 	}
 
-	/* The three that come after this one, wrapping round at the end. With
-	   four sections a fixed order minus the current one showed every section
-	   somewhere; with six it would have shown the first three and never the
-	   last three. Starting the run where you are keeps the footer pointing at
-	   the places you have not got to, and spreads all six across the site.
-
-	   The front page is in none of the sections, so it keeps the first
-	   three. */
-	let shown = $derived.by(() => {
-		const here = sections.findIndex((section) => isCurrent(section.href));
-		const start = here === -1 ? 0 : here + 1;
-		return Array.from({ length: 3 }, (_, i) => sections[(start + i) % sections.length]);
-	});
+	let shown = $derived(sections.filter((section) => !isCurrent(section.href)).slice(0, 3));
 	let lead = $derived(shown[0]);
 	let pair = $derived(shown.slice(1));
 
@@ -141,10 +128,17 @@
 				<CardNav />
 			{/snippet}
 			{#snippet middle()}
+				<!-- The wordmark is the way to the front page, which is where
+				     the commitments are. The header card's is a link for the
+				     same reason; this is the same gesture at the other end of
+				     the page, so somebody who has read to the bottom does not
+				     have to scroll back up to find it. -->
 				<p class="title italic">
-					{#each words as word (word)}
-						<span class="word">{word}</span>
-					{/each}
+					<a class="wordmark" href="/">
+						{#each words as word (word)}
+							<span class="word">{word}</span>
+						{/each}
+					</a>
 				</p>
 			{/snippet}
 			{#snippet bottom()}
@@ -175,6 +169,18 @@
 
 	.word {
 		display: block;
+	}
+
+	/* No underline on hover: the wordmark is two stacked words, and ruling
+	   under both of them is the only hard edge on the card. It lightens
+	   instead, the way the masthead's does. */
+	.wordmark {
+		display: inline-block;
+		transition: color 140ms ease;
+	}
+
+	.wordmark:hover {
+		color: color-mix(in srgb, currentColor 65%, transparent);
 	}
 
 	/* Three words, spaced rather than ruled apart — the card has no hard

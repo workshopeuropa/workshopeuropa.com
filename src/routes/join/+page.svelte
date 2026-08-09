@@ -8,15 +8,15 @@
 	<title>Join — {site.name}</title>
 	<meta
 		name="description"
-		content="The room is open to read before you commit to anything. The register is a public commitment. They are not the same thing."
+		content="The room is open to read before you commit to anything. Holding to the commitments is a public declaration. They are not the same thing."
 	/>
 </svelte:head>
 
 <HeaderCard title={join.title} />
 
 <!-- Three blocks, and the difference between the first two is the page.
-     Reading the room costs nothing; the register is a declaration with your
-     name on it. -->
+     Reading the room costs nothing; the commitments are a declaration with
+     your name on it. -->
 {#each join.blocks as block (block.id)}
 	<section class="section way" id={block.id} aria-labelledby="{block.id}-title">
 		<h2 class="headline" id="{block.id}-title">{block.title}</h2>
@@ -49,8 +49,8 @@
 {/each}
 
 <style>
-	/* Deep-linked from the register and from the front page, so a block has
-	   to land clear of the top of the window. */
+	/* A block can be linked to on its own, so it has to land clear of the
+	   top of the window. */
 	.way {
 		scroll-margin-top: var(--gutter);
 	}

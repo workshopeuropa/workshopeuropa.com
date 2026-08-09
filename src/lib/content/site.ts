@@ -17,7 +17,7 @@ export const site = {
 	/** The standalone pull quote on the front page. */
 	pullQuote: 'Nobody pays us for access to you.',
 	description:
-		'A register of European software that answers to the people using it. Five commitments, each with a test.',
+		'European software that answers to the people using it. Five commitments, each with a test.',
 	email: 'hello@workshopeuropa.com',
 	/** The image the front-page card sits on. */
 	image: {
@@ -37,18 +37,16 @@ export const links = {
 	matrix: 'https://matrix.to/#/#workshopeuropa:matrix.org',
 	source: 'https://github.com/workshopeuropa/workshopeuropa.com',
 	issues: 'https://github.com/workshopeuropa/workshopeuropa.com/issues',
-	/** The file a register entry is a pull request against. */
-	registerSource:
-		'https://github.com/workshopeuropa/workshopeuropa.com/blob/main/src/lib/content/register.ts',
 	rss: '/news/rss.xml',
 	atom: '/news/atom.xml'
 } as const;
 
+/* Four sections. The commitments are the front page — you get to them by
+   pressing the wordmark in the header or the footer — and what each project
+   declares sits with the project rather than in a list of its own. */
 export const nav = [
-	{ href: '/commitments', label: 'Commitments' },
-	{ href: '/register', label: 'Register' },
-	{ href: '/projects', label: 'Projects' },
 	{ href: '/news', label: 'News' },
 	{ href: '/about', label: 'About' },
+	{ href: '/projects', label: 'Projects' },
 	{ href: '/join', label: 'Join' }
 ] as const;

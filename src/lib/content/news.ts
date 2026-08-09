@@ -26,10 +26,10 @@ export const newsEmpty = 'Nothing posted yet.';
 export const news: Note[] = [
 	{
 		date: '2026-08-09',
-		title: 'The register opens',
+		title: 'Five things, each with a test',
 		subject: 'Workshop Europa',
-		body: 'Five commitments are published, each with the condition under which we would have failed it. The register opens alongside them, and our own projects are in it on the same terms as everyone else’s.',
-		link: { label: 'Read the commitments', href: '/commitments' }
+		body: 'The commitments are published, each with the condition under which we would have failed it. Every project on the bench now says which of the five it holds to, and how it meets each test.',
+		link: { label: 'Read the commitments', href: '/#commitments' }
 	},
 	{
 		date: '2026-06-02',

@@ -1,22 +1,19 @@
 /**
  * Two ways in, and a third for anyone who wants to work on the projects.
  *
- * The room is public and free to enter — it is not gated behind the
- * register. A gated room with fourteen people in it reads as failure; an
- * open room with fourteen reads as early.
+ * The room is public and free to enter — it is not gated behind anything. A
+ * gated room with fourteen people in it reads as failure; an open room with
+ * fourteen reads as early.
  *
- * The register is not a form. An entry arrives as a pull request against
- * src/lib/content/register.ts, which costs slightly more effort and buys
- * enormously more credibility: the register's history is then public and
- * auditable, which is the same argument the commitments make. The email
- * fallback exists so that argument does not become a technical entrance
- * requirement.
+ * The second is not a form and not a membership. The commitments are written
+ * to be repeated rather than attributed, so holding to them is something you
+ * do in your own voice, on your own site, and it needs nothing from us.
  */
 
 import { links, site } from './site';
 
 export type Block = {
-	/** The anchor other pages point at — /register sends people to #register. */
+	/** The anchor, so a block can be linked to on its own. */
 	id: string;
 	title: string;
 	body: string[];
@@ -38,17 +35,16 @@ export const join = {
 			ctas: [{ label: 'Open the room', href: links.matrix, external: true }]
 		},
 		{
-			id: 'register',
-			title: 'Add yourself to the register',
+			id: 'declare',
+			title: 'Take the commitments',
 			body: [
-				'This one is a public commitment. Declare which of the five you hold to, and how you’d know if you’d broken them. Leave out the ones you don’t meet — an honest three is worth more than a claimed five.',
-				'Entries go in as a pull request against a public file, so the register’s history is open to anyone who wants to check it.'
+				'This one is a public commitment. Declare which of the five you hold to, and how you’d know if you’d broken them. Leave out the ones you don’t meet — an honest three is worth more than a claimed five.'
 			],
-			ctas: [{ label: 'Add yourself', href: links.registerSource, external: true }],
+			ctas: [{ label: 'Read the commitments', href: '/#commitments', external: false }],
 			note: {
-				before: 'Rather write a sentence than a pull request? Send the same thing to ',
+				before: 'Building something that holds to them? Write to ',
 				email: site.email,
-				after: ' and it goes in under your name.'
+				after: ' and tell us what you would put beside each one.'
 			}
 		},
 		{

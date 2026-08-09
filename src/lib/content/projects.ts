@@ -6,9 +6,24 @@
  * on /projects and which verb its call to action uses: a thing you can use
  * today does not ask to be read about, and a specification does not ask to
  * be signed up for.
+ *
+ * A project also declares which of the five commitments it holds to, and how
+ * it meets each test in its own words. That declaration is the project's, not
+ * ours to write for it: these four are Workshop Europa's own and stay drafts
+ * until the people running each of them confirm the wording.
+ *
+ * Nothing here is ranked or scored. Four of five is a real position, not a
+ * failure, so the list shows what a project declares and never how many.
  */
 
 export type Group = 'running' | 'self-hostable' | 'early';
+
+/** How a project meets one commitment's test, in its own words. */
+export type Declaration = {
+	/** Which of the five, 1–5. */
+	commitment: number;
+	how: string;
+};
 
 export type Cta = {
 	label: string;
@@ -35,6 +50,9 @@ export type Project = {
 	    — a running project wants Pricing beside Open, a self-hostable one
 	    Source beside its docs, and Idun the two below. */
 	ctas: Cta[];
+	/** Only the commitments it declares. Everything else reads as not
+	    claimed, in words, on the project's own page. */
+	declares: Declaration[];
 	/** A line under the card, where a project needs one said out loud. */
 	note?: string;
 	/** At the foot of the card. Plain text, since the card is already a link
@@ -75,6 +93,24 @@ export const projects: Project[] = [
 		group: 'running',
 		status: 'Running',
 		ctas: [{ label: 'Open', href: 'https://vionio.com', external: true }],
+		declares: [
+			{
+				commitment: 1,
+				how: 'Subscriptions, paid by the people posting and the people reading. No advertising, no paid placement, and nothing sold about anyone here.'
+			},
+			{
+				commitment: 2,
+				how: 'The feed is what you subscribed to, in the order it arrived. Nobody working on it is measured on time spent.'
+			},
+			{
+				commitment: 3,
+				how: 'Your posts, your following and your identity export in one step and land on another server. The protocol is the way out, so leaving needs nothing from us.'
+			},
+			{
+				commitment: 5,
+				how: 'Built on protocols nobody owns, and we don’t operate one. The parts other people depend on are not ours to close.'
+			}
+		],
 		url: 'vionio.com',
 		image: {
 			src: '/media/vionio.svg',
@@ -89,6 +125,20 @@ export const projects: Project[] = [
 		group: 'self-hostable',
 		status: 'Self-hostable',
 		ctas: [{ label: 'Read the docs', href: 'https://risved.org', external: true }],
+		declares: [
+			{
+				commitment: 1,
+				how: 'Hosting fees from the people hosting. No resale of usage data, and the price list is the whole commercial relationship.'
+			},
+			{
+				commitment: 3,
+				how: 'The control plane is the open-source project. Take the images and the configuration and run the same thing on your own machines.'
+			},
+			{
+				commitment: 5,
+				how: 'Every part of the stack is published under a licence that cannot be withdrawn. We sell the operation, not the right to operate.'
+			}
+		],
 		url: 'risved.org • risved.com',
 		image: {
 			src: '/media/risved.svg',
@@ -106,6 +156,24 @@ export const projects: Project[] = [
 		   hand-written xn-- is one transposed letter away from a domain
 		   somebody else owns. */
 		ctas: [{ label: 'Follow along', href: 'https://inlägg.com', external: true }],
+		declares: [
+			{
+				commitment: 1,
+				how: 'A subscription, paid monthly by the people using it. There is no advertiser to answer to because there is no advertising.'
+			},
+			{
+				commitment: 2,
+				how: 'No infinite feed, no streaks, no re-engagement mail. Leaving is one button and takes effect immediately.'
+			},
+			{
+				commitment: 3,
+				how: 'A full export in an open format, including who follows you, ready to import elsewhere without our involvement.'
+			},
+			{
+				commitment: 4,
+				how: 'BankID and MitID issue the proof. What reaches us is that a person stands behind the account, never which person.'
+			}
+		],
 		url: 'inlägg.com • indlæg.com • innlegg.com',
 		image: {
 			src: '/media/inlagg.svg',
@@ -125,6 +193,24 @@ export const projects: Project[] = [
 		   and "Join the association" belong beside this one and go back the
 		   moment idun.org has somewhere for them to land. */
 		ctas: [{ label: 'Read the spec', href: 'https://idun.org', external: true }],
+		declares: [
+			{
+				commitment: 1,
+				how: 'Föreningen Idun is funded by its members, who are the people implementing the specification. Nobody buys a say in it.'
+			},
+			{
+				commitment: 3,
+				how: 'An identity is portable by construction: move it between issuers and services without asking any of them.'
+			},
+			{
+				commitment: 4,
+				how: 'The proof is issued by a third party and carries one claim — that a person is behind it. Implementers never receive the identity.'
+			},
+			{
+				commitment: 5,
+				how: 'Stewarded by a non-profit association whose statutes prevent it from selling or licensing the specification. Implement it without a licence, a fee, or a conversation.'
+			}
+		],
 		note: 'Stewarded by Föreningen Idun — a non-profit association, so no single company can close it.',
 		url: 'idun.org',
 		image: {
@@ -140,4 +226,10 @@ export function getProject(slug: string): Project | undefined {
 
 export function projectsIn(group: Group): Project[] {
 	return projects.filter((project) => project.group === group);
+}
+
+/** What a project says about one commitment, or nothing if it does not
+    claim it. */
+export function declared(project: Project, commitment: number): Declaration | undefined {
+	return project.declares.find((declaration) => declaration.commitment === commitment);
 }
