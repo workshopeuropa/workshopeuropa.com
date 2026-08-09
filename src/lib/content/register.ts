@@ -86,7 +86,10 @@ export const entries: Entry[] = [
 		slug: 'inlagg',
 		name: 'Inlägg • Indlæg • Innlegg',
 		line: 'Nordic social platforms where every account belongs to a person.',
-		href: 'https://xn--inlgg-lra.com',
+		/* Written in Unicode rather than punycode: the browser encodes it, and
+		   a hand-written xn-- is one transposed letter away from a domain
+		   somebody else owns. */
+		href: 'https://inlägg.com',
 		domain: 'inlägg.com • indlæg.com • innlegg.com',
 		place: 'Copenhagen, Denmark',
 		declares: [
