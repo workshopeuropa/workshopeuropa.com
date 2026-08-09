@@ -82,19 +82,17 @@
 	/* Equal gaps, not equal tracks. A track each centred the inner labels
 	   in their own column while the outer two reached for the edges, which
 	   left three different-sized holes; spreading the items puts the same
-	   space between every pair.
-
-	   Six labels, one of them eleven characters long, do not fit the foot of
-	   a card on a phone at any size worth reading, so the row wraps rather
-	   than shrinking to fit the longest word. Wrapped rows are centred: the
-	   run spread edge to edge is what a full row looks like, and a second row
-	   of one item pushed to the left margin is not. */
+	   space between every pair. There is no middle item to knock off the
+	   card's centre line now that there are four of them. */
 	.card-nav {
 		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
+		justify-content: space-between;
 		align-items: baseline;
-		gap: 0.15em 0.4em;
+		/* The narrowest card the site is built for holds four labels at 1rem
+		   with this much between them and this much inside each pill, and
+		   nothing narrower is a target — so the type is set, like the rest
+		   of the card's. */
+		gap: 0.4em;
 		font-size: var(--nav-size, 1rem);
 		line-height: 1.2;
 	}

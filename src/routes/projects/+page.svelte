@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Declarations from '$lib/components/Declarations.svelte';
 	import HeaderCard from '$lib/components/HeaderCard.svelte';
 	import Plate from '$lib/components/Plate.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
@@ -35,6 +36,11 @@
 				<Plate src={project.image?.src} alt={project.image?.alt}>
 					<ProjectCard {project} cta />
 				</Plate>
+
+				<!-- What it holds to, at a glance. How it meets each test is on
+				     the project's own page, which is more than a row under a
+				     plate can carry. -->
+				<Declarations {project} />
 			{/each}
 		</section>
 	{/if}

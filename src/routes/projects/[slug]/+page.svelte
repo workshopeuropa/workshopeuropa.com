@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Deck from '$lib/components/Deck.svelte';
+	import Declarations from '$lib/components/Declarations.svelte';
 	import HeaderCard from '$lib/components/HeaderCard.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Rubric from '$lib/components/Rubric.svelte';
@@ -45,6 +46,16 @@
 			<p>{paragraph}</p>
 		{/each}
 	</div>
+</section>
+
+<!-- All five, every time. The ones it declares carry the project's own
+     words; the ones it does not say so in words as well, never in a colour
+     and never as a count. Each title is a way back to the commitment on the
+     front page, where the test it comes with is written out. -->
+<section class="section" aria-labelledby="commitments">
+	<Rubric id="commitments">Commitments</Rubric>
+
+	<Declarations {project} detail />
 </section>
 
 <!-- Only the particulars this project actually has; nothing at all if it

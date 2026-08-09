@@ -1,16 +1,15 @@
 # workshopeuropa.com
 
-The Workshop Europa site: an umbrella brand and an open register. It is the name four products
-publish under, and it keeps a public list of European companies, projects and people who commit to
-five principles — each of which comes with the condition under which they would have failed it.
+The Workshop Europa site. It is the name four products publish under, and it publishes the five
+commitments they answer to — each with the condition under which they would have failed it.
 
 Every other list of European software sorts by jurisdiction: where it is hosted, who owns it, where
 the data sits. This one sorts by structure — who does it answer to. A European-owned, EU-hosted,
 ad-funded attention platform passes every other list and fails this one.
 
 It is not a studio, an agency, an EU body, or a membership club. There is no approval step, no fee,
-and no board, and Workshop Europa's own projects are in the register on the same terms as everyone
-else's — which is the only reason the list is worth reading.
+and no board. Every project on the bench declares in public which of the five it holds to, and how
+it meets each test, and can be held to exactly those tests.
 
 Cards in the ISO 216 ratio — 1 : √2 — portrait or landscape, laid on paper or on an image;
 everything else is plain type in a column down the middle.
@@ -23,16 +22,21 @@ everything else is plain type in a column down the middle.
 
 | Route | What it is |
 | --- | --- |
-| `/` | The wedge, the five commitments by title, the register in one paragraph |
-| `/commitments` | The five, each with its test. Names no product, ever |
-| `/register` | Who it answers to — self-declared, filterable by commitment, never ranked |
-| `/projects` | What Workshop Europa publishes, in three groups |
+| `/` | The wedge, then the five commitments in full, each with its test |
+| `/projects` | What Workshop Europa publishes, in three groups, each with what it declares |
+| `/projects/<slug>` | The project, and how it meets each test it claims |
 | `/news` | Notes and releases, plus `/news/rss.xml` and `/news/atom.xml` |
 | `/about` | Why this exists, and how it is run |
-| `/join` | The room, the register, and the projects — three ways in, and they differ |
+| `/join` | The room, the commitments, and the projects — three ways in, and they differ |
 
-`/register` and `/projects` are different things and are not to be merged. Projects are what we
-publish; the register is everyone, us included.
+The commitments are the front page rather than a page you have to find: they are the argument, and
+everything else on the site is what follows from it. You get to them by pressing the wordmark, in
+the header card or in the footer's, which is the only thing on the site that points at `/`. Nav is
+four sections and the front page belongs to none of them, which is exactly the state the pill and
+the card hand-over were already built for.
+
+What each project declares sits with the project — a row of what it holds to under its plate on
+`/projects`, and the whole picture on the project's own page.
 
 ## Running it
 
@@ -66,8 +70,8 @@ and then that project's card from the index laid on its side. The section card s
 down to a `p` and the project's card takes the `h1`, so the page still has one — and the project's
 card drops its link there, since a page should not link to itself.
 
-Everything else — the commitments, the register, news, project text, particulars — is set straight
-onto the paper in a centred column. Adding a fourth kind of card is a decision, not a default.
+Everything else — the commitments, the declarations, news, project text, particulars — is set
+straight onto the paper in a centred column. Adding a fourth kind of card is a decision, not a default.
 
 A project card on `/projects` carries its own calls to action, which means it stops being one big
 link: a link inside a link is not valid, and the point of a call to action is that it goes somewhere
@@ -112,15 +116,10 @@ card's centre line however much the bands above and below weigh.
 
 ## The nav and the footer
 
-`CardNav.svelte` is the six sections — Commitments, Register, Projects, News, About, Join — with
-equal gaps between them. The page you are on wears a pill in `--ink` with `--card` as the type, the
-same pairing as text on a card, inverted, so it holds 5.45:1 at worst in either mode. The pill is a
+`CardNav.svelte` is the four sections — News, About, Projects, Join — spread with equal gaps
+between them. The page you are on wears a pill in `--ink` with `--card` as the type, the same
+pairing as text on a card, inverted, so it holds 5.45:1 at worst in either mode. The pill is a
 capsule, and the card's rim is measured from it.
-
-Six labels, one of them eleven characters long, do not fit the foot of a card on a phone at any size
-worth reading, so the row wraps rather than shrinking to fit the longest word. Wrapped rows are
-centred: a run spread edge to edge is what a full row looks like, and a second row of one item
-pushed to the left margin is not.
 
 Nothing in a masthead card underlines on hover — a line under a word would be the only hard edge on
 a card made of soft rectangles. A nav item fills its own pill shape faintly instead, and the
@@ -132,7 +131,7 @@ the foot, the line of copyright under the colophon's, the headline in between. S
 to fit what sits in it, rather than the other way round:
 
 ```css
---nav-size: clamp(0.8rem, 3.2vw, 1rem);        /* the nav's type */
+--nav-size: clamp(0.9rem, 4.4vw, 1rem);        /* the nav's type */
 --pill-h: calc(var(--nav-size) * 1.6);         /* 1.2 of line, 0.2em either side */
 --radius: calc(var(--pad) + var(--pill-h) / 2);
 ```
@@ -140,9 +139,9 @@ to fit what sits in it, rather than the other way round:
 Everything comes off those two numbers, so nothing can fall out of step: at 1280 the padding is 44px,
 the pill's radius 12.8, and the card's corner 56.8 — the difference is the padding exactly, at every
 width the site runs at. `--nav-size` is set on the card rather than in the nav because the corner is
-cut from it, and in `vw` rather than `cqi` so both places resolve it against the same thing. The
-floor is the smallest size the nav is still comfortable to press at, rather than the size at which
-the whole row happens to fit on one line, because it no longer has to.
+cut from it, and in `vw` rather than `cqi` so both places resolve it against the same thing. Four
+labels at full size do not fit a card narrower than about 364px, which is the only reason it is not
+a constant.
 
 `--pad` is why the card registers its padding with `@property` rather than leaving it a plain custom
 property. It is written in `cqi`, and an element is not its own query container: on the card those
@@ -150,16 +149,19 @@ units answer to `.shell`, on a descendant they answer to the card. Registered as
 resolves once, on the card, and inherits as that length — otherwise a child computes a different
 padding from the one the card is actually using, and the two curves drift apart.
 
-`Colophon.svelte` builds the footer from the same six sections: the three that come after the one
-you are on, wrapping round at the end. The first becomes a landscape card across the top, the other
-two a portrait pair under it that keeps its columns on a phone. With four sections a fixed order
-minus the current one showed every section somewhere; with six it would have shown the first three
-and never the last three, so the run starts where you are. The front page belongs to none of the
-six, so it keeps the first three.
+`Colophon.svelte` builds the footer from the same four sections, in a fixed order, minus whichever
+one you are on: the first becomes a landscape card across the top, the other two a portrait pair
+under it that keeps its columns on a phone. Every page therefore points at the three places you
+have not got to. The front page belongs to none of the four, so it keeps the first three.
 
 The card at the very bottom carries the wordmark, the place, the year, and the three ways out of the
 site: the room, the source, and the feed. A feed is the sort of thing this audience looks for, and
 putting it where it can be seen rather than only in the document head is itself on thesis.
+
+The wordmark on that card is a link to `/`, as the masthead's is. It is how you reach the
+commitments from the bottom of a long page without scrolling back up, and it lightens on hover
+rather than ruling under itself — two stacked words with a line under both would be the only hard
+edge on a card made of soft rectangles.
 
 ## Moving between pages
 
@@ -365,9 +367,8 @@ Spectral SC cuts its small caps for the lowercase, so `Rubric` is set `text-tran
 not uppercase: a capital comes through as a full-height capital and leaves the first letter of every
 rubric a size out from the rest of it. The rubric is centred over its section.
 
-The lists under a rubric — the commitments by title, the notes, a register entry's declarations —
-centre their label and their headline under it rather than running the label down a column at the
-side. Nothing is ruled off:
+The lists under a rubric — the notes, a project's declarations, its particulars — centre their
+label and their headline under it rather than running the label down a column at the side. Nothing is ruled off:
 no line under a rubric, none between one entry and the next, none under a row of particulars. The
 spacing carries it.
 
@@ -420,15 +421,14 @@ not among them: it is derived, in `Card.svelte`, from the card's own padding.
 
 No CMS. Text lives in `src/lib/content/`:
 
-| File             | What it holds                                              |
-| ---------------- | ---------------------------------------------------------- |
-| `site.ts`        | Name, nav, the wedge, the pull quote, and every outbound link |
-| `commitments.ts` | The five, their tests, and the turns between the movements  |
-| `register.ts`    | One object per entry — everything on `/register`            |
-| `projects.ts`    | One object per project — drives the index and the pages     |
-| `news.ts`        | One object per note — drives `/news` and both feeds          |
-| `about.ts`       | The About page                                              |
-| `join.ts`        | The three ways in                                           |
+| File             | What it holds                                                   |
+| ---------------- | --------------------------------------------------------------- |
+| `site.ts`        | Name, nav, the wedge, the pull quote, and every outbound link     |
+| `commitments.ts` | The five, their tests, and the turns between the movements        |
+| `projects.ts`    | One object per project, declarations included — index and pages   |
+| `news.ts`        | One object per note — drives `/news` and both feeds                |
+| `about.ts`       | The About page                                                    |
+| `join.ts`        | The three ways in                                                 |
 
 Adding a project is one object in `projects.ts`; `/projects/<slug>` starts working immediately. A
 project with more than one name, or more than one address, writes them into the one string with a
@@ -444,35 +444,30 @@ correcting one is one line. The Matrix room alias in it is a placeholder until s
 room.
 
 The project copy currently in the repo is a first draft — real text goes in the same shape. So are
-the four register entries, which are Workshop Europa's own and stay drafts until the people running
-each project confirm the wording.
+the declarations, which are Workshop Europa's own and stay drafts until the people running each
+project confirm the wording.
 
-## The register
+## Declarations
 
-Every entry is self-declared. An entry says which commitments it holds to and, in its own words, how
-it meets each test. Nobody writes an entry on somebody else's behalf — a declaration written for you
-is not a declaration, and the list is worth reading only because each line in it was put there by
-whoever it names. Entries arrive as pull requests against `src/lib/content/register.ts`, so the
-register's history is public and auditable, which is the same argument the commitments make. The
-email fallback on `/join` exists so that argument does not become a technical entrance requirement.
+A project declares which of the five it holds to and, in its own words, how it meets each test. The
+declaration is the project's, not ours to write for it — a declaration written for you is not a
+declaration, and it is worth reading only because whoever it names put it there.
 
-Nothing is ranked and nothing is scored. Four of five is a real position, not a failure, so the page
-filters by commitment and never sorts by how many are met. All five are shown for every entry, the
-declared ones with the entry's own words under them and the rest marked "not claimed" — in words,
-never in a colour alone.
+`Declarations.svelte` renders it two ways off one set of data. Under a plate on `/projects` it is a
+highlight: the ones a project holds to, each a press away from the commitment itself. On the
+project's own page it is the whole picture — all five, the declared ones carrying the project's
+words and the rest marked "not claimed", in words, never in a colour alone.
 
-The filter lives in the URL as `?c=<1-5>`, so a filtered register can be linked to, works before the
-JavaScript arrives, and goes back the way it came.
-
-The page should not ship with fewer than about thirty entries. An empty register announces its own
-emptiness; seed it before launch.
+Nothing is ranked and nothing is scored. Four of five is a real position, not a failure, so neither
+view ever shows a count or sorts by one.
 
 ## The commitments
 
-`/commitments` names no product, anywhere. The fifth commitment is the argument a protocol makes,
+The front page names no product, anywhere. The fifth commitment is the argument a protocol makes,
 stated generally — naming the protocol inside a standard other people sign turns a commitment into a
 moat. The tests are readable text rather than anything hidden behind a hover: the test is the half of
-a commitment that can be held against us.
+a commitment that can be held against us. Each one has a slug, which is its anchor on `/` and what
+every project page links back to.
 
 The set has three movements, and the page shows the turns. They are set in the small-caps cut, quiet
 and full width, and they are not headings — a heading would put a stage direction in the same

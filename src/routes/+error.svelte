@@ -12,6 +12,6 @@
 
 <section class="section">
 	<p class="actions">
-		<a class="action action--lead" href="/register">Back to the register</a>
+		<a class="action action--lead" href="/">Back to the front page</a>
 	</p>
 </section>
