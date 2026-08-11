@@ -1,6 +1,6 @@
 <script lang="ts">
 	import HeaderCard from '$lib/components/HeaderCard.svelte';
-	import { about } from '$lib/content/about';
+	import { about, aboutTitleLines } from '$lib/content/about';
 	import { site } from '$lib/content/site';
 </script>
 
@@ -9,7 +9,7 @@
 	<meta name="description" content={about.argument.body[0]} />
 </svelte:head>
 
-<HeaderCard title={about.title} />
+<HeaderCard title={about.title} lines={aboutTitleLines} />
 
 <section class="section">
 	<div class="text">

@@ -17,7 +17,7 @@ export type Note = {
 };
 
 /** The headline the News page and its footer card carry. */
-export const newsTitle = 'What changed.';
+export const newsTitle = 'Notes from the bench';
 
 export const newsIntro = 'Releases, specification updates, and notes from the bench.';
 
