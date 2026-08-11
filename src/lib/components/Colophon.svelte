@@ -3,7 +3,7 @@
 	import Card from './Card.svelte';
 	import CardNav from './CardNav.svelte';
 	import Deck from './Deck.svelte';
-	import { about } from '$lib/content/about';
+	import { about, aboutTitleLines } from '$lib/content/about';
 	import { join } from '$lib/content/join';
 	import { newsTitle } from '$lib/content/news';
 	import { projectsTitle } from '$lib/content/projects';
@@ -13,8 +13,8 @@
 	    A page drops its own card and the next one moves up, so every page
 	    points at the three places you have not got to yet. The front page
 	    belongs to none of them, so it keeps the first three. */
-	const sections: { href: string; label: string; title: string }[] = [
-		{ href: '/about', label: 'About', title: about.title },
+	const sections: { href: string; label: string; title: string; lines?: string[] }[] = [
+		{ href: '/about', label: 'About', title: about.title, lines: aboutTitleLines },
 		{ href: '/join', label: 'Join', title: join.title },
 		{ href: '/projects', label: 'Projects', title: projectsTitle },
 		{ href: '/news', label: 'News', title: newsTitle }
@@ -86,6 +86,19 @@
 	}
 </script>
 
+<!-- A section's headline, broken at the words it names if it names any. -->
+{#snippet headline(section: (typeof sections)[number])}
+	<p class="title--small">
+		{#if section.lines}
+			<!-- The space keeps the headline one string to copy or read out;
+			     it collapses at the break. -->
+			{#each section.lines as line, i (line)}{#if i}{' '}<br />{/if}{line}{/each}
+		{:else}
+			{section.title}
+		{/if}
+	</p>
+{/snippet}
+
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
 <!-- Delegated rather than per-card: it is a hand-over between two elements,
      not something a card should know how to do. The links keep working with
@@ -98,7 +111,7 @@
 				<p class="eyebrow">{lead.label}</p>
 			{/snippet}
 			{#snippet middle()}
-				<p class="title--small">{lead.title}</p>
+				{@render headline(lead)}
 			{/snippet}
 		</Card>
 	</Deck>
@@ -110,7 +123,7 @@
 					<p class="eyebrow">{section.label}</p>
 				{/snippet}
 				{#snippet middle()}
-					<p class="title--small">{section.title}</p>
+					{@render headline(section)}
 				{/snippet}
 			</Card>
 		{/each}

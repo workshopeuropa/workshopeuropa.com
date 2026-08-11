@@ -72,7 +72,7 @@ export type Project = {
 
 /** The headline on the Projects card — on the index, and on the copy of it
     that opens every project page. */
-export const projectsTitle = 'What’s on the bench.';
+export const projectsTitle = 'Make the shift';
 
 export const projectsIntro = 'Some finished, some half-built, all in the open.';
 
