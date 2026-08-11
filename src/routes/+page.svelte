@@ -7,7 +7,7 @@
 		commitmentsIntro,
 		commitmentsTitle
 	} from '$lib/content/commitments';
-	import { links, site } from '$lib/content/site';
+	import { links, site, taglineLines } from '$lib/content/site';
 </script>
 
 <svelte:head>
@@ -16,7 +16,7 @@
 </svelte:head>
 
 <Plate src={site.image.src} alt={site.image.alt}>
-	<HeaderCard title={site.tagline} />
+	<HeaderCard title={site.tagline} lines={taglineLines} />
 </Plate>
 
 <!-- The wedge. Every other list of European software sorts by jurisdiction —
