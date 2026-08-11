@@ -2,12 +2,21 @@
  * Everything the site says about itself. Edit here, not in the components.
  */
 
+/**
+ * The front page's headline, broken where a card should break it: at the
+ * comma, which is where the sentence turns. Two lines at every width — on a
+ * landscape card it would otherwise set as one long line, which is not how
+ * the rest of the set reads. `tagline` is joined back up from this, so the
+ * two cannot drift apart.
+ */
+export const taglineLines = ['Independent software,', 'built in the open.'];
+
 export const site = {
 	name: 'Workshop Europa',
 	url: 'https://workshopeuropa.com',
 	place: 'Copenhagen',
 	/** The h1 on the front page. */
-	tagline: 'Independent software, built in the open.',
+	tagline: taglineLines.join(' '),
 	/** The wedge, a line to a row. Every other list sorts by jurisdiction;
 	    this one sorts by structure. */
 	wedge: [
