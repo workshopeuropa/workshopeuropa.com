@@ -61,7 +61,7 @@ A card is a device, not the page. Three things get one:
 
 | Card             | Orientation                | Where                                        |
 | ---------------- | -------------------------- | -------------------------------------------- |
-| Page header      | Landscape, portrait on a plate on desktop | Top of every page, carrying the nav |
+| Page header      | Landscape                  | Top of every page, carrying the nav          |
 | A project        | Portrait                   | `/projects`, one to a plate                  |
 | A section        | One landscape, then two portrait | The footer of every page               |
 
@@ -265,20 +265,26 @@ rather than a gutter below it. `.shell` carries `overflow-x: clip` as a guard ag
 child ever overhanging it.
 
 A plate is always an A rectangle, never a viewport-shaped box — but which way up depends on the
-screen. Narrow, the image stands and the card lies down; from 60rem the two swap, so the image
-lies down and the card stands up. That keeps the hero near one screen tall on a desktop instead of
-the 1.41 screens a full-width portrait plate would cost:
+screen. Narrow, the image stands and the card lies down; from 60rem the plate itself lies down,
+which keeps the hero near one screen tall on a desktop instead of the 1.41 screens a full-width
+portrait plate would cost.
 
-| | Plate | Card |
-| --- | --- | --- |
-| 430px | 430 × 608 portrait | 398 × 281 landscape |
-| 1280px | 1280 × 905 landscape | 416 × 588 portrait |
+What the card does there depends on which card it is. A project's card stands up, so the image is
+not reduced to a frame around it. The header card does not: it is the same card on every page, and
+it is landscape everywhere else, so standing it up here made the front page the one place the
+masthead changed shape. There is room for it lying down — the card stops at `--band` while the
+plate runs to the full width of the page, so the image is still open above it and to either side:
+
+| | Plate | Header card | Project card |
+| --- | --- | --- | --- |
+| 430px | 430 × 608 portrait | 398 × 281 landscape | 398 × 281 landscape |
+| 1280px | 1280 × 905 landscape | 704 × 498 landscape | 416 × 588 portrait |
 
 It bleeds to `100cqw` rather than `100vw`, measured against `.shell` as a container, so the page's
 `--page` cap caps the plate with it: past 80rem the site stops growing and the plate stops with it.
 
-The card on a plate fills the width on a phone and stands up at 26rem on a wide screen. The front
-page and every project page with an image use one.
+A card on a plate fills the width on a phone; on a wide screen a project's stands up at 26rem and
+the header's lies down at `--band`. The front page and every project page with an image use one.
 
 The images in `static/media/` are placeholder screenshots. They are cropped to fill the screen now,
 so anything important in them wants to be near the middle.

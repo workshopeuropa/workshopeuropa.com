@@ -24,7 +24,7 @@ export type Block = {
 };
 
 export const join = {
-	title: 'Two ways in, and they’re different.',
+	title: 'Take part',
 	blocks: [
 		{
 			id: 'room',

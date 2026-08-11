@@ -1,7 +1,15 @@
 /** The About page, in one place. */
 
+/**
+ * The headline, broken where a card should break it. Two lines at every
+ * width — on a wide card it would otherwise set as one long line and stop
+ * looking like the rest of the set. `title` is joined back up from this, so
+ * the two cannot drift apart.
+ */
+export const aboutTitleLines = ['Independence', 'is infrastructure'];
+
 export const about = {
-	title: 'Why this exists.',
+	title: aboutTitleLines.join(' '),
 
 	/** Section one: the argument, and the claim it lands on. */
 	argument: {
