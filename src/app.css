@@ -10,7 +10,7 @@
    container units answer to the shell, a descendant's answer to the card, and
    an unregistered property would re-resolve at each and quietly disagree. */
 @property --pad {
-	syntax: '<length>';
+	syntax: "<length>";
 	inherits: true;
 	initial-value: 0px;
 }
@@ -77,9 +77,9 @@
 	/* One face, set two ways: Spectral throughout, and the small caps it
 	   was cut with for the one heading that asks for them. The tokens stay
 	   apart because they are different jobs, not different faces. */
-	--font-text: 'Spectral', 'Iowan Old Style', 'Times New Roman', serif;
+	--font-text: "Spectral", "Iowan Old Style", "Times New Roman", serif;
 	--font-display: var(--font-text);
-	--font-caps: 'Spectral SC', var(--font-text);
+	--font-caps: "Spectral SC", var(--font-text);
 
 	/* The card's corner is not a token: it is cut from the card's own
 	   padding and the pill that sits in it, in Card.svelte, so the two
@@ -131,13 +131,8 @@ body {
 	/* Running text sits at 400; headings, cards and rubrics ask for 500
 	   themselves, so they keep it. */
 	font-weight: 400;
-	font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+	font-size: clamp(1rem, 0.875rem + 0.25vw, 1.125rem);
 	line-height: 1.5;
-	/* A hundredth of an em, which the face wants at reading size and does
-	   not want at heading size — so everything larger sets it back to zero
-	   below. Anything with its own, like card titles or the rubrics, says
-	   so where it is declared. */
-	letter-spacing: 0.01em;
 	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;
 }
@@ -145,6 +140,7 @@ body {
 h1,
 h2,
 h3,
+h4,
 p,
 figure,
 ul,
@@ -156,7 +152,8 @@ ol {
    is large enough not to want it. */
 h1,
 h2,
-h3 {
+h3,
+h4 {
 	letter-spacing: 0;
 }
 
@@ -182,12 +179,12 @@ a {
    somewhere this list has not thought of. */
 a:not([class]),
 .text a,
-.entry__body a,
 .standfirst a,
+section > header p a,
 .facts dd a {
 	text-decoration: underline;
 	text-decoration-thickness: from-font;
-	text-underline-offset: 0.18em;
+	text-underline-offset: 0.125em;
 }
 
 img {
@@ -245,34 +242,45 @@ textarea {
 
 .text {
 	display: grid;
-	gap: 0.9em;
-	line-height: 1.6;
+	gap: 1em;
+	line-height: 1.5;
 }
 
 /* The preamble opens a page the way a card does — big enough to want no
    tracking, and set the way a headline is. */
 .lede {
 	letter-spacing: 0;
-	font-size: clamp(1.15rem, 1rem + 0.8vw, 1.5rem);
-	line-height: 1.45;
+	font-size: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+	line-height: 1.5;
 }
 
-/* A section's own headline, where the section has one to carry. Set like a
-   card's title rather than like running text — the same weight, the same
-   absence of tracking — so a heading on the paper and a heading on a card
-   are recognisably the same thing at two sizes. */
-.headline {
+/* A section's headline and standfirst, where the section has both to
+   carry. Set like a card's title rather than like running text — the same
+   weight, the same absence of tracking — so a heading on the paper and a
+   heading on a card are recognisably the same thing at two sizes. */
+section > header {
+	display: grid;
+	gap: clamp(0.75rem, 2vw, 1rem);
 	width: min(100%, var(--column));
 	margin-inline: auto;
-	font-size: clamp(1.6rem, 1.35rem + 1.2vw, 2.2rem);
-	font-weight: 500;
-	line-height: 1.1;
-	letter-spacing: -0.01em;
 	text-align: center;
+}
+
+section > header h2 {
+	font-size: clamp(1.75rem, 1.25rem + 1.25vw, 2rem);
+	font-weight: 500;
+	line-height: 1.125;
+	letter-spacing: 0;
 	text-wrap: balance;
 }
 
-/* The line under a headline: what the section is, in one sentence. */
+section > header p {
+	text-wrap: pretty;
+	color: var(--ink-soft);
+}
+
+/* The line under a headline when it is not paired in a header — a rubric
+   and a note, a closing line on its own. */
 .standfirst {
 	width: min(100%, var(--column));
 	margin-inline: auto;
@@ -287,7 +295,7 @@ textarea {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
-	gap: 0.6rem 0.75rem;
+	gap: 0.5rem 0.75rem;
 	width: min(100%, var(--band));
 	margin-inline: auto;
 }
@@ -296,11 +304,11 @@ textarea {
    finger wants. Outlined rather than filled, so a row of three does not
    read as three competing decisions. */
 .action {
-	padding: 0.5rem 1.15rem;
+	padding: 0.5rem 1.125rem;
 	border: 1px solid var(--ink);
 	border-radius: 999px;
 	font-size: 1rem;
-	line-height: 1.2;
+	line-height: 1.25;
 	transition:
 		background 140ms ease,
 		color 140ms ease;
@@ -328,10 +336,10 @@ textarea {
 	width: min(100%, var(--band));
 	margin-inline: auto;
 	padding-block: clamp(1.5rem, 5vw, 3.5rem);
-	font-size: clamp(1.75rem, 1.2rem + 2.6vw, 3rem);
+	font-size: clamp(1.75rem, 1.25rem + 2.5vw, 3rem);
 	font-weight: 500;
-	line-height: 1.1;
-	letter-spacing: -0.015em;
+	line-height: 1.125;
+	letter-spacing: 0;
 	text-align: center;
 	text-wrap: balance;
 }
@@ -347,44 +355,86 @@ textarea {
    list is held together by its own rhythm rather than by ruling. */
 .entry {
 	display: grid;
-	gap: 0.4rem 2rem;
+	gap: 0.5rem 2rem;
 	padding-block: clamp(1.25rem, 3vw, 2rem);
 }
 
-/* The label sits above the title on the entry's centre line rather than
-   off in a column down the side — the rubric over the list is centred, and
-   a label pinned left would be the only thing in the section that is not.
+/* The label and title sit above the body on the entry's centre line rather
+   than off in a column down the side — the rubric over the list is centred,
+   and a label pinned left would be the only thing in the section that is
+   not. The date over a note, the number over a commitment, and the
+   numbering over a principle are captions rather than running text: a size
+   down and a weight up from the paragraphs they head. */
+article header {
+	display: grid;
+	gap: 0.25rem;
+	width: min(100%, var(--column));
+	margin-inline: auto;
+	text-align: center;
+}
 
-   The date over a note, and the numbering over a principle, are captions
-   rather than running text: a size down and a weight up from the
-   paragraphs they head. */
-.entry__label {
-	font-size: 0.9rem;
+article header > p {
+	font-size: 0.875rem;
 	font-weight: 500;
 	letter-spacing: 0;
 	color: var(--ink-soft);
-	padding-top: 0.3em;
-	text-align: center;
 }
 
-.entry__title {
-	font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.7rem);
+article.entry header h2 {
+	font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
 	font-weight: 500;
-	line-height: 1.2;
-	margin-bottom: 0.4em;
+	line-height: 1.25;
+	margin-bottom: 0.25em;
+	text-wrap: balance;
+}
+
+article:not(.entry) header h3 {
+	font-size: clamp(1.5rem, 1.125rem + 1.25vw, 2rem);
+	font-weight: 500;
+	line-height: 1.25;
+	margin-bottom: 0.25em;
+	text-wrap: balance;
+}
+
+/* A turn between commitments: stage directions rather than headings. */
+p.turn {
+	width: 100%;
+	margin-inline: auto;
+	padding-block: clamp(1rem, 4vw, 2.5rem) 0;
+	font-family: var(--font-caps);
+	font-size: 1rem;
+	font-weight: 500;
+	letter-spacing: 0.125em;
 	text-align: center;
+	text-transform: lowercase;
+	color: var(--ink-soft);
 }
 
-.entry__body {
-	display: grid;
-	gap: 0.8em;
-	line-height: 1.6;
+/* The condition under which a commitment would have failed it. */
+article .text dl {
+	font-weight: 500;
 }
 
-/* An entry that is only its title — a list of things rather than a list of
-   things with something to say about each. */
-.entry--single .entry__title {
-	margin-bottom: 0;
+article .text dt {
+	display: inline;
+	font-family: var(--font-caps);
+	font-weight: 500;
+	letter-spacing: 0.125em;
+	text-transform: lowercase;
+	color: var(--ink-soft);
+}
+
+article .text dt::after {
+	content: ": ";
+}
+
+article .text dd {
+	display: inline;
+	margin: 0;
+}
+
+article .text dl + p {
+	color: var(--ink-soft);
 }
 
 /* Label / value pairs. */
@@ -399,7 +449,7 @@ textarea {
 	justify-content: space-between;
 	align-items: baseline;
 	gap: 0.25em 1.5em;
-	padding-block: 0.6em;
+	padding-block: 0.5em;
 }
 
 .facts dt {
@@ -491,7 +541,7 @@ textarea {
 	inset-inline-start: var(--gutter);
 	inset-block-start: -4rem;
 	z-index: 10;
-	padding: 0.6rem 1rem;
+	padding: 0.5rem 1rem;
 	background: var(--card);
 	border-radius: 0.5rem;
 	transition: inset-block-start 120ms ease;

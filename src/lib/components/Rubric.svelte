@@ -25,9 +25,9 @@
 	   size out from the rest of it. */
 	.rubric__title {
 		font-family: var(--font-caps);
-		font-size: 1.15rem;
+		font-size: 1.125rem;
 		font-weight: 500;
-		letter-spacing: 0.04em;
+		letter-spacing: 0.125em;
 		text-transform: lowercase;
 	}
 </style>

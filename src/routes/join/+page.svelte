@@ -19,7 +19,9 @@
      your name on it. -->
 {#each join.blocks as block (block.id)}
 	<section class="section way" id={block.id} aria-labelledby="{block.id}-title">
-		<h2 class="headline" id="{block.id}-title">{block.title}</h2>
+		<header>
+			<h2 id="{block.id}-title">{block.title}</h2>
+		</header>
 
 		<div class="text">
 			{#each block.body as paragraph (paragraph)}
