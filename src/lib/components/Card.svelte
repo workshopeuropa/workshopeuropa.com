@@ -219,11 +219,11 @@
 		font-style: italic;
 	}
 
-	/* Set down a size, not down a tone. A card's ink and its fill are only
-	   5.45:1 apart at the closest hue on the scale, so there is no room on a
-	   card to soften text and still clear AA — 72% of the ink landed at 3.15,
-	   and anything that does clear 4.5 is too close to the ink to read as a
-	   different tone at all. The size difference does the work instead. */
+	/* Set down a size, not down a tone. A card's ink and its fill are 6.38:1
+	   apart at the closest hue on the scale, which still leaves no room on a
+	   card to soften text: 85% of the ink lands at 4.62 — over AA, but so
+	   close to the ink that it does not read as a different tone — and 80%,
+	   which would, falls to 4.14. The size difference does the work instead. */
 	.card :global(.meta) {
 		font-size: 0.875rem;
 	}

@@ -20,46 +20,58 @@
 	--ratio: 1.41421;
 
 	/* ---- The colour system ---------------------------------------------
-	   One hue per page and four recipes on it. --hue is set per page by the
-	   layout; --hue-cold is that hue moved 15° towards the cold pole at 210.
-	
+	   One hue per page and four recipes on it, in OKLCH rather than HSL so
+	   that a lightness is the same lightness at every hue. In HSL it was not:
+	   the same recipe put the card at 93.6% of perceived lightness on lime and
+	   76.4% on periwinkle, which is why one hue read as bleached and another
+	   as heavy. --hue is set per page by the layout; --hue-cold is that hue
+	   moved 15° towards the cold pole at 255.
+
 	     tint   the card in light mode, the ink in dark
 	     shade  the ink in light mode, the card in dark
-	     wash   the page in light mode: very light, mid saturation
+	     wash   the page in light mode: very light, barely tinted
 	     deep   the page in dark mode: darker and flatter than the card
-	
-	   Dark mode is the card inverted — the fill and the ink swap places —
-	   on a page that goes dark with them. Every pairing clears 5.45:1, and
-	   text on the page itself clears 7.3:1 in either mode.
+
+	   Every chroma sits under the sRGB ceiling of the least accommodating hue
+	   on the wheel, so nothing is gamut-mapped and no hue is quietly bent to
+	   fit. The tint's 0.070 is held down by 255°, which carries no more than
+	   0.075 at this lightness — and that ceiling falls as the lightness rises,
+	   which is the trade the whole scheme turns on: at the 93.6% lime used to
+	   sit at, no hue on the wheel carries more than 0.031. Uniform lightness
+	   costs the greens their pallor, and there is no version of this that
+	   keeps it.
+
+	   Dark mode is the card inverted — the fill and the ink swap places — on a
+	   page that goes dark with them. Every pairing clears 5.96:1, and text on
+	   the page itself clears 8.95:1 in either mode.
 	   --------------------------------------------------------------------- */
-	--hue: 75; /* Lime, until a page says otherwise */
-	--hue-cold: 90;
+	--hue: 135; /* Lime, until a page says otherwise */
+	--hue-cold: 150;
 
-	--tint-s: 80%;
-	--tint-l: 80%;
-	--shade-s: 30%;
-	--shade-l: 25%;
-	--wash-s: 50%;
-	--wash-l: 95%;
-	--deep-s: 20%;
-	--deep-l: 12%;
+	--tint-l: 85%;
+	--tint-c: 0.07;
+	--shade-l: 37.5%;
+	--shade-c: 0.055;
+	--wash-l: 96.2%;
+	--wash-c: 0.016;
+	--deep-l: 24%;
+	--deep-c: 0.022;
 
-	--tint: hsl(var(--hue) var(--tint-s) var(--tint-l));
-	--shade: hsl(var(--hue-cold) var(--shade-s) var(--shade-l));
-	--wash: hsl(var(--hue) var(--wash-s) var(--wash-l));
-	--deep: hsl(var(--hue) var(--deep-s) var(--deep-l));
+	--tint: oklch(var(--tint-l) var(--tint-c) var(--hue));
+	--shade: oklch(var(--shade-l) var(--shade-c) var(--hue-cold));
+	--wash: oklch(var(--wash-l) var(--wash-c) var(--hue));
+	--deep: oklch(var(--deep-l) var(--deep-c) var(--hue));
 
 	/* The three roles everything else reads. */
 	--paper: var(--wash);
 	--card: var(--tint);
 	--ink: var(--shade);
 
-	/* Derived from the ink, so it follows it into dark mode. 85% rather than
-	   70: the ink pairs with the paper at 7.33:1 at the closest hue on the
-	   scale, and 70% of it spent enough of that to land at 3.54 — under AA
-	   for a caption, a standfirst or a test that has to be readable. At 85%
-	   the worst hue on the wheel still clears 5.03:1 in both modes, and the
-	   tone is still visibly a step back from the ink. */
+	/* Derived from the ink, so it follows it into dark mode. Held at 85%: the
+	   ink now pairs with the paper at 8.95:1 at the closest hue rather than
+	   7.33, so this has more room than it used to — 75% would still clear AA
+	   at 4.58 — but 85% is a tone step, not a fade, and the extra room is
+	   better left unspent. At 85% the worst hue clears 5.96:1 in both modes. */
 	--ink-soft: color-mix(in srgb, var(--ink) 85%, transparent);
 
 	/* One face, set two ways: Spectral throughout, and the small caps it
