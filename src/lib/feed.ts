@@ -8,7 +8,7 @@
  * are, which is the deal every feed reader assumes.
  */
 
-import { news, noteSlug, type Note } from './content/news';
+import { blocks, news, noteSlug, type Note } from './content/news';
 import { site } from './content/site';
 
 const ESCAPES: Record<string, string> = {
@@ -46,9 +46,23 @@ export function noteDate(note: Note) {
 
 export const updated = ordered.length ? noteDate(ordered[0]) : new Date(0);
 
+/** A note's whole body as one run of text. Both feeds carry a summary as
+    plain text rather than as markup, so the structure survives in the only
+    way plain text has: a paragraph keeps the blank line after it and a list
+    keeps a bullet on every point. Five points run together into one
+    sentence would be worse than the markup is worth. */
+export function noteText(note: Note) {
+	return blocks(note)
+		.map((block) =>
+			block.type === 'list' ? block.items.map((point) => `• ${point}`).join('\n') : block.text
+		)
+		.join('\n\n');
+}
+
 /** What a note says in a feed: the body, and the subject where it has one. */
 export function noteSummary(note: Note) {
-	return note.subject ? `${note.subject} — ${note.body}` : note.body;
+	const text = noteText(note);
+	return note.subject ? `${note.subject} — ${text}` : text;
 }
 
 export const headers = (type: string) => ({

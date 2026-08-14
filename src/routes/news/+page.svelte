@@ -1,6 +1,7 @@
 <script lang="ts">
 	import HeaderCard from '$lib/components/HeaderCard.svelte';
 	import {
+		blocks,
 		formatDate,
 		news,
 		newsEmpty,
@@ -46,7 +47,20 @@
 						<h2>{item.title}</h2>
 					</header>
 					<div class="text">
-						<p>{item.body}</p>
+						<!-- Keyed by position: two paragraphs in one note can say the
+						     same thing twice, and a list is not unique either. The
+						     order is the content, and it does not reshuffle. -->
+						{#each blocks(item) as block, i (i)}
+							{#if block.type === 'list'}
+								<ul class="points">
+									{#each block.items as point (point)}
+										<li>{point}</li>
+									{/each}
+								</ul>
+							{:else}
+								<p>{block.text}</p>
+							{/if}
+						{/each}
 						{#if item.link}
 							<p><a href={item.link.href}>{item.link.label}</a></p>
 						{/if}
@@ -71,6 +85,28 @@
 	   rather than leaving the subject stranded under it. */
 	.subject {
 		white-space: nowrap;
+	}
+
+	/* The reset takes the markers off every list on the site, so a list in a
+	   note draws its own. Hung in the margin rather than indented into it:
+	   the text of a point starts on the same line the paragraphs above and
+	   below it start on, and a point that wraps lines up under itself. */
+	.points {
+		display: grid;
+		gap: 0.4em;
+		line-height: 1.5;
+	}
+
+	.points li {
+		position: relative;
+		padding-inline-start: 1.1em;
+	}
+
+	.points li::before {
+		content: '•';
+		position: absolute;
+		inset-inline-start: 0;
+		color: var(--ink-soft);
 	}
 
 	.empty {
