@@ -61,22 +61,22 @@
 	   arrive at it. */
 	.claim {
 		font-weight: 500;
-		font-size: clamp(1.15rem, 1rem + 0.8vw, 1.5rem);
+		font-size: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
 		letter-spacing: 0;
-		line-height: 1.3;
+		line-height: 1.25;
 	}
 
 	.languages {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		gap: 0.15em 0.5em;
+		gap: 0.125em 0.5em;
 		width: min(100%, var(--band));
 		margin-inline: auto;
-		font-size: clamp(1.5rem, 1rem + 2.4vw, 2.75rem);
+		font-size: clamp(1.5rem, 1rem + 2.5vw, 2.75rem);
 		font-weight: 500;
-		line-height: 1.15;
-		letter-spacing: -0.01em;
+		line-height: 1.25;
+		letter-spacing: 0;
 		text-align: center;
 	}
 
