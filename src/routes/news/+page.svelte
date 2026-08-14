@@ -33,23 +33,23 @@
 		<div class="entries">
 			{#each news as item (item.date + item.title)}
 				<article class="entry" id={noteSlug(item)}>
-					<p class="entry__label">
-						<time datetime={item.date}>{formatDate(item.date)}</time>
-						<!-- `9 August 2026 · Risved`. The separator is a real
-						     character rather than a drawn one, so the meta line
-						     survives being copied: unlike the run of names on a
-						     project card, there is no width at which it wants to
-						     come off. -->
-						{#if item.subject}<span class="subject"> · {item.subject}</span>{/if}
-					</p>
-					<div>
-						<h2 class="entry__title">{item.title}</h2>
-						<div class="entry__body">
-							<p>{item.body}</p>
-							{#if item.link}
-								<p><a href={item.link.href}>{item.link.label}</a></p>
-							{/if}
-						</div>
+					<header>
+						<p>
+							<time datetime={item.date}>{formatDate(item.date)}</time>
+							<!-- `9 August 2026 · Risved`. The separator is a real
+							     character rather than a drawn one, so the meta line
+							     survives being copied: unlike the run of names on a
+							     project card, there is no width at which it wants to
+							     come off. -->
+							{#if item.subject}<span class="subject"> · {item.subject}</span>{/if}
+						</p>
+						<h2>{item.title}</h2>
+					</header>
+					<div class="text">
+						<p>{item.body}</p>
+						{#if item.link}
+							<p><a href={item.link.href}>{item.link.label}</a></p>
+						{/if}
 					</div>
 				</article>
 			{/each}

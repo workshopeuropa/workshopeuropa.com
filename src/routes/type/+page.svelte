@@ -5,14 +5,9 @@
 
 	   Every size on it is the real one: the roles defined in src/app.css are
 	   used directly, and Rubric and Declarations are the actual components.
-	   The nine styles scoped to a route component — .turn, .commitment__*,
-	   .test, .coda, .closing, .claim, .languages — cannot reach this page,
-	   so they are COPIED into the style block at the foot, marked as copies,
-	   with the file they were copied from on each row. If one of them is
-	   changed at home and not here, this page is wrong about it.
-
-	   The copy is written in the site's own register rather than sampled
-	   from it, so nothing here reads as a page that exists.
+	   The styles that used to live in route components — .turn, article
+	   headers, dl tests, .claim, .languages — now live in app.css. This
+	   page uses them directly.
 	   --------------------------------------------------------------------- */
 	import { onMount } from 'svelte';
 	import type { Snippet } from 'svelte';
@@ -102,7 +97,7 @@
 {@render spec(
 	'.pull',
 	'app.css:319',
-	'clamp(1.75rem, 1.2rem + 2.6vw, 3rem) · caps at 1108px',
+	'clamp(1.75rem, 1.25rem + 2.5vw, 3rem)',
 	'',
 	pullBody
 )}
@@ -118,41 +113,53 @@
 {@render spec(
 	'.languages',
 	'about/+page.svelte:76 — copied',
-	'clamp(1.5rem, 1rem + 2.4vw, 2.75rem) · caps at 1167px',
+	'clamp(1.5rem, 1rem + 2.5vw, 2.75rem)',
 	'',
 	languagesBody
 )}
 
 {#snippet headlineBody()}
-	<h2 class="headline" data-measure>Who does it answer to?</h2>
+	<section class="section">
+		<header>
+			<h2 data-measure>Who does it answer to?</h2>
+		</header>
+	</section>
 {/snippet}
 {@render spec(
-	'.headline',
-	'app.css:255',
-	'clamp(1.6rem, 1.35rem + 1.2vw, 2.2rem) · caps at 1133px',
-	'',
+	'section > header h2',
+	'app.css',
+	'clamp(1.75rem, 1.25rem + 1.25vw, 2rem)',
+	'header h2',
 	headlineBody
 )}
 
 {#snippet commitmentTitleBody()}
-	<h3 class="commitment__title" data-measure>You can leave, and take it with you.</h3>
+	<article class="section">
+		<header>
+			<h3 data-measure>You can leave, and take it with you.</h3>
+		</header>
+	</article>
 {/snippet}
 {@render spec(
-	'.commitment__title',
-	'+page.svelte:136 — copied',
-	'clamp(1.4rem, 1.1rem + 1.3vw, 2rem) · caps at 1108px',
-	'',
+	'article header h3',
+	'app.css',
+	'clamp(1.5rem, 1.125rem + 1.25vw, 2rem)',
+	'header h3',
 	commitmentTitleBody
 )}
 
 {#snippet entryTitleBody()}
-	<h2 class="entry__title" data-measure>Idun leaves the drafts folder</h2>
+	<article class="entry">
+		<header>
+			<h2 data-measure>Idun leaves the drafts folder</h2>
+		</header>
+	</article>
 {/snippet}
 {@render spec(
-	'.entry__title',
-	'app.css:359',
-	'clamp(1.25rem, 1.05rem + 0.9vw, 1.7rem) · caps at 1156px',
-	'',
+	'article.entry header h2',
+	'app.css',
+	'clamp(1.25rem, 1rem + 1vw, 1.75rem)',
+	'header h2',
 	entryTitleBody
 )}
 
@@ -162,7 +169,7 @@
 {@render spec(
 	'.lede',
 	'app.css:244',
-	'clamp(1.15rem, 1rem + 0.8vw, 1.5rem) · caps at 1000px',
+	'clamp(1.125rem, 1rem + 0.75vw, 1.5rem)',
 	'',
 	ledeBody
 )}
@@ -173,7 +180,7 @@
 {@render spec(
 	'.claim',
 	'about/+page.svelte:64 — copied',
-	'the same clamp as .lede, at weight 500 and lh 1.3',
+	'the same clamp as .lede, at weight 500 and lh 1.25',
 	'',
 	claimBody
 )}
@@ -181,7 +188,7 @@
 {#snippet rubricBody()}
 	<Rubric>running</Rubric>
 {/snippet}
-{@render spec('Rubric', 'Rubric.svelte:28', '1.15rem · Spectral SC · fixed', '.rubric__title', rubricBody)}
+{@render spec('Rubric', 'Rubric.svelte:28', '1.125rem · Spectral SC · fixed', '.rubric__title', rubricBody)}
 
 <!-- Everything that rides the body's own curve. Shown together because the
      decision about any one of them is a decision about all eight. -->
@@ -203,7 +210,7 @@
 {@render spec(
 	'body / running text',
 	'app.css:122',
-	'clamp(1rem, 0.95rem + 0.25vw, 1.125rem) · caps at 1120px',
+	'clamp(1rem, 0.875rem + 0.25vw, 1.125rem)',
 	'',
 	bodyBody
 )}
@@ -222,53 +229,57 @@
 )}
 
 {#snippet entryBodyBody()}
-	<div class="entries">
-		<div class="entry">
-			<div class="entry__body">
-				<p data-measure>
-					The first public build is out of the workshop. Your following exports in one step and
-					lands on another server without asking us for anything.
-				</p>
-			</div>
+	<article class="entry">
+		<div class="text">
+			<p data-measure>
+				The first public build is out of the workshop. Your following exports in one step and
+				lands on another server without asking us for anything.
+			</p>
 		</div>
-	</div>
+	</article>
 {/snippet}
 {@render spec(
-	'.entry__body',
-	'app.css:366',
-	'no size of its own · body, at lh 1.6',
+	'.text',
+	'app.css',
+	'no size of its own · body, at lh 1.5',
 	'',
 	entryBodyBody
 )}
 
 {#snippet testBody()}
-	<div class="text">
-		<p class="test" data-measure>
-			<span class="test__label">Test</span>
-			If a paid tier ever gates the way out, we have failed this one.
-		</p>
-	</div>
+	<article class="section">
+		<div class="text">
+			<dl data-measure>
+				<dt>Test</dt>
+				<dd>If a paid tier ever gates the way out, we have failed this one.</dd>
+			</dl>
+		</div>
+	</article>
 {/snippet}
 {@render spec(
-	'.test / .test__label',
-	'+page.svelte:146 — copied',
-	'no size of its own · body at weight 500, label in Spectral SC',
-	'',
+	'article .text dl / dt',
+	'app.css',
+	'no size of its own · body at weight 500, dt in Spectral SC',
+	'dt',
 	testBody
 )}
 
 {#snippet codaBody()}
-	<div class="text">
-		<p class="coda" data-measure>
-			This is the easiest of the five to write down and the hardest to keep.
-		</p>
-	</div>
+	<article class="section">
+		<div class="text">
+			<dl>
+				<dt>Test</dt>
+				<dd>Anyone can build on it without a licence.</dd>
+			</dl>
+			<p data-measure>This is the easiest of the five to write down and the hardest to keep.</p>
+		</div>
+	</article>
 {/snippet}
 {@render spec(
-	'.coda / .closing',
-	'+page.svelte:162, 168 — copied',
+	'article .text dl + p / .closing',
+	'app.css',
 	'no size of its own · body, in --ink-soft',
-	'',
+	'p',
 	codaBody
 )}
 
@@ -298,7 +309,7 @@
 {#snippet turnBody()}
 	<p class="turn" data-measure>and then the harder half</p>
 {/snippet}
-{@render spec('.turn', '+page.svelte:109 — copied', '1rem · Spectral SC · fixed', '', turnBody)}
+{@render spec('p.turn', 'app.css', '1rem · Spectral SC · fixed', '', turnBody)}
 
 {#snippet declaresHowBody()}
 	<Declarations project={vionio} detail />
@@ -312,17 +323,16 @@
 )}
 
 {#snippet labelBody()}
-	<div class="entries">
-		<div class="entry">
-			<p class="entry__label" data-measure>9 August 2026 · Vionio</p>
-		</div>
-	</div>
-	<p class="commitment__number">3 of 5</p>
+	<article class="entry">
+		<header>
+			<p data-measure>9 August 2026 · Vionio</p>
+		</header>
+	</article>
 {/snippet}
 {@render spec(
-	'.entry__label / .commitment__number',
-	'app.css:349, +page.svelte:127 — one copied',
-	'0.9rem · fixed · in --ink-soft',
+	'article header > p',
+	'app.css',
+	'0.875rem · fixed · in --ink-soft',
 	'',
 	labelBody
 )}
@@ -333,7 +343,7 @@
 {@render spec(
 	'.held__one',
 	'Declarations.svelte:69',
-	'0.9rem · fixed · outlined',
+	'0.875rem · fixed · outlined',
 	'.held__one',
 	heldBody
 )}
@@ -360,28 +370,32 @@
 <p class="context-note">A front page section, top to bottom.</p>
 
 <section class="section demo">
-	<h2 class="headline">Five things, each with a test.</h2>
-	<p class="standfirst">
-		Anyone can claim principles. These come with the condition under which we would have failed
-		them.
-	</p>
+	<header>
+		<h2>Five things, each with a test.</h2>
+		<p>
+			Anyone can claim principles. These come with the condition under which we would have failed
+			them.
+		</p>
+	</header>
 </section>
 
 <p class="turn">and then the harder half</p>
 
 <article class="section demo">
+	<header>
+		<p>3 of 5</p>
+		<h3>You can leave, and take it with you.</h3>
+	</header>
 	<div class="text">
-		<p class="commitment__number">3 of 5</p>
-		<h3 class="commitment__title">You can leave, and take it with you.</h3>
 		<p>
 			Leaving should cost you an afternoon, not a year. Everything you have put in comes out in a
 			format something else can read, and the way out does not run through us.
 		</p>
-		<p class="test">
-			<span class="test__label">Test</span>
-			If a paid tier ever gates the export, we have failed this one.
-		</p>
-		<p class="coda">This is the easiest of the five to write down and the hardest to keep.</p>
+		<dl>
+			<dt>Test</dt>
+			<dd>If a paid tier ever gates the export, we have failed this one.</dd>
+		</dl>
+		<p>This is the easiest of the five to write down and the hardest to keep.</p>
 	</div>
 </article>
 
@@ -394,9 +408,11 @@
 <section class="section demo">
 	<div class="entries">
 		<article class="entry">
-			<p class="entry__label">9 August 2026 · Vionio</p>
-			<h3 class="entry__title">Idun leaves the drafts folder</h3>
-			<div class="entry__body">
+			<header>
+				<p>9 August 2026 · Vionio</p>
+				<h2>Idun leaves the drafts folder</h2>
+			</header>
+			<div class="text">
 				<p>
 					The first public build is out of the workshop. Your following exports in one step and
 					lands on another server without asking us for anything.
@@ -408,9 +424,11 @@
 			</div>
 		</article>
 		<article class="entry">
-			<p class="entry__label">2 June 2026 · Workshop Europa</p>
-			<h3 class="entry__title">Five things, each with a test</h3>
-			<div class="entry__body">
+			<header>
+				<p>2 June 2026 · Workshop Europa</p>
+				<h2>Five things, each with a test</h2>
+			</header>
+			<div class="text">
 				<p>
 					The commitments are published, each with the condition under which we would have failed
 					it.
@@ -423,7 +441,9 @@
 <p class="context-note">The head of a section page: headline, lede, running text.</p>
 
 <section class="section demo">
-	<h2 class="headline">Independence is infrastructure</h2>
+	<header>
+		<h2>Independence is infrastructure</h2>
+	</header>
 	<div class="text">
 		<p class="lede">
 			Software you depend on can be sold, closed, or quietly turned against you.
@@ -461,7 +481,7 @@
 <Rubric id="cards">For reference: the card</Rubric>
 
 <p class="context-note">
-	Four fixed sizes, the same on a phone and on a desktop. The paper's .headline tops out at 35.2px
+	Four fixed sizes, the same on a phone and on a desktop. The paper's section headline tops out at 32px
 	against the card's .title at 32, and the paper's body matches the card's .eyebrow exactly.
 </p>
 
@@ -492,10 +512,10 @@
 	}
 
 	.head__title {
-		font-size: clamp(1.6rem, 1.35rem + 1.2vw, 2.2rem);
+		font-size: clamp(1.75rem, 1.25rem + 1.25vw, 2rem);
 		font-weight: 500;
-		line-height: 1.1;
-		letter-spacing: -0.01em;
+		line-height: 1.125;
+		letter-spacing: 0;
 	}
 
 	.head__note {
@@ -533,14 +553,14 @@
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
-		gap: 0.2em 1.25em;
+		gap: 0.25em 1.25em;
 		margin-block-end: 1.25em;
 	}
 
 	.spec__what {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.2em 1.25em;
+		gap: 0.25em 1.25em;
 	}
 
 	.spec__name {
@@ -576,81 +596,25 @@
 		text-align: center;
 	}
 
-	/* ---- Copies -----------------------------------------------------------
-	   Scoped to a route component at home, so unreachable from here. Each is
-	   a verbatim copy of the declaration named on its row above; change one
-	   at home and this page is lying about it until it is changed here too.
-	   ----------------------------------------------------------------------- */
-
-	/* src/routes/+page.svelte */
-	.turn {
-		width: 100%;
-		margin-inline: auto;
-		padding-block: clamp(1rem, 4vw, 2.5rem) 0;
-		font-family: var(--font-caps);
-		font-size: 1rem;
-		letter-spacing: 0.04em;
-		text-align: center;
-		text-transform: lowercase;
-		color: var(--ink-soft);
-	}
-
-	.commitment__number {
-		font-size: 0.9rem;
-		font-weight: 500;
-		letter-spacing: 0;
-		color: var(--ink-soft);
-		text-align: center;
-	}
-
-	.commitment__title {
-		font-size: clamp(1.4rem, 1.1rem + 1.3vw, 2rem);
-		font-weight: 500;
-		line-height: 1.15;
-		text-align: center;
-		text-wrap: balance;
-		margin-bottom: 0.2em;
-	}
-
-	.test {
-		font-weight: 500;
-	}
-
-	.test__label {
-		font-family: var(--font-caps);
-		font-weight: 500;
-		letter-spacing: 0.04em;
-		text-transform: lowercase;
-		color: var(--ink-soft);
-	}
-
-	.test__label::after {
-		content: ':';
-	}
-
-	.coda {
-		color: var(--ink-soft);
-	}
-
-	/* src/routes/about/+page.svelte */
+	/* Scoped to about/+page.svelte — shown here as specimens only. */
 	.claim {
 		font-weight: 500;
-		font-size: clamp(1.15rem, 1rem + 0.8vw, 1.5rem);
+		font-size: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
 		letter-spacing: 0;
-		line-height: 1.3;
+		line-height: 1.25;
 	}
 
 	.languages {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		gap: 0.15em 0.5em;
+		gap: 0.125em 0.5em;
 		width: min(100%, var(--band));
 		margin-inline: auto;
-		font-size: clamp(1.5rem, 1rem + 2.4vw, 2.75rem);
+		font-size: clamp(1.5rem, 1rem + 2.5vw, 2.75rem);
 		font-weight: 500;
-		line-height: 1.15;
-		letter-spacing: -0.01em;
+		line-height: 1.25;
+		letter-spacing: 0;
 		text-align: center;
 	}
 
@@ -660,17 +624,15 @@
 		color: var(--ink-soft);
 	}
 
-	/* src/lib/components/Declarations.svelte — the mark on its own, so the
-	   smallest size on the site can be looked at without the list round it. */
 	.declares__mark-demo {
 		display: inline-block;
 		min-width: 6.5em;
-		padding: 0.1em 0.6em;
+		padding: 0.125em 0.5em;
 		border: 1px solid var(--ink-soft);
 		border-radius: 999px;
 		font-family: var(--font-caps);
-		font-size: 0.8rem;
-		letter-spacing: 0.04em;
+		font-size: 0.875rem;
+		letter-spacing: 0.125em;
 		text-align: center;
 		text-transform: lowercase;
 		color: var(--ink-soft);
