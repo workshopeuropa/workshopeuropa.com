@@ -118,7 +118,7 @@ card's centre line however much the bands above and below weigh.
 
 `CardNav.svelte` is the four sections — News, About, Projects, Join — spread with equal gaps
 between them. The page you are on wears a pill in `--ink` with `--card` as the type, the same
-pairing as text on a card, inverted, so it holds 5.45:1 at worst in either mode. The pill is a
+pairing as text on a card, inverted, so it holds 6.38:1 at worst in either mode. The pill is a
 capsule, and the card's rim is measured from it.
 
 Nothing in a masthead card underlines on hover — a line under a word would be the only hard edge on
@@ -291,14 +291,15 @@ so anything important in them wants to be near the middle.
 
 ## Colour
 
-One hue per page, four recipes on it, two modes. Everything is derived — the layout sets `--hue`
-and `--hue-cold` on `:root`, and `src/app.css` does the rest:
+One hue per page, four recipes on it, two modes — in **OKLCH**, so that a lightness is the same
+lightness at every hue. Everything is derived: the layout sets `--hue` and `--hue-cold` on `:root`,
+and `src/app.css` does the rest:
 
 ```css
---tint-s: 80%;  --tint-l: 80%;   /* the card in light mode, the ink in dark */
---shade-s: 30%; --shade-l: 25%;  /* the ink in light mode, the card in dark */
---wash-s: 50%;  --wash-l: 95%;   /* the page in light mode */
---deep-s: 20%;  --deep-l: 12%;   /* the page in dark mode */
+--tint-l: 85%;    --tint-c: 0.07;   /* the card in light mode, the ink in dark */
+--shade-l: 37.5%; --shade-c: 0.055; /* the ink in light mode, the card in dark */
+--wash-l: 96.2%;  --wash-c: 0.016;  /* the page in light mode */
+--deep-l: 24%;    --deep-c: 0.022;  /* the page in dark mode */
 ```
 
 Three roles read those: `--paper`, `--card`, `--ink`. **Dark mode is the card turned inside out** —
@@ -313,48 +314,79 @@ the fill and the ink swap places, and the page goes down to the deep with them:
 All text on the page uses `--ink`, the card's own text colour, so the type on the paper and the
 type on a card are the same colour rather than two near-blacks.
 
+### Why OKLCH
+
+HSL numbers are not perceptual, so one recipe produced twelve different colours. Expressed in
+OKLCH, the old card ranged over **17 points of lightness** across the wheel — 93.6% on lime, 76.4%
+on periwinkle — which is why one hue read as bleached and another as heavy, and why every contrast
+figure below used to be quoted as a range with a worst case rather than as a number.
+
+| | Lightness across the wheel | Chroma across the wheel |
+|---|---|---|
+| Old card, in HSL | 76.4–93.6% (spread 17.2) | 0.068–0.129 (spread 0.061) |
+| New card, in OKLCH | 85% at every hue | 0.070 at every hue |
+
+The cost is real and worth stating: uniform lightness means **lime loses its pallor**. It was the
+lightest of the twelve by a wide margin, and averaging the wheel brings it down 8.6 points. There
+is no version of this that keeps it — chroma and lightness trade against each other in sRGB, and at
+the 93.6% lime used to sit at, no hue on the wheel can carry more than 0.031 chroma, less than half
+of what the scheme uses now.
+
 ### The scale
 
-Twelve hues, 30° apart, offset by 15° so that 75 — the green the site started from — lands on the
-scale. 12 × 30 closes the wheel exactly, so the wrap from 345 back to 15 is the same step as every
-other. `--hue-cold` is the hue moved 15° along the shorter arc towards the cold pole at 210°, a
-cyan-leaning blue rather than pure blue; Sky and Cornflower sit either side of it and both land on
-it, so they share a shade. The rule is `colder()` in `src/lib/tints.ts`, where `COLD_POLE` and
-`COLD_SHIFT` are one number each.
+Twelve hues, 30° apart, offset by 15°, and **the angles are OKLCH** — they do not mean what the old
+ones meant. The green the site started from was 75 in HSL and is 120 in OKLCH; with the offset kept,
+120 falls between stops, so **135 carries the name Lime and starts the walk** (105 comes out khaki).
+12 × 30 still closes the wheel exactly, and in OKLCH those twelve steps are also perceptually equal,
+which in HSL they were not.
+
+`--hue-cold` is the hue moved 15° along the shorter arc towards the cold pole at **255°**, a
+cyan-leaning blue. The pole is itself a stop, so Cornflower's shade is its own hue; under the old
+pole at 210 no hue landed on it and two shared a shade. The rule is `colder()` in
+`src/lib/tints.ts`, where `COLD_POLE` and `COLD_SHIFT` are one number each.
+
+Every chroma sits under the sRGB ceiling of the least accommodating hue, so nothing is gamut-mapped
+and no hue is quietly bent to fit. The tint's 0.070 is held down by 255°, which carries no more than
+0.075 at this lightness.
 
 | Hue | Tint | Shade | Wash | Deep |
 |---|---|---|---|---|
-| Coral 15° | `#f5b8a3` | `#532d2d` | `#f9efec` | `#251c18` |
-| Butter 45° | `#f5e0a3` | `#53532d` | `#f9f5ec` | `#252218` |
-| Lime 75° | `#e0f5a3` | `#40532d` | `#f5f9ec` | `#222518` |
-| Apple 105° | `#b8f5a3` | `#2d532d` | `#eff9ec` | `#1c2518` |
-| Spring 135° | `#a3f5b8` | `#2d5340` | `#ecf9ef` | `#18251c` |
-| Mint 165° | `#a3f5e0` | `#2d5353` | `#ecf9f5` | `#182522` |
-| Sky 195° | `#a3e0f5` | `#2d4053` | `#ecf5f9` | `#182225` |
-| Cornflower 225° | `#a3b8f5` | `#2d4053` | `#eceff9` | `#181c25` |
-| Periwinkle 255° | `#b8a3f5` | `#2d2d53` | `#efecf9` | `#1c1825` |
-| Lilac 285° | `#e0a3f5` | `#402d53` | `#f5ecf9` | `#221825` |
-| Orchid 315° | `#f5a3e0` | `#532d53` | `#f9ecf5` | `#251822` |
-| Rose 345° | `#f5a3b8` | `#532d40` | `#f9ecef` | `#25181c` |
+| Rose 15° | `#f8bcbf` | `#593440` | `#fdeeef` | `#291b1c` |
+| Coral 45° | `#f6c0a8` | `#5b362f` | `#fcefea` | `#281c17` |
+| Sand 75° | `#e9c89b` | `#4c401c` | `#f9f1e7` | `#251e13` |
+| Straw 105° | `#d4d19c` | `#3d4523` | `#f4f3e7` | `#212014` |
+| Lime 135° | `#bad9ab` | `#2b4931` | `#eef5ea` | `#1b2217` |
+| Mint 165° | `#a3ddc2` | `#194b42` | `#e9f6f0` | `#15231d` |
+| Aqua 195° | `#97dddc` | `#154951` | `#e7f6f6` | `#122322` |
+| Sky 225° | `#9cd8f1` | `#24455b` | `#e8f5fb` | `#142227` |
+| Cornflower 255° | `#afd1fc` | `#2d425e` | `#ebf3fd` | `#18202a` |
+| Periwinkle 285° | `#c8c8fb` | `#36405f` | `#f1f1fd` | `#1e1e29` |
+| Lilac 315° | `#dfc1ee` | `#453a5a` | `#f7effa` | `#231c27` |
+| Orchid 345° | `#f0bcd8` | `#52364f` | `#fbeef5` | `#271b22` |
 
-Measured in a browser across all twelve hues in both modes:
+Measured in a browser across all twelve hues in both modes — rasterised to a canvas and read back
+as pixels, so the figures are what the engine paints rather than what the maths predicts:
 
-| | Light | Dark |
-|---|---|---|
-| Text on the page | 7.30:1 worst | 7.95:1 worst |
-| Softened text on the page | 5.03:1 worst | 5.03:1 worst |
-| Text on a card | 5.45:1 worst | 5.45:1 worst |
+| | Light | Dark | Spread across the wheel |
+|---|---|---|---|
+| Text on the page | 8.89 worst | 10.18 worst | 0.48 / 0.44 |
+| Softened text on the page | 5.96 worst | 7.71 worst | 0.25 / 0.32 |
+| Text on a card | 6.38 worst | 6.38 worst | 0.13 |
 
-Text on a card is the same pair either way round, which is what makes the inversion safe. Nothing
-falls below AA, and text on the page clears AAA in both modes.
+Text on a card is the same pair either way round, which is what makes the inversion safe. Every
+pairing clears AA with room, text on the page clears AAA in both modes, and — the point of the
+exercise — no hue is meaningfully better or worse than any other. The old scheme spread its
+ink-on-page figure over 3.90 in light mode; this one spreads it over 0.48.
 
 `--ink-soft` is mixed down from `--ink`, so it follows it into dark mode rather than staying a fixed
-grey. It is 85% of the ink, not 70: at 70 the worst hue on the wheel landed at 3.54:1, which is under
-AA for a caption or a standfirst or a commitment's test, all of which have to be readable.
+grey. It is held at 85%. The ink now pairs with the paper at 8.95:1 at the closest hue rather than
+7.33, so there is more room than there used to be — 75% would still clear AA at 4.58 — but 85% is a
+tone step rather than a fade, and the extra room is better left unspent.
 
-There is no soft tone on a card at all. The ink and the fill are 5.45:1 apart at the closest hue, so
-there is no room to spend: 72% of the ink landed at 3.15:1, and any mix that does clear 4.5 is too
-close to the ink to read as a different tone. `.meta` is set down a size instead of down a tone.
+There is still no soft tone on a card at all. The ink and the fill are 6.38:1 apart at the closest
+hue, and 85% of the ink lands at 4.62 — over AA, but so close to the ink that it does not read as a
+different tone, and anything low enough to read as one fails. `.meta` is set down a size instead of
+down a tone.
 
 ## Type
 
