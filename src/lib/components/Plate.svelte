@@ -42,8 +42,13 @@
 	}
 
 	/* When the plate opens a page, cancel the sheet's top padding so the
-	   image starts at the top of the screen rather than a gutter below it. */
-	.plate:first-child {
+	   image starts at the top of the screen rather than a gutter below it.
+
+	   Anchored to the sheet rather than left as a bare `:first-child`: a
+	   plate is first inside whatever wraps it soon enough — a project on the
+	   index is its plate and the commitments under it, grouped — and the
+	   loose form pulled every one of those up by the page's top padding. */
+	:global(.sheet) > .plate:first-child {
 		margin-block-start: calc(-1 * var(--sheet-top));
 	}
 
