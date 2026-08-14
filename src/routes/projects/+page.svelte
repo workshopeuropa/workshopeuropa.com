@@ -33,8 +33,12 @@
 			<p class="standfirst">{group.note}</p>
 
 			{#each list as project (project.slug)}
+				<!-- The card on the index is one big link to the project's page:
+				     name at the top, the claim in the big type, the address at the
+				     foot. The status is the group heading's job here, and what you
+				     can do with the thing is on the page the card opens. -->
 				<Plate src={project.image?.src} alt={project.image?.alt}>
-					<ProjectCard {project} cta />
+					<ProjectCard {project} />
 				</Plate>
 
 				<!-- What it holds to, at a glance. How it meets each test is on
