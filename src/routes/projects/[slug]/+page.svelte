@@ -34,7 +34,7 @@
 <HeaderCard half />
 
 <Deck columns={1}>
-	<ProjectCard {project} orientation="landscape" heading="h1" link={false} cta />
+	<ProjectCard {project} orientation="landscape" heading="h1" link={false} />
 </Deck>
 
 <!-- The description opens the page: the card carries the url now, so this
