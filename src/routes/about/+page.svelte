@@ -1,5 +1,4 @@
 <script lang="ts">
-	import HeaderCard from '$lib/components/HeaderCard.svelte';
 	import { about, aboutTitleLines } from '$lib/content/about';
 	import { site } from '$lib/content/site';
 </script>
@@ -9,7 +8,12 @@
 	<meta name="description" content={about.argument.body[0]} />
 </svelte:head>
 
-<HeaderCard title={about.title} lines={aboutTitleLines} />
+<!-- Broken at the words the content names rather than wherever it fits: the
+     second line answers the first. The space keeps it one string to copy or
+     read out, and collapses at the break. -->
+<h1 class="page-title">
+	{#each aboutTitleLines as line, i (line)}{#if i}{' '}<br />{/if}{line}{/each}
+</h1>
 
 <section class="section">
 	<div class="text">

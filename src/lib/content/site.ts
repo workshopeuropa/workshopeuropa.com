@@ -27,6 +27,11 @@ export const site = {
 	],
 	/** The standalone pull quote on the front page. */
 	//pullQuote: "",
+	/** The studio in one paragraph, at the foot of its own card in the row
+	    that closes every page. Longer than `description`, which has a meta
+	    tag's length to keep to, and written to be read rather than indexed. */
+	blurb:
+		"One studio, one person, five commitments. Software built in Copenhagen that answers to the people who pay for it, and you can leave with everything you brought.",
 	description:
 		"Independent software, built to answers its users. Five principles, each with a test.",
 	email: "hello@workshopeuropa.com",
@@ -52,12 +57,22 @@ export const links = {
 	atom: "/news/atom.xml",
 } as const;
 
-/* Four sections. The commitments are the front page — you get to them by
-   pressing the wordmark in the header or the footer — and what each project
-   declares sits with the project rather than in a list of its own. */
-export const nav = [
+/* Four sections, in two groups, because the top bar has two ends. The three
+   that are places on the site sit to the left of the wordmark; Join is what
+   you do rather than somewhere you read, so it sits to the right where a
+   site puts its account controls.
+
+   The design has Login beside it. There is no route behind it yet — Better
+   Auth is mounted but nothing renders a form — and a nav item that 404s is
+   worse than one that is not there, so it lands here when the page does. */
+export const navStart = [
 	{ href: "/news", label: "News" },
 	{ href: "/about", label: "About" },
 	{ href: "/projects", label: "Projects" },
-	{ href: "/join", label: "Join" },
 ] as const;
+
+export const navEnd = [{ href: "/join", label: "Join" }] as const;
+
+/* The two groups as one list, for anything that wants every section and does
+   not care which end of the bar it is on. */
+export const nav = [...navStart, ...navEnd] as const;

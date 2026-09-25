@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Card from './Card.svelte';
 	import type { Project } from '$lib/content/projects';
+	import { tintFor } from '$lib/tints';
 
 	type Props = {
 		project: Project;
@@ -50,7 +51,12 @@
 	{#each items as item (item)}<span class="part">{item}</span>{/each}
 {/snippet}
 
-<Card {orientation} morph={name} href={link ? `/projects/${project.slug}` : undefined}>
+<Card
+	{orientation}
+	tint={tintFor(project.slug)}
+	morph={name}
+	href={link ? `/projects/${project.slug}` : undefined}
+>
 	{#snippet top()}
 		<!-- The name carries the heading: the headline below is the bigger
 		     type, but the project is what this card is. -->

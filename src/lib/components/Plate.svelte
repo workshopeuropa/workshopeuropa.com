@@ -70,31 +70,32 @@
 		width: 100%;
 	}
 
-	/* On a phone the plate stands up, so whatever card is on it lies down —
-	   the image is never reduced to a frame around the card. */
+	/* On a phone the plate stands up, so the card on it lies down — the image
+	   is never reduced to a frame around the card. */
 	.plate :global(.card) {
 		aspect-ratio: var(--ratio) / 1;
 		max-width: var(--band);
 		padding: clamp(1.1rem, 4.5cqi, 2.75rem);
 	}
 
-	/* On a wide screen the plate lies down: a landscape plate keeps the hero
+	/* On a wide screen the plate lies down: a landscape plate keeps a project
 	   near one screen tall instead of the 1.41 screens a full-width portrait
-	   one costs.
-
-	   A project's card stands up with it, so the image is never reduced to a
-	   frame around it. The header card does not: it is the same card on every
-	   page, and it is landscape everywhere else, so standing it up here made
-	   the front page the one place the masthead changed shape. There is room
-	   for both lying down — the card stops at --band while the plate runs to
+	   one costs. The card on it stands up, so the image is never reduced to a
+	   frame around the card — the card stops at 26rem while the plate runs to
 	   the full width of the page, so the image is still open above it and to
-	   either side. */
+	   either side.
+
+	   The exception this used to carry was for the header card, which was
+	   landscape on every other page and would have been the one thing on the
+	   site that changed shape here. The top bar replaced it, so every card
+	   that lands on a plate is a project's now and they all behave the
+	   same. */
 	@media (min-width: 60rem) {
 		.plate {
 			aspect-ratio: var(--ratio) / 1;
 		}
 
-		.plate :global(.card:not(.card--masthead)) {
+		.plate :global(.card) {
 			aspect-ratio: 1 / var(--ratio);
 			max-width: 26rem;
 			padding: clamp(1.1rem, 6cqi, 2.75rem);

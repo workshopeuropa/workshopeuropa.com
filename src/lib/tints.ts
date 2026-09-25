@@ -14,6 +14,20 @@
  *
  * The names are the common colour each hue lands on at this lightness and
  * chroma, checked against the nearest CSS named colours by OKLCH hue angle.
+ *
+ * ---- What changed -----------------------------------------------------
+ *
+ * A hue used to belong to a page, handed out by a walk round the wheel that
+ * advanced a stop per navigation and kept its place in a cookie. It belongs
+ * to a subject now: Workshop Europa is lime, Risved is sand, Inlägg is aqua,
+ * and a card wears the colour of whatever it is about rather than the colour
+ * of where it happens to sit. Three cards in a row on the front page is what
+ * settled it — under the walk they were three cards of one hue, which said
+ * nothing about the three different things on them.
+ *
+ * So the walk is gone, and with it the cookie and the per-request load that
+ * turned it. What a page is about is a static fact, which is one fewer thing
+ * for the server to decide.
  */
 
 export const HUE_STEP = 30;
@@ -68,16 +82,64 @@ export function shadeHue(tint: Tint) {
 	return colder(tint.hue);
 }
 
-/** Where the walk begins: Lime, the nearest stop to the colour the site
-    started from. */
-export const START = tints.findIndex((tint) => tint.hue === 135);
+/** A tint by name, for the table below and for anything that stores one. */
+export function byName(name: string): Tint | undefined {
+	return tints.find((tint) => tint.name === name);
+}
+
+/* ---- Who wears what ------------------------------------------------------
+   The studio and the four projects. Everything else on the site is about one
+   of them: a note is about the project it announces, the Projects card is
+   about the project it shows, and a page with no particular subject — About,
+   Join, the front page — is about the studio, which is lime.
+
+   Three of these are from the design. Vionio and Idun are not in it, so
+   their two are a choice: the far side of the wheel from the three that were
+   given, and far enough from each other to be told apart on a phone. Change
+   them here and every card, page and label follows.
+   -------------------------------------------------------------------------- */
+
+/** The studio itself, and the fallback for anything unrecognised. */
+export const HOUSE = 'Workshop Europa';
+
+const subjectTints: Record<string, string> = {
+	'workshop europa': 'Lime',
+	vionio: 'Periwinkle',
+	risved: 'Sand',
+	inlagg: 'Aqua',
+	idun: 'Cornflower'
+};
 
 /**
- * The next colour along. Pages step round the wheel one stop at a time
- * rather than jumping about, so moving through the site reads as a
- * progression instead of a shuffle.
+ * The lookup key for a subject, which arrives in more than one shape: a
+ * project's slug (`inlagg`), its title (`Inlägg • Indlæg • Innlegg`), or the
+ * subject written on a note (`Workshop Europa`).
+ *
+ * The first name only — a project with three of them is one subject — and
+ * folded to unaccented lowercase, so `Inlägg` and `inlagg` are the same key.
  */
-export function stepTint(previous: number | null): { index: number; tint: Tint } {
-	const index = previous === null ? START : (previous + 1) % tints.length;
-	return { index, tint: tints[index] };
+export function subjectKey(subject: string): string {
+	return subject
+		.split('•')[0]
+		.normalize('NFD')
+		.replace(/[̀-ͯ]/g, '')
+		.trim()
+		.toLowerCase()
+		.replace(/\s+/g, ' ');
+}
+
+/**
+ * The tint a subject wears. Anything unrecognised — and anything with no
+ * subject at all — gets the house colour, so a card is never uncoloured and
+ * a typo in a note's subject is a wrong hue rather than a broken page.
+ */
+export function tintFor(subject?: string | null): Tint {
+	const name = subject ? subjectTints[subjectKey(subject)] : undefined;
+	return byName(name ?? '') ?? byName(subjectTints[subjectKey(HOUSE)])!;
+}
+
+/** The two custom properties a card sets to wear a tint. Everything that
+    colours something reads this, so the pair can never drift apart. */
+export function tintVars(tint: Tint): string {
+	return `--hue:${tint.hue};--hue-cold:${shadeHue(tint)}`;
 }

@@ -8,6 +8,11 @@
  */
 export const aboutTitleLines = ['Independence', 'is infrastructure'];
 
+/** What the About card in the closing row is headed. Plainer than the page's
+    own headline on purpose: the card is a door, and a door says where it
+    goes rather than making the argument on the other side of it. */
+export const aboutCardTitle = 'The workshop';
+
 export const about = {
 	title: aboutTitleLines.join(' '),
 

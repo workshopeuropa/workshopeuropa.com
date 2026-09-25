@@ -1,26 +1,25 @@
 <script lang="ts">
+	import { shadeHue, type Tint } from '$lib/tints';
 	import type { Snippet } from 'svelte';
 
 	type Props = {
 		/** 1 : √2 the tall way, or √2 : 1 the wide way. */
 		orientation?: 'portrait' | 'landscape';
+		/** The colour the card wears. Left out, it inherits whatever hue is
+		    in scope — which at the top of the tree is the house lime. */
+		tint?: Tint;
 		/** Turns the card into a link. */
 		href?: string;
-		/** Span the full width of the deck. */
+		/** Span the full width of the row. */
 		wide?: boolean;
-		/** The page header, whose type is set at fixed sizes rather than
-		    against the card. */
-		masthead?: boolean;
-		/** Half the height of a landscape card — the ratio folded the long
-		    way, for a header with nothing in the middle to hold. */
-		half?: boolean;
 		/** A name the browser can follow across a navigation, so this card
 		    travels to where its counterpart sits on the next page instead of
 		    being cut away. Must be unique in the document. */
 		morph?: string;
 		/** Extra classes for the caller. */
 		class?: string;
-		/** Three bands: something at the head, something in the middle, something at the foot. */
+		/** Three bands: something at the head, something in the middle,
+		    something at the foot. */
 		top?: Snippet;
 		middle?: Snippet;
 		bottom?: Snippet;
@@ -30,10 +29,9 @@
 
 	let {
 		orientation = 'portrait',
+		tint,
 		href,
 		wide = false,
-		masthead = false,
-		half = false,
 		morph,
 		class: klass = '',
 		top,
@@ -41,6 +39,11 @@
 		bottom,
 		children
 	}: Props = $props();
+
+	/* Set on the card rather than the page, which is the whole change: a row
+	   of three cards is three hues now, and the page under them is neutral. */
+	let hue = $derived(tint ? String(tint.hue) : undefined);
+	let hueCold = $derived(tint ? String(shadeHue(tint)) : undefined);
 </script>
 
 {#snippet body()}
@@ -57,8 +60,8 @@
 	<a
 		class="card card--{orientation} card--link {klass}"
 		class:card--wide={wide}
-		class:card--masthead={masthead}
-		class:card--half={half}
+		style:--hue={hue}
+		style:--hue-cold={hueCold}
 		style:view-transition-name={morph}
 		data-morph={morph}
 		{href}
@@ -69,8 +72,8 @@
 	<article
 		class="card card--{orientation} {klass}"
 		class:card--wide={wide}
-		class:card--masthead={masthead}
-		class:card--half={half}
+		style:--hue={hue}
+		style:--hue-cold={hueCold}
 		style:view-transition-name={morph}
 		data-morph={morph}
 	>
@@ -81,58 +84,70 @@
 <style>
 	.card {
 		container-type: inline-size;
+		/* The head and the foot take what they need; the middle takes the
+		   rest, which is where the picture goes. The old card put its middle
+		   band on the centre line between two equal tracks — right for a card
+		   that was a title page, wrong for one that has something in it. */
 		display: grid;
-		grid-template-rows: 1fr auto 1fr;
-		gap: 1rem;
+		grid-template-rows: auto 1fr auto;
+		gap: 1.5rem;
 		width: 100%;
+		/* A card fills the column it is given and centres in anything wider —
+		   a project's card on its plate is capped well under the plate's
+		   width, and without this it sat against the left edge of it. */
 		margin-inline: auto;
-		/* One inset for everything the card holds: the wordmark, the nav, the
-		   line at the foot all sit this far in, so nothing is closer to an
+		/* One inset for everything the card holds, so nothing is closer to an
 		   edge than anything else. Published so a child can read it. */
-		--pad: clamp(1rem, 6cqi, 2.75rem);
+		--pad: clamp(1rem, 4.5cqi, 1.75rem);
 		padding: var(--pad);
-		/* The nav's type, and the pill it makes: 1.2 of line and 0.2em of
-		   padding above and below, so 1.6 times the size. Set here rather
-		   than in the nav because the corner below is cut from it, and the
-		   card's own font-size is not the nav's. 1rem from 364px up; four
-		   labels do not fit a narrower card than that at full size, and in
-		   vw rather than cqi so both places resolve it against the same
-		   thing. */
-		--nav-size: clamp(0.9rem, 4.4vw, 1rem);
-		--pill-h: calc(var(--nav-size) * 1.6);
-		/* The corner is cut to fit what sits in it, rather than the other way
-		   round: a capsule of half --pill-h, inset by the padding, is
-		   concentric with a corner of exactly this. */
-		--radius: calc(var(--pad) + var(--pill-h) / 2);
-		border-radius: var(--radius);
+		/* Square. The radius used to be cut from this padding and the nav
+		   pill that sat in it, so the two curves stayed concentric at every
+		   width — a nice piece of geometry with nothing left to hold, now
+		   that the nav has moved to the top bar and the design has squared
+		   the corners off. The one curve left on the site is the .action
+		   pill, which is the shape of a control. */
+		/* The recipes are re-run here rather than inherited, and that is
+		   load-bearing. A custom property is substituted at the element that
+		   declares it: --tint declared on :root resolves against :root's hue
+		   once and then inherits as a finished colour, so setting --hue on a
+		   card changed nothing and a row of three came out three shades of
+		   lime. Declared on the card, they resolve against the card's own
+		   hue. Everything inside inherits the finished colour, which is what
+		   the type and the buttons on it want. */
+		--tint: oklch(var(--tint-l) var(--tint-c) var(--hue));
+		--shade: oklch(var(--shade-l) var(--shade-c) var(--hue-cold));
+		--card: var(--tint);
+
 		background: var(--card);
 		color: var(--ink);
-		font-family: var(--font-display);
-		/* A card is Spectral throughout, so it does not take the body's
-		   tracking. Titles set their own, tighter still. */
+		/* A card is the sans now, like everything else that is read. Only the
+		   title below reaches for the serif. */
+		font-family: var(--font-text);
 		letter-spacing: 0;
-		text-align: center;
+		text-align: start;
 		overflow-wrap: break-word;
 		/* aspect-ratio sets the floor — a card with more in it than the ratio
 		   allows grows downwards rather than clipping. */
 		aspect-ratio: 1 / var(--ratio);
-		max-width: 26rem;
+	}
+
+	/* The card turns over with the page. Declared here rather than left to
+	   the rule in app.css for the same reason as above: that one sets --card
+	   on :root, and a card that has redeclared --tint and --shade locally
+	   needs to be told locally which of the two it is wearing. */
+	@media (prefers-color-scheme: dark) {
+		.card {
+			--card: var(--shade);
+		}
 	}
 
 	.card--landscape {
 		aspect-ratio: var(--ratio) / 1;
-		--pad: clamp(1rem, 4.5cqi, 2.75rem);
 		max-width: var(--band);
 	}
 
 	.card--wide {
 		grid-column: 1 / -1;
-	}
-
-	/* An A rectangle halved across its short side: same width, half the
-	   height. Declared after the orientations so it wins over both. */
-	.card--half {
-		aspect-ratio: calc(var(--ratio) * 2) / 1;
 	}
 
 	.card--link {
@@ -143,7 +158,7 @@
 
 	.card--link:hover {
 		transform: translateY(-2px);
-		filter: brightness(1.03);
+		filter: brightness(1.02);
 	}
 
 	.card--link:active {
@@ -152,18 +167,28 @@
 
 	.band {
 		display: grid;
-		gap: 0.5em;
+		gap: 0.75rem;
+		min-width: 0;
 	}
 
-	/* The outer bands hug the edges of the card; the middle one sits in an
-	   auto-height row between two equal tracks, so it lands on the centre
-	   line rather than in the middle of whatever space is left over. */
 	.band--top {
 		align-self: start;
 	}
 
+	/* Whatever is in the middle fills the space the other two leave and sits
+	   on its own centre line inside it.
+
+	   position and overflow together are what keep a picture inside the band:
+	   a 1fr row is a definite height, but its content is not obliged to
+	   respect it, and an illustration taller than the row centred itself in
+	   the row and then spilled over the title above and the line below. It is
+	   a frame now, and what goes in it is positioned against it. */
 	.band--middle {
-		align-self: center;
+		position: relative;
+		align-self: stretch;
+		align-content: center;
+		min-height: 0;
+		overflow: hidden;
 	}
 
 	.band--bottom {
@@ -171,27 +196,32 @@
 	}
 
 	/* --- Typography inside a card ---------------------------------------
-	   Set, not scaled. Every card carries the same three sizes, so a
-	   project card reads as loudly as the header card above it — sizing
-	   against the card meant a small card whispered.
+	   Set, not scaled. Every card carries the same sizes, so a project card
+	   reads as loudly as the one beside it — sizing against the card meant
+	   a small card whispered.
 	   --------------------------------------------------------------------- */
 
+	/* The label over the title: the same tracked capitals as every other
+	   small label on the site. */
 	.card :global(.eyebrow) {
-		font-size: 1rem;
+		font-family: var(--font-caps);
+		font-size: 0.8rem;
 		font-weight: 500;
-		line-height: 1.2;
+		line-height: 1.25;
+		letter-spacing: var(--track-label);
+		text-transform: uppercase;
 	}
 
 	.card :global(.title),
 	.card :global(.title--small) {
+		font-family: var(--font-display);
 		/* Even the last line: a headline should not leave one word alone. */
 		text-wrap: balance;
-		font-weight: 500;
+		font-weight: 400;
 		line-height: 1.05;
-		letter-spacing: -0.01em;
+		letter-spacing: 0;
 		/* A word longer than its column hyphenates rather than hanging out
-		   of the card — two columns on a phone leave about eight characters
-		   a line at this size. */
+		   of the card. */
 		hyphens: auto;
 		overflow-wrap: anywhere;
 	}
@@ -205,8 +235,8 @@
 	}
 
 	/* Below about eight characters a line, hyphenation stops helping and
-	   starts chopping: a half-width card reads better ragged. break-word
-	   still catches a word that genuinely cannot fit. */
+	   starts chopping: a narrow card reads better ragged. break-word still
+	   catches a word that genuinely cannot fit. */
 	@container (max-width: 16rem) {
 		.card :global(.title),
 		.card :global(.title--small) {
@@ -219,28 +249,24 @@
 		font-style: italic;
 	}
 
-	/* Set down a size, not down a tone. A card's ink and its fill are 6.38:1
-	   apart at the closest hue on the scale, which still leaves no room on a
-	   card to soften text: 85% of the ink lands at 4.62 — over AA, but so
-	   close to the ink that it does not read as a different tone — and 80%,
-	   which would, falls to 4.14. The size difference does the work instead. */
+	/* The line at the foot of a card. A size down from the column and set
+	   tighter, since it is a caption rather than something to read at
+	   length. */
 	.card :global(.meta) {
-		font-size: 0.875rem;
+		font-size: 1rem;
+		line-height: 1.5;
 	}
 
 	.card :global(.prose) {
 		font-size: 1rem;
-		line-height: 1.55;
-		text-align: left;
+		line-height: 1.5;
 		max-width: var(--measure);
-		margin-inline: auto;
 		display: grid;
 		gap: 0.85em;
 	}
 
 	/* A card's contrast pair is ink on card, not ink on paper, so a button
-	   sitting on one inverts to the card's own fill rather than the page's —
-	   the same pairing as the nav's pill, which is filled the same way. */
+	   sitting on one inverts to the card's own fill rather than the page's. */
 	.card :global(.action:hover),
 	.card :global(.action--lead) {
 		color: var(--card);
@@ -252,10 +278,4 @@
 	.card :global(.action--lead:hover) {
 		color: var(--ink);
 	}
-
-	/* The masthead's wordmark is the one italic in the set. */
-	.card--masthead :global(.eyebrow) {
-		font-style: italic;
-	}
-
 </style>

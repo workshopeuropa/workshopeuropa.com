@@ -85,7 +85,10 @@ export const commitments: Commitment[] = [
 ];
 
 /** The heading over the set on the front page. */
-export const commitmentsTitle = "";
+/* The rubric at the top of the front page, and the page's own heading. It
+   was empty; the design puts this line there, set as tracked capitals like
+   every other small label on the site. */
+export const commitmentsTitle = "Independent software is infrastructure";
 
 export const commitmentsIntro = "";
 

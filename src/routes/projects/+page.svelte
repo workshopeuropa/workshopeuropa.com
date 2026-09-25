@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Declarations from '$lib/components/Declarations.svelte';
-	import HeaderCard from '$lib/components/HeaderCard.svelte';
 	import Plate from '$lib/components/Plate.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Rubric from '$lib/components/Rubric.svelte';
@@ -13,7 +12,7 @@
 	<meta name="description" content="What Workshop Europa publishes. {projectsIntro}" />
 </svelte:head>
 
-<HeaderCard title={projectsTitle} />
+<h1 class="page-title">{projectsTitle}</h1>
 
 <section class="section">
 	<div class="text">

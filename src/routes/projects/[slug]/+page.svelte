@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Deck from '$lib/components/Deck.svelte';
 	import Declarations from '$lib/components/Declarations.svelte';
-	import HeaderCard from '$lib/components/HeaderCard.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Rubric from '$lib/components/Rubric.svelte';
 	import { site } from '$lib/content/site';
@@ -28,11 +27,9 @@
 	<meta name="description" content={project.summary} />
 </svelte:head>
 
-<!-- Two header cards. The first is the wordmark and the nav at half height,
-     with nothing in the middle to hold; the second is the project's own card
-     from the index, laid on its side, carrying the h1. -->
-<HeaderCard half />
-
+<!-- The project's own card from the index, laid on its side, carrying the
+     h1. The wordmark and the nav are in the top bar now, so the half-height
+     card that used to sit above this one has nothing left to hold. -->
 <Deck columns={1}>
 	<ProjectCard {project} orientation="landscape" heading="h1" link={false} />
 </Deck>

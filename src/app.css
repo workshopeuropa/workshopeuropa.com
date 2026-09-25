@@ -1,7 +1,10 @@
 /* ---------------------------------------------------------------
    Workshop Europa — design tokens
-   The whole site is one idea: cards in the ISO 216 ratio (1 : √2),
-   portrait or landscape, laid on paper.
+
+   Two ideas, and the second one is new. The first: cards in the ISO 216
+   ratio (1 : √2), portrait or landscape. The second: the page itself is
+   neutral — white, or near-black — and colour belongs to the cards, one
+   hue per subject rather than one per page.
    --------------------------------------------------------------- */
 
 /* The card's padding, published so anything inside can measure itself off
@@ -20,96 +23,122 @@
 	--ratio: 1.41421;
 
 	/* ---- The colour system ---------------------------------------------
-	   One hue per page and four recipes on it, in OKLCH rather than HSL so
-	   that a lightness is the same lightness at every hue. In HSL it was not:
-	   the same recipe put the card at 93.6% of perceived lightness on lime and
-	   76.4% on periwinkle, which is why one hue read as bleached and another
-	   as heavy. --hue is set per page by the layout; --hue-cold is that hue
-	   moved 15° towards the cold pole at 255.
+	   The page is not tinted. White in light mode, #121212 in dark, with
+	   black or white type on it — so every page opens the same way and the
+	   colour on it is something a card is doing, not something the page is.
 
-	     tint   the card in light mode, the ink in dark
-	     shade  the ink in light mode, the card in dark
-	     wash   the page in light mode: very light, barely tinted
-	     deep   the page in dark mode: darker and flatter than the card
+	   That is the change this scheme turns on. The ink used to be the
+	   shade — a dark tinted colour that had to clear AA against a barely
+	   tinted paper, which is what pinned the shade's lightness at 37.5% and
+	   the tint's chroma at 0.070. Neutral ink pays neither debt: black on
+	   white is 21:1 and white on #121212 is 17.9:1, whatever the card next
+	   to it is doing. So the shade is free to go darker, where the design
+	   wants it, and the only contrast left to check is type on a card.
 
-	   Every chroma sits under the sRGB ceiling of the least accommodating hue
-	   on the wheel, so nothing is gamut-mapped and no hue is quietly bent to
-	   fit. The tint's 0.070 is held down by 255°, which carries no more than
-	   0.075 at this lightness — and that ceiling falls as the lightness rises,
-	   which is the trade the whole scheme turns on: at the 93.6% lime used to
-	   sit at, no hue on the wheel carries more than 0.031. Uniform lightness
-	   costs the greens their pallor, and there is no version of this that
-	   keeps it.
+	   What survives is the reason the colours are in OKLCH: a lightness is
+	   the same lightness at every hue. In HSL it was not — the same recipe
+	   put a card at 93.6% of perceived lightness on lime and 76.4% on
+	   periwinkle, which is why one hue read as bleached and another as
+	   heavy. Three cards side by side is exactly the arrangement that shows
+	   it up, and the front page now ends on three.
 
-	   Dark mode is the card inverted — the fill and the ink swap places — on a
-	   page that goes dark with them. Every pairing clears 5.96:1, and text on
-	   the page itself clears 8.95:1 in either mode.
+	     tint   the card in light mode
+	     shade  the card in dark mode
+
+	   --hue is set per card by whatever the card is about (see tints.ts);
+	   --hue-cold is that hue moved 15° towards the cold pole at 255.
+
+	   Every chroma sits under the sRGB ceiling of the least accommodating
+	   hue on the wheel, so nothing is gamut-mapped and no hue is quietly
+	   bent to fit. The tint's 0.070 is held down by 255°, which carries no
+	   more than 0.075 at this lightness — and that ceiling falls as the
+	   lightness rises, which is the trade the whole scheme turns on: at 93.6%
+	   no hue on the wheel carries more than 0.031.
+
+	   Contrast, at the worst hue on the scale: black on the tint is 13.8:1,
+	   white on the shade is 12.1:1.
 	   --------------------------------------------------------------------- */
-	--hue: 135; /* Lime, until a page says otherwise */
+	--hue: 135; /* Lime, the house colour, until a card says otherwise */
 	--hue-cold: 150;
 
 	--tint-l: 85%;
 	--tint-c: 0.07;
-	--shade-l: 37.5%;
-	--shade-c: 0.055;
-	--wash-l: 96.2%;
-	--wash-c: 0.016;
-	--deep-l: 24%;
-	--deep-c: 0.022;
+	/* 27%, not the 37.5% this sat at while it was also the light-mode ink.
+	   Freed from that, it can go where the design puts it: a card that is a
+	   step up from #121212 rather than a panel laid on top of it. */
+	--shade-l: 27%;
+	--shade-c: 0.045;
 
 	--tint: oklch(var(--tint-l) var(--tint-c) var(--hue));
 	--shade: oklch(var(--shade-l) var(--shade-c) var(--hue-cold));
-	--wash: oklch(var(--wash-l) var(--wash-c) var(--hue));
-	--deep: oklch(var(--deep-l) var(--deep-c) var(--hue));
 
-	/* The three roles everything else reads. */
-	--paper: var(--wash);
+	/* The three roles everything else reads. Paper and ink are the same two
+	   neutrals on every page; only the card carries a hue. */
+	--paper: #ffffff;
+	--ink: #000000;
 	--card: var(--tint);
-	--ink: var(--shade);
 
-	/* Derived from the ink, so it follows it into dark mode. Held at 85%: the
-	   ink now pairs with the paper at 8.95:1 at the closest hue rather than
-	   7.33, so this has more room than it used to — 75% would still clear AA
-	   at 4.58 — but 85% is a tone step, not a fade, and the extra room is
-	   better left unspent. At 85% the worst hue clears 5.96:1 in both modes. */
-	--ink-soft: color-mix(in srgb, var(--ink) 85%, transparent);
+	/* A tone below the ink, for a label or a line that is deliberately
+	   secondary. 70%: against neutral ink there is room for a real step —
+	   #4d4d4d on white at 7.0:1, #b8b8b8 on #121212 at 9.9:1 — where against
+	   the old tinted ink anything far enough to read as a different tone
+	   fell under AA. */
+	--ink-soft: color-mix(in srgb, var(--ink) 70%, transparent);
 
-	/* One face, set two ways: Spectral throughout, and the small caps it
-	   was cut with for the one heading that asks for them. The tokens stay
-	   apart because they are different jobs, not different faces. */
-	--font-text: "Spectral", "Iowan Old Style", "Times New Roman", serif;
-	--font-display: var(--font-text);
-	--font-caps: "Spectral SC", var(--font-text);
+	/* ---- The two faces --------------------------------------------------
+	   Spectral for display, Areal for everything that is read rather than
+	   looked at. The serif keeps the wordmark and the titles on the cards;
+	   the sans carries the running text, the navigation and every small
+	   label. The site used to be Spectral throughout, which is why the
+	   display token is the one that kept the name.
 
-	/* The card's corner is not a token: it is cut from the card's own
-	   padding and the pill that sits in it, in Card.svelte, so the two
-	   curves are concentric at every width. */
+	   Areal is set in its Semi Mono cut, which is what gives the column its
+	   even colour. Until the files are in static/fonts the stack falls
+	   through to a system grotesque — the measure holds, the texture does
+	   not. See static/fonts/README.md.
+
+	   --font-caps is still the small-label face, but it is real capitals in
+	   the sans now rather than Spectral's small caps: the design sets its
+	   rubrics as tracked uppercase, and a lowercased small-caps label beside
+	   them read as a different system rather than a quieter one. */
+	--font-sans: "ABC Areal Semi Mono", ui-sans-serif, system-ui, -apple-system,
+		"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--font-text: var(--font-sans);
+	--font-display: "Spectral", "Iowan Old Style", "Times New Roman", serif;
+	--font-caps: var(--font-sans);
+
+	/* The tracking the small labels carry — 0.8px at the 16px they are set
+	   at, kept in em so it holds wherever the size lands. */
+	--track-label: 0.05em;
+
 	/* The page's padding, on every edge. */
 	--gutter: 1rem;
-	/* Space between cards in a deck, and between one section and the next.
+	/* Space between cards in a row, and between one section and the next.
 	   Not padding, so it keeps its own measure. */
 	--gap: clamp(1rem, 3.5vw, 2.5rem);
 	--stack: clamp(1rem, 3.5vw, 2.5rem);
 
-	/* Cards and plates make the wide layer; running text sits in a
-	   narrow column down the middle of it. */
+	/* The centre column. Everything that is read sits in it and is set from
+	   its left edge, so the whole page shares one margin — which only works
+	   if every one of those things is the same width. One token, therefore,
+	   rather than the three the centred layout could afford. */
+	--column: 47rem;
+	/* Prose inside a card, which is narrower than the card. */
 	--measure: 34rem;
-	--column: 38rem;
-	/* The band the cards, decks and rules share. */
+	/* The band a standalone card sits in. */
 	--band: 44rem;
-	/* The widest the page ever gets. A full-bleed plate spans this, not
-	   the viewport, so the site stops growing on a very wide screen. */
-	--page: 80rem;
+	/* The widest the page ever gets. */
+	--page: 90rem;
 
 	color-scheme: light dark;
 }
 
-/* Dark mode: the card turns inside out and the page follows it down. */
+/* Dark mode: the paper goes to near-black and the cards go with it. */
 @media (prefers-color-scheme: dark) {
 	:root {
-		--paper: var(--deep);
+		--paper: #121212;
+		--ink: #ffffff;
 		--card: var(--shade);
-		--ink: var(--tint);
 	}
 }
 
@@ -128,11 +157,10 @@ body {
 	background: var(--paper);
 	color: var(--ink);
 	font-family: var(--font-text);
-	/* Running text sits at 400; headings, cards and rubrics ask for 500
-	   themselves, so they keep it. */
 	font-weight: 400;
-	font-size: clamp(1rem, 0.875rem + 0.25vw, 1.125rem);
-	line-height: 1.5;
+	/* 20px at the top, which is what the design sets the column at. */
+	font-size: clamp(1rem, 0.9rem + 0.3vw, 1.25rem);
+	line-height: 1.4;
 	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;
 }
@@ -148,8 +176,6 @@ ol {
 	margin: 0;
 }
 
-/* The running text's tracking is for the size it is read at. A heading
-   is large enough not to want it. */
 h1,
 h2,
 h3,
@@ -224,8 +250,14 @@ textarea {
 }
 
 /* ---------------------------------------------------------------
-   Plain type. Cards are for headers, projects and the footer;
-   everything else is set straight onto the paper.
+   The column
+
+   One width, one left edge. Every block of running text on a page is
+   the same measure and is centred as a block, so the type all starts
+   at the same margin and the page reads as a single column with a lot
+   of air either side of it — rather than as a stack of centred things
+   of different widths, which is what it was when the text was centred
+   too and nothing had a left edge to share.
    --------------------------------------------------------------- */
 
 .section {
@@ -235,7 +267,12 @@ textarea {
 
 .text,
 .entries,
-.facts {
+.facts,
+.standfirst,
+.actions,
+.pull,
+section > header,
+article header {
 	width: min(100%, var(--column));
 	margin-inline: auto;
 }
@@ -243,33 +280,29 @@ textarea {
 .text {
 	display: grid;
 	gap: 1em;
-	line-height: 1.5;
 }
 
-/* The preamble opens a page the way a card does — big enough to want no
-   tracking, and set the way a headline is. */
+/* The preamble opens a page. Set at the column's own size rather than above
+   it: the design gives the opening line no more weight than the paragraphs
+   under it, and the rubric above is what says a section has started. */
 .lede {
 	letter-spacing: 0;
-	font-size: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
-	line-height: 1.5;
+	text-wrap: pretty;
 }
 
 /* A section's headline and standfirst, where the section has both to
-   carry. Set like a card's title rather than like running text — the same
-   weight, the same absence of tracking — so a heading on the paper and a
-   heading on a card are recognisably the same thing at two sizes. */
+   carry. */
 section > header {
 	display: grid;
-	gap: clamp(0.75rem, 2vw, 1rem);
-	width: min(100%, var(--column));
-	margin-inline: auto;
-	text-align: center;
+	gap: clamp(0.5rem, 1.5vw, 0.75rem);
+	text-align: start;
 }
 
 section > header h2 {
+	font-family: var(--font-display);
 	font-size: clamp(1.75rem, 1.25rem + 1.25vw, 2rem);
-	font-weight: 500;
-	line-height: 1.125;
+	font-weight: 400;
+	line-height: 1.1;
 	letter-spacing: 0;
 	text-wrap: balance;
 }
@@ -282,9 +315,7 @@ section > header p {
 /* The line under a headline when it is not paired in a header — a rubric
    and a note, a closing line on its own. */
 .standfirst {
-	width: min(100%, var(--column));
-	margin-inline: auto;
-	text-align: center;
+	text-align: start;
 	text-wrap: pretty;
 	color: var(--ink-soft);
 }
@@ -294,15 +325,14 @@ section > header p {
 .actions {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
+	justify-content: flex-start;
 	gap: 0.5rem 0.75rem;
-	width: min(100%, var(--band));
-	margin-inline: auto;
 }
 
-/* The same capsule as the nav's pill and the card's corner, at the size a
-   finger wants. Outlined rather than filled, so a row of three does not
-   read as three competing decisions. */
+/* A capsule at the size a finger wants. Outlined rather than filled, so a
+   row of three does not read as three competing decisions. The pill is the
+   one curve left on the page now that the cards are square — it is the
+   shape of a control, which is the distinction it was always drawing. */
 .action {
 	padding: 0.5rem 1.125rem;
 	border: 1px solid var(--ink);
@@ -330,17 +360,32 @@ section > header p {
 	color: var(--ink);
 }
 
-/* One line, on its own, at the size of a headline and with nothing else on
-   the screen arguing with it. */
+/* One line, on its own, in the serif and at the size of a headline. The one
+   place on the paper where the display face is used at scale. */
 .pull {
-	width: min(100%, var(--band));
-	margin-inline: auto;
 	padding-block: clamp(1.5rem, 5vw, 3.5rem);
+	font-family: var(--font-display);
 	font-size: clamp(1.75rem, 1.25rem + 2.5vw, 3rem);
-	font-weight: 500;
-	line-height: 1.125;
+	font-weight: 400;
+	line-height: 1.1;
 	letter-spacing: 0;
-	text-align: center;
+	text-align: start;
+	text-wrap: balance;
+}
+
+/* The headline at the top of a page that is not the front page. The front
+   page opens on a rubric, because the five commitments under it are the
+   headline; every other page has one of its own to carry. Besides the
+   wordmark and the titles on the cards, this is the only place the serif is
+   set at size. */
+.page-title {
+	width: min(100%, var(--column));
+	margin-inline: auto;
+	font-family: var(--font-display);
+	font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+	font-weight: 400;
+	line-height: 1.05;
+	letter-spacing: 0;
 	text-wrap: balance;
 }
 
@@ -352,61 +397,71 @@ section > header p {
 }
 
 /* Nothing between one entry and the next but the space itself — the
-   list is held together by its own rhythm rather than by ruling. */
+   list is held together by its own rhythm rather than by ruling. The design
+   sets 64px between one commitment and the next, which is what two of these
+   paddings come to at the top of the clamp.
+
+   No row gap: a commitment's title sits directly on its body, so the space
+   above the pair is the only thing separating one from the next. That is
+   what lets the title be the same size as the text under it. */
 .entry {
 	display: grid;
-	gap: 0.5rem 2rem;
+	gap: 0 2rem;
 	padding-block: clamp(1.25rem, 3vw, 2rem);
 }
 
-/* The label and title sit above the body on the entry's centre line rather
-   than off in a column down the side — the rubric over the list is centred,
-   and a label pinned left would be the only thing in the section that is
-   not. The date over a note, the number over a commitment, and the
-   numbering over a principle are captions rather than running text: a size
-   down and a weight up from the paragraphs they head. */
+/* The label over an entry — the date on a note, the number on a commitment.
+   A caption rather than running text: a size down, tracked, and in capitals,
+   which is the one device the small labels share across the site. */
 article header {
 	display: grid;
 	gap: 0.25rem;
-	width: min(100%, var(--column));
-	margin-inline: auto;
-	text-align: center;
+	text-align: start;
 }
 
 article header > p {
-	font-size: 0.875rem;
+	font-family: var(--font-caps);
+	font-size: 0.8rem;
 	font-weight: 500;
-	letter-spacing: 0;
+	letter-spacing: var(--track-label);
+	text-transform: uppercase;
 	color: var(--ink-soft);
 }
 
+/* A commitment's title sits directly over its body at the same size, the
+   way the design has it: the space above the pair is what separates one
+   commitment from the next, so the title needs no size of its own to be
+   read as a title. */
 article.entry header h2 {
-	font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+	font-size: 1em;
 	font-weight: 500;
-	line-height: 1.25;
-	margin-bottom: 0.25em;
+	line-height: inherit;
+	letter-spacing: 0;
 	text-wrap: balance;
 }
 
+/* A project or a note heading, which is a title page rather than a line in
+   a list, and takes the serif. */
 article:not(.entry) header h3 {
+	font-family: var(--font-display);
 	font-size: clamp(1.5rem, 1.125rem + 1.25vw, 2rem);
-	font-weight: 500;
-	line-height: 1.25;
+	font-weight: 400;
+	line-height: 1.15;
 	margin-bottom: 0.25em;
 	text-wrap: balance;
 }
 
 /* A turn between commitments: stage directions rather than headings. */
 p.turn {
-	width: 100%;
+	width: min(100%, var(--column));
 	margin-inline: auto;
 	padding-block: clamp(1rem, 4vw, 2.5rem) 0;
 	font-family: var(--font-caps);
-	font-size: 1rem;
+	font-size: 0.8rem;
 	font-weight: 500;
-	letter-spacing: 0.125em;
-	text-align: center;
-	text-transform: lowercase;
+	letter-spacing: var(--track-label);
+	text-align: start;
+	text-transform: uppercase;
 	color: var(--ink-soft);
 }
 
@@ -419,8 +474,8 @@ article .text dt {
 	display: inline;
 	font-family: var(--font-caps);
 	font-weight: 500;
-	letter-spacing: 0.125em;
-	text-transform: lowercase;
+	letter-spacing: var(--track-label);
+	text-transform: uppercase;
 	color: var(--ink-soft);
 }
 
@@ -458,28 +513,28 @@ article .text dl + p {
 
 .facts dd {
 	margin: 0;
-	text-align: right;
+	text-align: end;
 }
 
 /* ---------------------------------------------------------------
    Page transitions
 
    A card that names itself in `morph` is lifted out of both pages and
-   tweened between the two positions: the header card from full height to
-   half on a project page, a project's card from the portrait one on the
-   index to the landscape one at the top of its own page. The rest of the
-   page cross-fades under them, faster, so the cards read as the thing
-   that carried over.
+   tweened between the two positions. The rest of the page cross-fades
+   under them, faster, so the cards read as the thing that carried over.
+
+   The header card that used to travel between every pair of pages is
+   gone — the top bar does not move, so there is nothing to tween there.
+   What is left is a project's card going from the row on the index to the
+   top of its own page.
 
    The layout only starts the transition; every duration is here.
    --------------------------------------------------------------- */
 
 /* Eased at both ends rather than launched. The curve this used to carry
    spent 63% of the journey in its first 113ms, which over the width of a
-   card reads as a jump followed by a creep — the marker sliding between two
-   nav items looked like it was not animating at all. This one puts the
-   halfway point at halfway, so a long journey is legible and a short one is
-   still quick. */
+   card reads as a jump followed by a creep. This one puts the halfway point
+   at halfway, so a long journey is legible and a short one is still quick. */
 ::view-transition-group(*) {
 	animation-duration: 320ms;
 	animation-timing-function: cubic-bezier(0.45, 0, 0.15, 1);
@@ -492,29 +547,6 @@ article .text dl + p {
 ::view-transition-new(*) {
 	animation-duration: 150ms;
 	animation-timing-function: linear;
-}
-
-/* Coming from the front page there is no pill to slide from — no section
-   is current there — so the new one simply appears. Given the group's own
-   duration it settles as the card arrives, rather than snapping into place
-   while the card is still moving under it. */
-::view-transition-old(nav-pill),
-::view-transition-new(nav-pill) {
-	animation-duration: 320ms;
-}
-
-/* The header card is the one that changes shape: full height on most
-   pages, half on a project page. By default both snapshots are drawn at
-   their own height and pinned to the top of the box, so a card halving
-   read as two cards laid over each other rather than one changing. Scaled
-   to the box instead, they move with it, and the cross-fade runs the whole
-   way rather than settling early on a picture that is still being resized. */
-::view-transition-old(masthead),
-::view-transition-new(masthead) {
-	height: 100%;
-	object-fit: fill;
-	animation-duration: 320ms;
-	animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
 }
 
 /* The page underneath changes over before the cards have finished
@@ -543,7 +575,6 @@ article .text dl + p {
 	z-index: 10;
 	padding: 0.5rem 1rem;
 	background: var(--card);
-	border-radius: 0.5rem;
 	transition: inset-block-start 120ms ease;
 }
 

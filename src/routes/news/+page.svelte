@@ -1,5 +1,4 @@
 <script lang="ts">
-	import HeaderCard from '$lib/components/HeaderCard.svelte';
 	import {
 		blocks,
 		formatDate,
@@ -17,7 +16,7 @@
 	<meta name="description" content={newsIntro} />
 </svelte:head>
 
-<HeaderCard title={newsTitle} />
+<h1 class="page-title">{newsTitle}</h1>
 
 <section class="section">
 	<div class="text">

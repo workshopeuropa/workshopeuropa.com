@@ -16,6 +16,8 @@
  * failure, so the list shows what a project declares and never how many.
  */
 
+import { subjectKey } from '$lib/tints';
+
 export type Group = 'running' | 'self-hostable' | 'early';
 
 /** How a project meets one commitment's test, in its own words. */
@@ -73,6 +75,14 @@ export type Project = {
 /** The headline on the Projects card — on the index, and on the copy of it
     that opens every project page. */
 export const projectsTitle = 'Make the shift';
+
+/** What the Projects card in the closing row is headed — a door rather than
+    a claim, for the same reason as About's. */
+export const projectsCardTitle = 'What we make';
+
+/** The project the closing row shows. The first on the list, so the order
+    here is the decision; nothing else reads it. */
+export const featured = () => projects[0];
 
 export const projectsIntro = 'Some finished, some half-built, all in the open.';
 
@@ -219,6 +229,21 @@ export const projects: Project[] = [
 		}
 	}
 ];
+
+/**
+ * The project a subject names, however it is written — a slug, a title, or
+ * the subject on a note. A note says `Vionio` and a project is `vionio`; a
+ * project with three names is still one project, and `subjectKey` keeps the
+ * first of them. Nothing matches for a note about the studio itself, which
+ * is the right answer rather than a miss.
+ */
+export function projectFor(subject?: string | null): Project | undefined {
+	if (!subject) return undefined;
+	const wanted = subjectKey(subject);
+	return projects.find(
+		(project) => project.slug === wanted || subjectKey(project.title) === wanted
+	);
+}
 
 export function getProject(slug: string): Project | undefined {
 	return projects.find((project) => project.slug === slug);

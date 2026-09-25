@@ -1,5 +1,4 @@
 <script lang="ts">
-	import HeaderCard from '$lib/components/HeaderCard.svelte';
 	import { join } from '$lib/content/join';
 	import { site } from '$lib/content/site';
 </script>
@@ -12,7 +11,7 @@
 	/>
 </svelte:head>
 
-<HeaderCard title={join.title} />
+<h1 class="page-title">{join.title}</h1>
 
 <!-- Three blocks, and the difference between the first two is the page.
      Reading the room costs nothing; the commitments are a declaration with

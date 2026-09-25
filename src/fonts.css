@@ -1,0 +1,47 @@
+/* ---------------------------------------------------------------
+   Areal
+
+   The sans half of the pair. Spectral comes from @fontsource and is
+   imported in the layout; Areal is licensed, so it is served from
+   static/fonts rather than fetched from a registry — see the README
+   there for which files to drop in and what to call them.
+
+   Two weights, which is all the design asks for: Regular for running
+   text and Medium for the tracked capitals on the small labels.
+
+   swap, not block: the page is readable in the fallback grotesque from
+   the first paint, and the column's measure is set in rem rather than
+   in characters, so the swap moves the texture and not the layout.
+   --------------------------------------------------------------- */
+
+@font-face {
+	font-family: "ABC Areal Semi Mono";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/fonts/ABCArealSemiMono-Regular.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "ABC Areal Semi Mono";
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src: url("/fonts/ABCArealSemiMono-Medium.woff2") format("woff2");
+}
+
+/* If what you have is the variable superfamily rather than the two static
+   cuts, delete both rules above and use this instead — with the axis values
+   that pin it to the Semi Mono instance. ABC publishes the axis tags in the
+   family's specimen; MONO is the one that carries the semi-mono width, and
+   it is named here as a placeholder rather than a value to trust.
+
+@font-face {
+	font-family: "ABC Areal Semi Mono";
+	font-style: normal;
+	font-weight: 400 500;
+	font-display: swap;
+	src: url("/fonts/ABCArealSuperfamilyVariable.woff2") format("woff2-variations");
+	font-variation-settings: "MONO" 100;
+}
+*/
