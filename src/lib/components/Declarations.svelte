@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { commitments } from '$lib/content/commitments';
+	import { commitments, label } from '$lib/content/commitments';
 	import { declared, type Project } from '$lib/content/projects';
 
 	type Props = {
@@ -26,7 +26,7 @@
 					<span class="declares__mark">{declaration ? 'Met' : 'Not claimed'}</span>
 					<a class="declares__title" href="/#{commitment.slug}">
 						{commitment.n}
-						{commitment.short}
+						{label(commitment)}
 					</a>
 				</p>
 				{#if declaration}
@@ -41,7 +41,7 @@
 			<li>
 				<a class="held__one" href="/#{commitment.slug}">
 					{commitment.n}
-					{commitment.short}
+					{label(commitment)}
 				</a>
 			</li>
 		{/each}

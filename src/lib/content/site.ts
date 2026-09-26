@@ -8,6 +8,12 @@
  * landscape card it would otherwise set as one long line, which is not how
  * the rest of the set reads. `tagline` is joined back up from this, so the
  * two cannot drift apart.
+ *
+ * Nothing prints either of them now. This was the headline on the header
+ * card, and the design replaced that card with a top bar whose only type is
+ * the wordmark; the front page's own heading is the rubric over the five
+ * commitments. Kept for the same reason as `wedge` below — it is a good
+ * sentence with nowhere to be at the moment, not a mistake.
  */
 export const taglineLines = [
 	"Independent software,",
@@ -18,10 +24,16 @@ export const site = {
 	name: "Workshop Europa",
 	url: "https://workshopeuropa.com",
 	place: "Copenhagen",
-	/** The h1 on the front page. */
+	/** Was the h1 on the front page; see the note above `taglineLines`. */
 	tagline: taglineLines.join(" "),
 	/** The wedge, a line to a row. Every other list sorts by jurisdiction;
-	    this one sorts by structure. */
+	    this one sorts by structure.
+
+	    Nothing prints this at the moment. The design's front page goes from
+	    the rubric straight into the five commitments, so the line that used
+	    to open it has nowhere to be. Kept because it is the plainest sentence
+	    on the site about what this is, and it would serve an About page or a
+	    meta description as readily as a front page. */
 	wedge: [
 		"We're a workshop in Copenhagen building software to answer to its users.",
 	],
