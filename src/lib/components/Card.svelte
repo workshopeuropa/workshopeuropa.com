@@ -129,6 +129,12 @@
 		/* aspect-ratio sets the floor — a card with more in it than the ratio
 		   allows grows downwards rather than clipping. */
 		aspect-ratio: 1 / var(--ratio);
+		/* The card is what crops what is in it. The middle band used to do
+		   its own clipping, which meant nothing could reach past the card's
+		   padding — and the outsized wordmark on the About card is supposed
+		   to run off the edge of the card, not stop a padding short of it
+		   with a margin of card colour around it. */
+		overflow: hidden;
 	}
 
 	/* The card turns over with the page. Declared here rather than left to
@@ -178,17 +184,21 @@
 	/* Whatever is in the middle fills the space the other two leave and sits
 	   on its own centre line inside it.
 
-	   position and overflow together are what keep a picture inside the band:
-	   a 1fr row is a definite height, but its content is not obliged to
-	   respect it, and an illustration taller than the row centred itself in
-	   the row and then spilled over the title above and the line below. It is
-	   a frame now, and what goes in it is positioned against it. */
+	   position is what keeps a picture inside the band: a 1fr row is a
+	   definite height, but its content is not obliged to respect it, and an
+	   illustration taller than the row centred itself in the row and then
+	   spilled over the title above and the line below. It is a frame now, and
+	   what goes in it is positioned against it — a picture laid into the
+	   frame exactly, so there is nothing to clip.
+
+	   No overflow rule of its own, deliberately: the card does the clipping,
+	   so something that wants to can reach past the padding to the card's
+	   edge. */
 	.band--middle {
 		position: relative;
 		align-self: stretch;
 		align-content: center;
 		min-height: 0;
-		overflow: hidden;
 	}
 
 	.band--bottom {

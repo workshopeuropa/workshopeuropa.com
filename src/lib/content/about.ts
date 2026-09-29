@@ -5,6 +5,12 @@
  * width — on a wide card it would otherwise set as one long line and stop
  * looking like the rest of the set. `title` is joined back up from this, so
  * the two cannot drift apart.
+ *
+ * Nothing reads the broken form any more: page headings are tracked capitals
+ * now, short enough to find their own turn, so the page sets `title` and
+ * leaves the break to the label. Kept because the break is a judgement about
+ * the sentence — the second line answers the first — and that judgement is
+ * worth more than the line of code that used it.
  */
 export const aboutTitleLines = ['Independence', 'is infrastructure'];
 
@@ -26,7 +32,12 @@ export const about = {
 	},
 
 	/** Section two: a typographic device, not a language switcher. The words
-	    link to nothing. */
+	    link to nothing.
+
+	    Off the page for now — it was the one centred thing left on a site
+	    that is otherwise set from the left, and it read as a stray rather
+	    than as a device. Kept whole so it can come back somewhere the
+	    centring is the point. */
 	languages: {
 		words: ['Bottega', 'Atelier', 'Verkstad', 'Werkstatt', 'Warsztat', 'Workshop'],
 		line: 'Same room, same bench, six languages.'

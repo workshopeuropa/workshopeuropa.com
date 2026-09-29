@@ -6,5 +6,8 @@ build
 !.env.example
 .DS_Store
 data/*.db
+# Areal is licensed and this repository is public. The files are served from
+# here at runtime (see docs/fonts.md) and must never be committed.
+data/fonts/
 data/*.db-shm
 data/*.db-wal

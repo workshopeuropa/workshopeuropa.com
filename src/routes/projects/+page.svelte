@@ -12,13 +12,7 @@
 	<meta name="description" content="What Workshop Europa publishes. {projectsIntro}" />
 </svelte:head>
 
-<h1 class="page-title">{projectsTitle}</h1>
-
-<section class="section">
-	<div class="text">
-		<p class="lede">{projectsIntro}</p>
-	</div>
-</section>
+<Rubric level="h1">{projectsTitle}</Rubric>
 
 <!-- Three benches, and a group with nothing on it is not there at all: an
      empty heading announces the emptiness, and "coming soon" announces it

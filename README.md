@@ -15,7 +15,7 @@ Cards in the ISO 216 ratio — 1 : √2 — portrait or landscape, laid on paper
 everything else is plain type in a column down the middle.
 
 - **SvelteKit 2** (Svelte 5 runes) on `adapter-node`
-- **Spectral** and **Spectral SC** via Fontsource
+- **Spectral** via Fontsource, **Areal** from the data volume — see [docs/fonts.md](docs/fonts.md)
 - **Better Auth** + **Drizzle ORM** + **SQLite**, wired up but not currently used by any page
 
 ## The pages

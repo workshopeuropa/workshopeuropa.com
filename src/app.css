@@ -101,7 +101,7 @@
 	   the sans now rather than Spectral's small caps: the design sets its
 	   rubrics as tracked uppercase, and a lowercased small-caps label beside
 	   them read as a different system rather than a quieter one. */
-	--font-sans: "ABC Areal Semi Mono", ui-sans-serif, system-ui, -apple-system,
+	--font-sans: "Areal", ui-sans-serif, system-ui, -apple-system,
 		"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 	--font-text: var(--font-sans);
 	--font-display: "Spectral", "Iowan Old Style", "Times New Roman", serif;
@@ -127,8 +127,15 @@
 	--measure: 34rem;
 	/* The band a standalone card sits in. */
 	--band: 44rem;
-	/* The widest the page ever gets. */
-	--page: 90rem;
+	/* The widest the page ever gets — and, since the row of cards at the foot
+	   is the full width of it, what decides how big a card gets.
+
+	   108rem is 1728px, the width the design is drawn at. At that width the
+	   row works out at exactly the 554.67px per card the design has: 1728,
+	   less a gutter either side, less two 16px gaps, over three. Under the
+	   90rem this used to be, the same row came out at 458 and the cards
+	   read as small. */
+	--page: 108rem;
 
 	color-scheme: light dark;
 }
@@ -370,22 +377,6 @@ section > header p {
 	line-height: 1.1;
 	letter-spacing: 0;
 	text-align: start;
-	text-wrap: balance;
-}
-
-/* The headline at the top of a page that is not the front page. The front
-   page opens on a rubric, because the five commitments under it are the
-   headline; every other page has one of its own to carry. Besides the
-   wordmark and the titles on the cards, this is the only place the serif is
-   set at size. */
-.page-title {
-	width: min(100%, var(--column));
-	margin-inline: auto;
-	font-family: var(--font-display);
-	font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
-	font-weight: 400;
-	line-height: 1.05;
-	letter-spacing: 0;
 	text-wrap: balance;
 }
 

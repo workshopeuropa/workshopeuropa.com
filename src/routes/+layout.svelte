@@ -1,17 +1,39 @@
 <script lang="ts">
-	/* Spectral is the display face: the wordmark, the titles on the cards,
-	   and the one pull quote on the paper. 400 for the titles, and the
-	   italic for the wordmark, which is the only italic in the set.
+	/* ---- The two faces -------------------------------------------------
+	   Spectral is the display face and Areal is everything else, and between
+	   them the site sets exactly three things: Spectral roman, Spectral
+	   italic, and Areal at two weights. What is imported here is that list
+	   and nothing else.
 
-	   Spectral SC has gone with the small caps it was cut for — the small
-	   labels are tracked capitals in Areal now. The package is still in
-	   package.json and nothing imports it; drop it when you are sure.
+	   Spectral at 400 only. Every heading, card title and pull quote on the
+	   site is 400 — the weight above it went with the header card, and the
+	   500 that is left on the page belongs to the small labels, which are
+	   Areal. `font-synthesis` is off with the faces, so a stray 500 on a
+	   Spectral element renders as 400 rather than as a smeared one.
 
-	   Areal is licensed, so it is served from static/fonts rather than from
-	   a registry. See the README there. */
-	import '@fontsource/spectral/400.css';
-	import '@fontsource/spectral/400-italic.css';
-	import '@fontsource/spectral/500.css';
+	   Subsets, not the lot: `400.css` is a barrel that pulls in Cyrillic,
+	   Cyrillic Extended and Vietnamese alongside the two the site can
+	   actually set. Latin carries the English; Latin Extended carries the
+	   Nordic — the ä of Inlägg, the æ of Indlæg — which turns up in a
+	   Spectral heading on a project page.
+
+	   The italic is Latin only. It has one string in it, in three places:
+	   the wordmark in the bar, the one at the foot, and the outsized one on
+	   the About card. All three are `site.name`, which is ASCII. Set
+	   anything with an accent in italic and its Latin Extended file has to
+	   come back with it.
+
+	   Spectral SC has gone with the small caps it was cut for — the labels
+	   are tracked capitals in Areal now — and so has its package.
+
+	   Areal is licensed and this repository is public, so it is not imported
+	   from anywhere: its two files are served from static/fonts, which is
+	   gitignored, and preloaded in app.html. See the README there for how
+	   they get onto a server.
+	   --------------------------------------------------------------------- */
+	import '@fontsource/spectral/latin-400.css';
+	import '@fontsource/spectral/latin-ext-400.css';
+	import '@fontsource/spectral/latin-400-italic.css';
 	import '../fonts.css';
 	import '../app.css';
 

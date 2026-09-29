@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import Rubric from '$lib/components/Rubric.svelte';
 	import { site } from '$lib/content/site';
 </script>
 
@@ -7,7 +8,7 @@
 	<title>{page.status} — {site.name}</title>
 </svelte:head>
 
-<h1 class="page-title">Nothing at this address.</h1>
+<Rubric level="h1">Nothing at this address.</Rubric>
 
 <section class="section">
 	<p class="actions">

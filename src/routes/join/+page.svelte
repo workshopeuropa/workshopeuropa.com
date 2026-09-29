@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Rubric from '$lib/components/Rubric.svelte';
 	import { join } from '$lib/content/join';
 	import { site } from '$lib/content/site';
 </script>
@@ -11,7 +12,7 @@
 	/>
 </svelte:head>
 
-<h1 class="page-title">{join.title}</h1>
+<Rubric level="h1">{join.title}</Rubric>
 
 <!-- Three blocks, and the difference between the first two is the page.
      Reading the room costs nothing; the commitments are a declaration with

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { about, aboutTitleLines } from '$lib/content/about';
+	import Rubric from '$lib/components/Rubric.svelte';
+	import { about } from '$lib/content/about';
 	import { site } from '$lib/content/site';
 </script>
 
@@ -8,12 +9,10 @@
 	<meta name="description" content={about.argument.body[0]} />
 </svelte:head>
 
-<!-- Broken at the words the content names rather than wherever it fits: the
-     second line answers the first. The space keeps it one string to copy or
-     read out, and collapses at the break. -->
-<h1 class="page-title">
-	{#each aboutTitleLines as line, i (line)}{#if i}{' '}<br />{/if}{line}{/each}
-</h1>
+<!-- One string, unbroken. The headline used to be set in the serif at size
+     and wanted breaking at the word the content named; as a tracked label it
+     is short enough to find its own turn. -->
+<Rubric level="h1">{about.title}</Rubric>
 
 <section class="section">
 	<div class="text">
@@ -22,15 +21,6 @@
 		{/each}
 		<p class="claim">{about.argument.claim}</p>
 	</div>
-</section>
-
-<!-- A typographic device, not a language switcher: six words for the same
-     room, and none of them links anywhere. -->
-<section class="section">
-	<p class="languages">
-		{#each about.languages.words as word (word)}<span class="languages__word">{word}</span>{/each}
-	</p>
-	<p class="standfirst">{about.languages.line}</p>
 </section>
 
 <section class="section">
@@ -70,27 +60,4 @@
 		line-height: 1.25;
 	}
 
-	.languages {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 0.125em 0.5em;
-		width: min(100%, var(--band));
-		margin-inline: auto;
-		font-size: clamp(1.5rem, 1rem + 2.5vw, 2.75rem);
-		font-weight: 500;
-		line-height: 1.25;
-		letter-spacing: 0;
-		text-align: center;
-	}
-
-	/* Drawn rather than typed, and hung off the word before it rather than
-	   the word after: the row wraps, and a separator carried into the next
-	   line opens it with a mark rather than a word. Trailing at the end of a
-	   line it reads as punctuation, which is what it is. */
-	.languages__word:not(:last-child)::after {
-		content: '·';
-		margin-inline-start: 0.5em;
-		color: var(--ink-soft);
-	}
 </style>

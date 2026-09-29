@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import Card from './Card.svelte';
 	import { about, aboutCardTitle } from '$lib/content/about';
+	import { join } from '$lib/content/join';
 	import { blocks, news, newsTitle } from '$lib/content/news';
 	import { featured, projectFor, projectsCardTitle } from '$lib/content/projects';
 	import { links, site } from '$lib/content/site';
@@ -17,10 +19,11 @@
 		    than to the page the card is sitting on. */
 		tint: Tint;
 		media?: { src: string; alt: string };
-		/** Instead of a picture: the wordmark set large enough to be cropped
-		    by the card it is in, which is what the design does on the card
-		    about the studio. */
-		wordmark?: boolean;
+		/** Instead of a picture: this text, set large enough to be cropped by
+		    the card it is in. The design does it with the studio's name on
+		    the About card; Join takes the same device with its own words,
+		    because the room is not a thing there is a picture of. */
+		giant?: string;
 		/** The foot of the card: what it is, and a line about it. */
 		caption: { name: string; line: string };
 	};
@@ -83,32 +86,42 @@
 			label: 'About',
 			title: aboutCardTitle,
 			tint: tintFor(HOUSE),
-			wordmark: true,
+			giant: site.name,
 			caption: { name: site.name, line: site.blurb }
 		},
-		projectsCard()
+		projectsCard(),
+		{
+			href: '/join',
+			label: 'Join',
+			title: join.title,
+			tint: tintFor(HOUSE),
+			giant: join.title,
+			caption: { name: join.blocks[0].title, line: join.blocks[0].body[0] }
+		}
 	];
 
-	/* The same three on every page, which is what the design has: News, the
-	   studio, and the work. Join is a thing you do rather than somewhere you
-	   read, and it is in the top bar where a site puts its account controls —
-	   it used to have a card here and there was never a picture for it.
+	function isCurrent(href: string) {
+		const path = page.url.pathname;
+		return path === href || path.startsWith(href + '/');
+	}
 
-	   The row used to drop whichever card matched the page you were on. With
-	   four that left three; with three it would leave two, and a row of two
-	   full-width cards is a different design rather than this one short an
-	   item. The card for the page you are on is a link back to the top of it,
-	   which is harmless.
+	/* Four sections and three places in the row, so a page drops its own
+	   card and the next one moves up: every page points at the three you
+	   have not got to. The front page belongs to none of the four and keeps
+	   the first three, which is the row the design draws.
 
-	   What is worth avoiding is the same picture twice. The News card borrows
-	   the picture of whatever its newest note is about, so on a week when
-	   that is the studio — or the very project the Projects card is showing —
-	   two of the three come out identical, which reads as a bug whatever rule
-	   produced it. A card that loses its first choice falls back to the
-	   studio's, and only gives up if that is taken as well. */
+	   Then the same picture twice is taken off the second one. The News card
+	   borrows the picture of whatever its newest note is about, so a week
+	   when that is the project the Projects card is showing would put the
+	   same illustration in the row twice — which reads as a bug whatever
+	   rule produced it. A card that loses its first choice falls back to the
+	   studio's picture, and only gives up if that is taken as well.
+
+	   The two that set type instead of a picture never enter into it. */
 	let shown = $derived.by(() => {
+		const picked = cards.filter((card) => !isCurrent(card.href)).slice(0, 3);
 		const seen = new Set<string>();
-		return cards.map((card) => {
+		return picked.map((card) => {
 			if (!card.media) return card;
 			for (const option of [card.media, house]) {
 				if (seen.has(option.src)) continue;
@@ -136,11 +149,13 @@
 				{/snippet}
 
 				{#snippet middle()}
-					{#if card.wordmark}
-						<!-- Set to be cropped: the band it sits in clips it, so what
-						     you get is the middle of two very large words. -->
+					{#if card.giant}
+						<!-- Set to be cropped: the card clips it, so what you get is
+						     the left of two very large words and the rest running
+						     off the edge. Hidden from the reading order — the same
+						     words are already the card's title or its caption. -->
 						<p class="colophon__giant" aria-hidden="true">
-							{#each words as word (word)}
+							{#each card.giant.split(/\s+/) as word (word)}
 								<span>{word}</span>
 							{/each}
 						</p>
@@ -217,21 +232,29 @@
 		object-fit: cover;
 	}
 
-	/* The wordmark as the picture, at a size no card can hold — 44% of the
-	   card's width per line, which puts the first three or four letters of
-	   each word on screen and cuts the rest off at the edge. In cqi so it is
-	   the same crop at every card width. */
+	/* The outsized type, as the picture.
+
+	   Not centred in the card, which is what it was and what made it look
+	   like a caption that had got out: the design sets the block in from the
+	   left and lets it run off the right, so the card holds the opening of
+	   each word and the rest is gone. 26cqi is where the design puts it —
+	   144px in from the card's padding on a 555px card — and in cqi it is
+	   the same fraction of the card at every width.
+
+	   The two lines are centred on each other, not on the card, so the
+	   shorter one sits in from the longer at both ends. That is the only
+	   thing here that is centred.
+
+	   It reaches past the card's padding because the card is what clips it;
+	   the band it sits in no longer does its own clipping. A margin of card
+	   colour down the right-hand side would have said the type stopped
+	   rather than that it was cut. */
 	.colophon__giant {
-		/* Pinned to the middle of the band and pulled back by half its own
-		   size, so it runs off both edges rather than only the right one —
-		   the crop is the device, and a word cut at one end reads as a word
-		   that did not fit. A grid's centre alignment will not do it: an item
-		   wider than its track gets clamped back to the start rather than
-		   allowed to overflow symmetrically. */
 		position: absolute;
-		inset-block-start: 50%;
-		inset-inline-start: 50%;
-		transform: translate(-50%, -50%);
+		inset-block: 0;
+		inset-inline-start: 26cqi;
+		display: grid;
+		align-content: center;
 		width: max-content;
 		font-family: var(--font-display);
 		font-size: 44cqi;
@@ -280,14 +303,18 @@
 		opacity: 0.6;
 	}
 
-	/* The small print sits in the centre column with everything else that is
-	   read, rather than under the cards it has nothing to do with. */
+	/* The small print reads up to the wordmark above it rather than across
+	   to the column it is nowhere near, so it is centred under it. The one
+	   place on the site the type is not set from the left — and it is set
+	   that way because of what it sits beneath, not in spite of it. */
 	.colophon__print {
 		display: grid;
+		justify-items: center;
 		gap: 0.5rem;
 		width: min(100%, var(--column));
 		margin-inline: auto;
 		font-size: 0.875rem;
+		text-align: center;
 		color: var(--ink-soft);
 	}
 
@@ -295,6 +322,7 @@
 	.colophon__elsewhere {
 		display: flex;
 		flex-wrap: wrap;
+		justify-content: center;
 		gap: 0.25em 1.25em;
 	}
 
