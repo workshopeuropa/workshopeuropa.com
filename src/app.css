@@ -93,9 +93,10 @@
 	   display token is the one that kept the name.
 
 	   Areal is set in its Semi Mono cut, which is what gives the column its
-	   even colour. Until the files are in static/fonts the stack falls
-	   through to a system grotesque — the measure holds, the texture does
-	   not. See static/fonts/README.md.
+	   even colour. It is licensed, so its two files are served off the data
+	   volume rather than shipped in the build; without them the stack falls
+	   through to a system grotesque and the measure holds while the texture
+	   does not. See docs/fonts.md.
 
 	   --font-caps is still the small-label face, but it is real capitals in
 	   the sans now rather than Spectral's small caps: the design sets its

@@ -27,9 +27,9 @@
 	   are tracked capitals in Areal now — and so has its package.
 
 	   Areal is licensed and this repository is public, so it is not imported
-	   from anywhere: its two files are served from static/fonts, which is
-	   gitignored, and preloaded in app.html. See the README there for how
-	   they get onto a server.
+	   from anywhere: its two files sit on the data volume, are handed out by
+	   src/routes/fonts/[file]/+server.ts, and are preloaded in app.html. See
+	   docs/fonts.md for how they get onto a server.
 	   --------------------------------------------------------------------- */
 	import '@fontsource/spectral/latin-400.css';
 	import '@fontsource/spectral/latin-ext-400.css';
