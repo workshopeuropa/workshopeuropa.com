@@ -25,10 +25,17 @@
  * stay off the page: `site.description`, and the note headed "Five things,
  * each with a test" in news.ts.
  *
- * The slugs are deliberately unchanged, even where a new title has moved
- * away from one — `you-can-leave` is now "Open doors". They are anchors that
- * have been published, not copy, and a project page deep-links to every one
- * of them.
+ * The slugs follow the titles: `open-doors`, not the `you-can-leave` that
+ * the old title left behind. An anchor nobody can read back to the heading
+ * it lands on is a small tax on everyone who ever links to one, and these
+ * are linked by hand from outside the repository as well as from every
+ * project page.
+ *
+ * Three of the five moved when the titles did. Anything pointing at
+ * `no-competition-for-time`, `you-can-leave` or `nobody-owns-the-layer`
+ * now lands at the top of the front page rather than on the commitment —
+ * the page still loads, the fragment simply does not match. Worth a
+ * redirect if any of them turn out to be published somewhere.
  */
 
 export type Commitment = {
@@ -72,7 +79,7 @@ export const commitments: Commitment[] = [
 	},
 	{
 		n: 2,
-		slug: "no-competition-for-time",
+		slug: "respects-your-time",
 		title: "Respects your time",
 		body: [
 			"We don’t compete for your attention. No infinite feeds, no streaks, no notifications designed to pull you back. The software should do its job and let you leave.",
@@ -81,7 +88,7 @@ export const commitments: Commitment[] = [
 	},
 	{
 		n: 3,
-		slug: "you-can-leave",
+		slug: "open-doors",
 		title: "Open doors",
 		body: [
 			"Everything you put in, you can take out. Complete, automated, in formats other software can read. Leaving should be as easy as joining. Staying should be a choice, not a trap.",
@@ -100,7 +107,7 @@ export const commitments: Commitment[] = [
 	},
 	{
 		n: 5,
-		slug: "nobody-owns-the-layer",
+		slug: "shared-infrastructure",
 		title: "Shared infrastructure",
 		body: [
 			"We build on protocols and formats that no single company owns, including us. What we make can be replaced, forked, or connected to without our permission.",
