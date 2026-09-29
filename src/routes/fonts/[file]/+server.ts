@@ -32,7 +32,7 @@ import type { RequestHandler } from './$types';
  * path: the directory is on the same volume as the database, and the only
  * thing this route has any business handing out is these two files.
  */
-const FONTS = new Set(['areal-regular.woff2', 'areal-medium.woff2']);
+const FONTS = new Set(['ABCArealSemiMono-Regular.woff2', 'ABCArealSemiMono-Medium.woff2']);
 
 /** A week, revalidated by ETag. Not `immutable`, because the URL carries no
     hash — replace a cut under the same name and a client that has it should

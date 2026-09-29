@@ -42,14 +42,14 @@ They live on the volume instead, beside the database, and
 
 | File                  | Weight | Used for                             |
 | --------------------- | ------ | ------------------------------------ |
-| `areal-regular.woff2` | 400    | Running text, navigation, captions   |
-| `areal-medium.woff2`  | 500    | The tracked capitals on small labels |
+| `ABCArealSemiMono-Regular.woff2` | 400    | Running text, navigation, captions   |
+| `ABCArealSemiMono-Medium.woff2`  | 500    | The tracked capitals on small labels |
 
 No italic, no other weights. `font-synthesis: none` stops the browser
 inventing either if something ever asks.
 
-Rename what the foundry ships to exactly those two names, or edit the three
-places that name a font file:
+Those are the foundry's own filenames, so the two files go in exactly as
+shipped — nothing to rename. Three places name them, if that ever changes:
 
 - `src/fonts.css` — the `src:` URLs
 - `src/app.html` — the two `<link rel="preload">` tags

@@ -28,7 +28,7 @@
 	font-weight: 400;
 	font-display: swap;
 	font-synthesis: none;
-	src: url("/fonts/areal-regular.woff2") format("woff2");
+	src: url("/fonts/ABCArealSemiMono-Regular.woff2") format("woff2");
 }
 
 @font-face {
@@ -37,5 +37,5 @@
 	font-weight: 500;
 	font-display: swap;
 	font-synthesis: none;
-	src: url("/fonts/areal-medium.woff2") format("woff2");
+	src: url("/fonts/ABCArealSemiMono-Medium.woff2") format("woff2");
 }
