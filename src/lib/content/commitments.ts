@@ -27,15 +27,7 @@
  *
  * The slugs follow the titles: `open-doors`, not the `you-can-leave` that
  * the old title left behind. An anchor nobody can read back to the heading
- * it lands on is a small tax on everyone who ever links to one, and these
- * are linked by hand from outside the repository as well as from every
- * project page.
- *
- * Three of the five moved when the titles did. Anything pointing at
- * `no-competition-for-time`, `you-can-leave` or `nobody-owns-the-layer`
- * now lands at the top of the front page rather than on the commitment —
- * the page still loads, the fragment simply does not match. Worth a
- * redirect if any of them turn out to be published somewhere.
+ * it lands on is a small tax on everyone who ever links to one.
  */
 
 export type Commitment = {
