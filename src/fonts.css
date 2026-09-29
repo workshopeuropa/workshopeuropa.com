@@ -3,9 +3,9 @@
 
    The sans half of the pair. Spectral comes from @fontsource and is
    imported in the layout; Areal is licensed and this repository is public,
-   so its files are not in it. They are put into static/fonts on whatever
-   builds the site — see the README there — and until they are, the stack
-   falls through to a system grotesque and everything still works.
+   so its files are not in it and cannot be. They sit on the data volume and
+   a route hands them out — see docs/fonts.md. Until they are there the
+   stack falls through to a system grotesque and everything still works.
 
    Two weights, which is all the site asks for:
 
