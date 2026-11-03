@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Rubric from '$lib/components/Rubric.svelte';
 	import { about } from '$lib/content/about';
 	import { site } from '$lib/content/site';
 </script>
@@ -12,7 +11,7 @@
 <!-- One string, unbroken. The headline used to be set in the serif at size
      and wanted breaking at the word the content named; as a tracked label it
      is short enough to find its own turn. -->
-<Rubric level="h1">{about.title}</Rubric>
+<h1>{about.title}</h1>
 
 <section class="section">
 	<div class="text">

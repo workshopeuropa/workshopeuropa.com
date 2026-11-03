@@ -2,7 +2,6 @@
 	import Declarations from '$lib/components/Declarations.svelte';
 	import Plate from '$lib/components/Plate.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
-	import Rubric from '$lib/components/Rubric.svelte'
 	import { groups, projectsIn, projectsIntro, projectsTitle } from '$lib/content/projects';
 	import { site } from '$lib/content/site';
 </script>
@@ -12,7 +11,7 @@
 	<meta name="description" content="What Workshop Europa publishes. {projectsIntro}" />
 </svelte:head>
 
-<Rubric level="h1">{projectsTitle}</Rubric>
+<h1>{projectsTitle}</h1>
 
 <!-- Keep the projects in their existing order without status headings. -->
 {#each groups as group (group.id)}

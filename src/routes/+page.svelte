@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Rubric from '$lib/components/Rubric.svelte';
 	import { commitments, commitmentsTitle } from '$lib/content/commitments';
 	import { site } from '$lib/content/site';
 </script>
@@ -13,7 +12,7 @@
      the wordmark now, so the first thing under it is the first thing to
      read. The rubric is the h1 — the five below are the only other headings
      the page has. -->
-<Rubric level="h1" id="commitments">{commitmentsTitle}</Rubric>
+<h1 id="commitments">{commitmentsTitle}</h1>
 
 <!-- The five, set as one list rather than five sections: a title at the size
      of the text under it, with the space above each pair doing the work a
