@@ -15,14 +15,6 @@ export const join = {
 	title: 'Take part',
 	blocks: [
 		{
-			id: 'room',
-			title: 'Open the room',
-			body: [
-				'The conversation happens on Matrix, in the open. Come read before you commit to anything. No invitation, no vetting, no application.'
-			],
-			ctas: [{ label: 'Open the room', href: links.matrix, external: true }]
-		},
-		{
 			id: 'donate',
 			title: 'Donate to the association',
 			body: [],
