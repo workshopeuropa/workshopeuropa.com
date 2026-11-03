@@ -7,7 +7,7 @@
 	<title>Join — {site.name}</title>
 	<meta
 		name="description"
-		content="Join the conversation, donate to the association, or contribute to the open-source projects."
+		content="Donate to the association or contribute to the open-source projects."
 	/>
 </svelte:head>
 
