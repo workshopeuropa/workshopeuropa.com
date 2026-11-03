@@ -42,7 +42,7 @@
 		{/if}
 
 		{#if block.note}
-			<p class="standfirst">
+			<p>
 				{block.note.before}<a href="mailto:{block.note.email}">{block.note.email}</a
 				>{block.note.after}
 			</p>
