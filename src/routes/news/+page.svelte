@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Rubric from '$lib/components/Rubric.svelte';
 	import {
 		blocks,
 		formatDate,
@@ -17,7 +16,7 @@
 	<meta name="description" content={newsIntro} />
 </svelte:head>
 
-<Rubric level="h1">{newsTitle}</Rubric>
+<h1>{newsTitle}</h1>
 
 <!-- Newest first, no categories. The rubric above carries the h1, so the
      notes themselves sit one level down. -->

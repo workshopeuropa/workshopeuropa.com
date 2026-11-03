@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Rubric from '$lib/components/Rubric.svelte';
 	import { join } from '$lib/content/join';
 	import { site } from '$lib/content/site';
 </script>
@@ -12,7 +11,7 @@
 	/>
 </svelte:head>
 
-<Rubric level="h1">{join.title}</Rubric>
+<h1>{join.title}</h1>
 
 {#each join.blocks as block (block.id)}
 	<section class="section way" id={block.id} aria-labelledby="{block.id}-title">

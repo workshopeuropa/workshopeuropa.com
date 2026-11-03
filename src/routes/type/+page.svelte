@@ -4,7 +4,7 @@
 	   meant to be deleted once the decisions it is for have been taken.
 
 	   Every size on it is the real one: the roles defined in src/app.css are
-	   used directly, and Rubric and Declarations are the actual components.
+	   used directly, and Declarations is the actual component.
 	   The styles that used to live in route components — .turn, article
 	   headers, dl tests, .claim, .languages — now live in app.css. This
 	   page uses them directly.
@@ -13,7 +13,6 @@
 	import type { Snippet } from 'svelte';
 	import Card from '$lib/components/Card.svelte';
 	import Declarations from '$lib/components/Declarations.svelte';
-	import Rubric from '$lib/components/Rubric.svelte';
 	import { getProject } from '$lib/content/projects';
 
 	const vionio = getProject('vionio')!;
@@ -89,7 +88,7 @@
      grouped, because that is the thing worth seeing.
      =================================================================== -->
 
-<Rubric id="scale">The scale</Rubric>
+<h2 id="scale">The scale</h2>
 
 {#snippet pullBody()}
 	<p class="pull" data-measure>The exit is the feature.</p>
@@ -186,9 +185,9 @@
 )}
 
 {#snippet rubricBody()}
-	<Rubric>running</Rubric>
+	<h2 data-measure>running</h2>
 {/snippet}
-{@render spec('Rubric', 'Rubric.svelte:28', '1.125rem · Spectral SC · fixed', '.rubric__title', rubricBody)}
+{@render spec('Section heading', 'Native h2', 'Browser heading styles', 'h2', rubricBody)}
 
 <!-- Everything that rides the body's own curve. Shown together because the
      decision about any one of them is a decision about all eight. -->
@@ -365,7 +364,7 @@
      two sizes are next to each other in the order a reader meets them.
      =================================================================== -->
 
-<Rubric id="context">In context</Rubric>
+<h2 id="context">In context</h2>
 
 <p class="context-note">A front page section, top to bottom.</p>
 
@@ -459,12 +458,12 @@
 <p class="context-note">A project page: rubric, declarations, particulars.</p>
 
 <section class="section demo">
-	<Rubric>commitments</Rubric>
+	<h2 data-measure>commitments</h2>
 	<Declarations project={vionio} detail />
 </section>
 
 <section class="section demo">
-	<Rubric>particulars</Rubric>
+	<h2 data-measure>particulars</h2>
 	<dl class="facts">
 		<div><dt>Year</dt><dd>2026</dd></div>
 		<div><dt>Discipline</dt><dd>Design and build</dd></div>
@@ -478,7 +477,7 @@
      move — which is the other half of any decision made above.
      =================================================================== -->
 
-<Rubric id="cards">For reference: the card</Rubric>
+<h2 id="cards">For reference: the card</h2>
 
 <p class="context-note">
 	Four fixed sizes, the same on a phone and on a desktop. The paper's section headline tops out at 32px

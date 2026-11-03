@@ -2,7 +2,6 @@
 	import Deck from '$lib/components/Deck.svelte';
 	import Declarations from '$lib/components/Declarations.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
-	import Rubric from '$lib/components/Rubric.svelte';
 	import { site } from '$lib/content/site';
 	import type { PageData } from './$types';
 
@@ -50,7 +49,7 @@
      and never as a count. Each title is a way back to the commitment on the
      front page, where the test it comes with is written out. -->
 <section class="section" aria-labelledby="commitments">
-	<Rubric id="commitments">Commitments</Rubric>
+	<h2 id="commitments">Commitments</h2>
 
 	<Declarations {project} detail />
 </section>
@@ -59,7 +58,7 @@
      has none, rather than a rule over an empty list. -->
 {#if hasParticulars}
 	<section class="section" aria-labelledby="particulars">
-		<Rubric id="particulars">Particulars</Rubric>
+		<h2 id="particulars">Particulars</h2>
 
 		<dl class="facts">
 			{#if project.year}<div><dt>Year</dt><dd>{project.year}</dd></div>{/if}
@@ -78,7 +77,7 @@
 {/if}
 
 <section class="section" aria-labelledby="next">
-	<Rubric id="next">More projects</Rubric>
+	<h2 id="next">More projects</h2>
 
 	<!-- A pair of signposts rather than two more title pages: the columns
 	     hold on a phone, the name is upright, and the foot of each carries
