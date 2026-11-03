@@ -573,3 +573,18 @@ article .text dl + p {
 .skip-link:focus {
 	inset-block-start: var(--gutter);
 }
+
+/* Page headings retain the workshop's small, tracked capitals. */
+.sheet > h1 {
+	width: 100%;
+	max-width: 18em;
+	margin-inline: 0;
+	font-family: var(--font-caps);
+	font-size: 0.8rem;
+	font-weight: 500;
+	line-height: 1.25;
+	letter-spacing: var(--track-label);
+	text-align: start;
+	text-transform: uppercase;
+	text-wrap: balance;
+}
