@@ -27,7 +27,7 @@ export const join = {
 		},
 		{
 			id: 'contribute',
-			title: 'Contribute on the projects',
+			title: 'Contribute to the projects',
 			body: [
 				'Everything is open source.'
 			],
