@@ -15,7 +15,8 @@
  * own format wants, and nothing in the content file can put a tag somewhere
  * a tag should not go.
  */
-export type Block = { type: 'p'; text: string } | { type: 'list'; items: string[] };
+export type Block =
+	{ type: "p"; text: string } | { type: "list"; items: string[] };
 
 export type Note = {
 	/** ISO in the data, `9 August 2026` in the prose. */
@@ -32,45 +33,28 @@ export type Note = {
 };
 
 /** The headline the News page and its footer card carry. */
-export const newsTitle = 'Notes from the bench';
+export const newsTitle = "Notes from the bench"
 
-export const newsIntro = 'Releases, specification updates, and notes from the bench.';
+export const newsIntro = "Releases, updates & notes from the bench."
 
-export const newsEmpty = 'Nothing posted yet.';
+export const newsEmpty = "Nothing posted yet."
 
 export const news: Note[] = [
 	{
-		date: '2026-08-09',
-		title: 'Five things, each with a test',
+		date: '2026-10-26',
+		title: 'Workshop Europa association',
 		subject: 'Workshop Europa',
-		body: 'The commitments are published, each with the condition under which we would have failed it. Every project on the bench now says which of the five it holds to, and how it meets each test.',
-		link: { label: 'Read the commitments', href: '/#commitments' }
-	},
-	{
-		date: '2026-06-02',
-		title: 'Vionio, in public',
-		subject: 'Vionio',
-		body: 'The first public build of Vionio is out of the workshop. Your following exports in one step and lands on another server without asking us for anything.'
-	},
-	{
-		date: '2026-04-18',
-		title: 'Föreningen Idun',
-		subject: 'Idun',
-		body: 'The specification moves to a non-profit association. Whoever stewards a layer other people depend on should be structurally incapable of selling it, and this is what that looks like on paper.'
-	},
-	{
-		date: '2026-02-09',
-		title: 'The workshop opens',
-		subject: 'Workshop Europa',
-		body: 'Workshop Europa starts work, with three projects on the bench and a fourth waiting.'
+		body: 'The Workshop Europa association was established on 26 October 2026. CVR 46878248.'
 	}
-];
+]
 
 /** Both body shapes as the one shape. The short form stays available in the
     file above — a note that is two sentences should not have to be written
     as an array to say so. */
 export function blocks(note: Note): Block[] {
-	return typeof note.body === 'string' ? [{ type: 'p', text: note.body }] : note.body;
+	return typeof note.body === "string"
+		? [{ type: "p", text: note.body }]
+		: note.body
 }
 
 /** A note has no page of its own, so its address is an anchor on /news.
@@ -78,16 +62,16 @@ export function blocks(note: Note): Block[] {
 export function noteSlug(note: Note) {
 	const title = note.title
 		.toLowerCase()
-		.replace(/[^a-z0-9]+/g, '-')
-		.replace(/^-|-$/g, '');
-	return `${note.date}-${title}`;
+		.replace(/[^a-z0-9]+/g, "-")
+		.replace(/^-|-$/g, "")
+	return `${note.date}-${title}`
 }
 
 export function formatDate(iso: string) {
-	return new Date(iso + 'T00:00:00Z').toLocaleDateString('en-GB', {
-		day: 'numeric',
-		month: 'long',
-		year: 'numeric',
-		timeZone: 'UTC'
-	});
+	return new Date(iso + "T00:00:00Z").toLocaleDateString("en-GB", {
+		day: "numeric",
+		month: "long",
+		year: "numeric",
+		timeZone: "UTC",
+	})
 }

@@ -186,17 +186,13 @@
 		</a>
 	</p>
 
-	<!-- The small print, unchanged: the three ways out of the site — the
-	     room, the source, and the feed — and where this is made. A feed is
-	     the sort of thing this audience looks for, and putting it where it
-	     can be seen rather than only in the document head is itself on
-	     thesis. -->
+	<!-- Source, feed, and association details. -->
 	<div class="colophon__print">
 		<p class="colophon__elsewhere">
-			<a href={links.matrix} rel="noreferrer">Matrix</a>
 			<a href={links.source} rel="noreferrer">Source</a>
 			<a href={links.rss}>RSS</a>
 		</p>
+		<p>CVR 46878248</p>
 		<p>{site.place} · © {year}</p>
 	</div>
 </footer>
