@@ -27,8 +27,7 @@ export const about = {
 		body: [
 			'Software you depend on can be sold, closed, or quietly turned against you. Not because anyone is a villain, but because the money usually comes from somewhere other than you.',
 			'Europe has spent a decade regulating the symptoms and almost no time building the alternative. Workshop Europa is a small attempt at the second thing: build the software, publish the commitments, and keep a public list of everyone else doing the same.'
-		],
-		claim: 'Independence is infrastructure.'
+		]
 	},
 
 	/** Section two: a typographic device, not a language switcher. The words

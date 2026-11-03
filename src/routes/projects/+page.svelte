@@ -2,7 +2,7 @@
 	import Declarations from '$lib/components/Declarations.svelte';
 	import Plate from '$lib/components/Plate.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
-	import Rubric from '$lib/components/Rubric.svelte';
+	import Rubric from '$lib/components/Rubric.svelte'
 	import { groups, projectsIn, projectsIntro, projectsTitle } from '$lib/content/projects';
 	import { site } from '$lib/content/site';
 </script>
@@ -14,17 +14,11 @@
 
 <Rubric level="h1">{projectsTitle}</Rubric>
 
-<!-- Three benches, and a group with nothing on it is not there at all: an
-     empty heading announces the emptiness, and "coming soon" announces it
-     twice. The unfinished ones are not dressed up — they say Early and the
-     verb on the button says what you can actually do with them. -->
+<!-- Keep the projects in their existing order without status headings. -->
 {#each groups as group (group.id)}
 	{@const list = projectsIn(group.id)}
 	{#if list.length}
-		<section class="section group" aria-labelledby={group.id}>
-			<Rubric id={group.id}>{group.title}</Rubric>
-			<p class="standfirst">{group.note}</p>
-
+		<section class="section group" aria-label={`${group.title} projects`}>
 			<div class="bench">
 				{#each list as project (project.slug)}
 					<!-- A plate and the commitments under it are one project, so they

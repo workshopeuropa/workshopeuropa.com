@@ -19,7 +19,6 @@
 		{#each about.argument.body as paragraph, i (paragraph)}
 			<p class={i === 0 ? 'lede' : ''}>{paragraph}</p>
 		{/each}
-		<p class="claim">{about.argument.claim}</p>
 	</div>
 </section>
 
@@ -51,13 +50,5 @@
 </section>
 
 <style>
-	/* The claim the argument lands on, set apart from the paragraphs that
-	   arrive at it. */
-	.claim {
-		font-weight: 500;
-		font-size: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
-		letter-spacing: 0;
-		line-height: 1.25;
-	}
-
+	/* The body claim and its typography have been removed. */
 </style>

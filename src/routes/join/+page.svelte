@@ -8,38 +8,39 @@
 	<title>Join — {site.name}</title>
 	<meta
 		name="description"
-		content="The room is open to read before you commit to anything. Holding to the commitments is a public declaration. They are not the same thing."
+		content="Join the conversation, donate to the association, or contribute to the open-source projects."
 	/>
 </svelte:head>
 
 <Rubric level="h1">{join.title}</Rubric>
 
-<!-- Three blocks, and the difference between the first two is the page.
-     Reading the room costs nothing; the commitments are a declaration with
-     your name on it. -->
 {#each join.blocks as block (block.id)}
 	<section class="section way" id={block.id} aria-labelledby="{block.id}-title">
 		<header>
 			<h2 id="{block.id}-title">{block.title}</h2>
 		</header>
 
-		<div class="text">
-			{#each block.body as paragraph (paragraph)}
-				<p>{paragraph}</p>
-			{/each}
-		</div>
+		{#if block.body.length}
+			<div class="text">
+				{#each block.body as paragraph (paragraph)}
+					<p>{paragraph}</p>
+				{/each}
+			</div>
+		{/if}
 
-		<p class="actions">
-			{#each block.ctas as action, i (action.href)}
-				<a
-					class="action {i === 0 ? 'action--lead' : ''}"
-					href={action.href}
-					rel={action.external ? 'noreferrer' : undefined}
-				>
-					{action.label}
-				</a>
-			{/each}
-		</p>
+		{#if block.ctas.length}
+			<p class="actions">
+				{#each block.ctas as action, i (action.href)}
+					<a
+						class="action {i === 0 ? 'action--lead' : ''}"
+						href={action.href}
+						rel={action.external ? 'noreferrer' : undefined}
+					>
+						{action.label}
+					</a>
+				{/each}
+			</p>
+		{/if}
 
 		{#if block.note}
 			<p class="standfirst">
