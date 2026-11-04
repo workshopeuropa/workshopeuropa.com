@@ -10,6 +10,10 @@ export const about = {
 	],
 	founding: {
 		before: 'Workshop Europa is a registered non-profit association based in Denmark, founded by ',
-		founders: 'Alfred Nerstu, Hans Nerstu and Robin Isaksson'
+		founders: [
+			{ name: 'Alfred Nerstu', href: 'https://alfrednerstu.com' },
+			{ name: 'Hans Nerstu', href: 'https://inlagg.se/hans' },
+			{ name: 'Robin Isaksson', href: 'https://robinisaksson.com' }
+		]
 	}
 }
