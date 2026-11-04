@@ -43,7 +43,7 @@ export const site = {
 	    that closes every page. Longer than `description`, which has a meta
 	    tag's length to keep to, and written to be read rather than indexed. */
 	blurb:
-		"One studio, one person, five commitments. Software built in Copenhagen that answers to the people who pay for it, and you can leave with everything you brought.",
+		"Workshop Europa is an independent, non-profit association dedicated to building open-source digital infrastructure.",
 	description:
 		"Independent software, built to answers its users. Five principles, each with a test.",
 	email: "hello@workshopeuropa.com",
