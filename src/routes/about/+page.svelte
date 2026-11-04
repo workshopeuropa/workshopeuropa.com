@@ -15,6 +15,8 @@
 		{#each about.body as paragraph, i (paragraph)}
 			<p class={i === 0 ? 'lede' : ''}>{paragraph}</p>
 		{/each}
-		<p>{about.founding.before}<strong>{about.founding.founders}</strong>.</p>
+		<p>
+			{about.founding.before}{#each about.founding.founders as founder, i (founder.href)}{#if i}{i === about.founding.founders.length - 1 ? ' and ' : ', '}{/if}<a href={founder.href}>{founder.name}</a>{/each}.
+		</p>
 	</div>
 </section>
