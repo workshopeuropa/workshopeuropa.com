@@ -11,3 +11,10 @@ data/*.db
 data/fonts/
 data/*.db-shm
 data/*.db-wal
+
+# Font binaries are uploaded separately and must stay out of this public repository.
+*.woff
+*.woff2
+*.ttf
+*.otf
+*.eot
