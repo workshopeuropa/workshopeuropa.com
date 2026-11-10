@@ -32,8 +32,7 @@ export const join = {
 				'Everything is open source.'
 			],
 			ctas: [
-				{ label: 'Source', href: links.source, external: true },
-				{ label: 'Open issues', href: links.issues, external: true }
+				{ label: 'Source', href: links.source, external: true }
 			]
 		}
 	] satisfies Block[]

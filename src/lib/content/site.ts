@@ -63,7 +63,7 @@ export const site = {
  */
 export const links = {
 	matrix: "https://matrix.to/#/#workshopeuropa:matrix.org",
-	source: "https://github.com/workshopeuropa/workshopeuropa.com",
+	source: "https://github.com/workshopeuropa/",
 	issues: "https://github.com/workshopeuropa/workshopeuropa.com/issues",
 	rss: "/news/rss.xml",
 	atom: "/news/atom.xml",
