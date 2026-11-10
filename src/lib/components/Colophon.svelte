@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import Card from './Card.svelte';
-	import { about, aboutCardTitle } from '$lib/content/about';
+	import { aboutCardTitle } from '$lib/content/about';
 	import { join } from '$lib/content/join';
 	import { blocks, news, newsTitle } from '$lib/content/news';
-	import { featured, projectFor, projectsCardTitle } from '$lib/content/projects';
+	import { featured, projectsCardTitle } from '$lib/content/projects';
 	import { links, site } from '$lib/content/site';
 	import { HOUSE, tintFor, type Tint } from '$lib/tints';
 
@@ -18,18 +18,11 @@
 		/** The colour, which belongs to whatever the card is about rather
 		    than to the page the card is sitting on. */
 		tint: Tint;
-		media?: { src: string; alt: string };
-		/** Instead of a picture: this text, set large enough to be cropped by
-		    the card it is in. The design does it with the studio's name on
-		    the About card; Join takes the same device with its own words,
-		    because the room is not a thing there is a picture of. */
+		/** The About wordmark, set large enough to be cropped by the card. */
 		giant?: string;
 		/** The foot of the card: what it is, and a line about it. */
-		caption: { name: string; line: string };
+		caption: { name?: string; line: string }
 	};
-
-	/** The studio's own picture, for the cards whose subject is the studio. */
-	const house = site.image;
 
 	/* ---- The four sections, each built from the thing it is about ---------
 	   News takes the newest note and wears the colour of whatever that note
@@ -47,14 +40,10 @@
 				label: 'News',
 				title: newsTitle,
 				tint: tintFor(HOUSE),
-				media: house,
 				caption: { name: site.name, line: site.blurb }
 			};
 		}
 
-		/* A note about a project borrows that project's picture and colour;
-		   one about the studio keeps the house's. */
-		const subject = projectFor(latest.subject);
 		const opening = blocks(latest).find((block) => block.type === 'p');
 
 		return {
@@ -62,7 +51,6 @@
 			label: 'News',
 			title: newsTitle,
 			tint: tintFor(latest.subject ?? HOUSE),
-			media: subject?.image ?? house,
 			caption: { name: latest.title, line: opening?.type === 'p' ? opening.text : '' }
 		};
 	}
@@ -74,7 +62,6 @@
 			label: 'Projects',
 			title: projectsCardTitle,
 			tint: tintFor(project.slug),
-			media: project.image ?? house,
 			caption: { name: project.title, line: project.summary }
 		};
 	}
@@ -87,7 +74,7 @@
 			title: aboutCardTitle,
 			tint: tintFor(HOUSE),
 			giant: site.name,
-			caption: { name: site.name, line: site.blurb }
+			caption: { line: site.blurb }
 		},
 		projectsCard(),
 		{
@@ -95,8 +82,7 @@
 			label: 'Join',
 			title: join.title,
 			tint: tintFor(HOUSE),
-			giant: join.title,
-			caption: { name: join.blocks[0].title, line: join.blocks[0].body[0] }
+			caption: { line: join.blocks[0].body[0] }
 		}
 	];
 
@@ -105,32 +91,7 @@
 		return path === href || path.startsWith(href + '/');
 	}
 
-	/* Four sections and three places in the row, so a page drops its own
-	   card and the next one moves up: every page points at the three you
-	   have not got to. The front page belongs to none of the four and keeps
-	   the first three, which is the row the design draws.
-
-	   Then the same picture twice is taken off the second one. The News card
-	   borrows the picture of whatever its newest note is about, so a week
-	   when that is the project the Projects card is showing would put the
-	   same illustration in the row twice — which reads as a bug whatever
-	   rule produced it. A card that loses its first choice falls back to the
-	   studio's picture, and only gives up if that is taken as well.
-
-	   The two that set type instead of a picture never enter into it. */
-	let shown = $derived.by(() => {
-		const picked = cards.filter((card) => !isCurrent(card.href)).slice(0, 3);
-		const seen = new Set<string>();
-		return picked.map((card) => {
-			if (!card.media) return card;
-			for (const option of [card.media, house]) {
-				if (seen.has(option.src)) continue;
-				seen.add(option.src);
-				return { ...card, media: option };
-			}
-			return { ...card, media: undefined };
-		});
-	});
+	let shown = $derived(cards.filter((card) => !isCurrent(card.href)).slice(0, 3))
 
 	/** The wordmark stacks a word per row, the way it does in the top bar. */
 	const words = site.name.split(/\s+/).filter(Boolean);
@@ -159,14 +120,14 @@
 								<span>{word}</span>
 							{/each}
 						</p>
-					{:else if card.media}
-						<img class="colophon__media" src={card.media.src} alt={card.media.alt} />
 					{/if}
 				{/snippet}
 
 				{#snippet bottom()}
 					<p class="meta">
-						<span class="colophon__name">{card.caption.name}</span>
+						{#if card.caption.name}
+							<span class="colophon__name">{card.caption.name}</span>
+						{/if}
 						{card.caption.line}
 					</p>
 				{/snippet}
@@ -214,18 +175,6 @@
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: var(--gutter);
-	}
-
-	/* Laid into the band rather than flowed through it, so the picture is
-	   cropped by the card instead of pushing the card's own type out of the
-	   way. Cover, not contain: these are illustrations with their own ground,
-	   and letterboxing one inside a card puts two backgrounds on screen. */
-	.colophon__media {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
 	}
 
 	/* The outsized type, as the picture.
@@ -380,7 +329,6 @@
 			aspect-ratio: auto;
 		}
 
-		.colophon__media,
 		.colophon__giant {
 			display: none;
 		}
