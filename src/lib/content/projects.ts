@@ -60,8 +60,8 @@ export type Project = {
 	/** At the foot of the card. Plain text, since the card is already a link
 	    and a link inside a link is not valid. */
 	url?: string;
-	/** A full-width image for the card to sit on. */
-	image?: { src: string; alt: string };
+	/** A product screenshot for the card to sit on. */
+	image?: { src: string; darkSrc?: string; alt: string };
 	/** The project page, one paragraph per string. */
 	body?: string[];
 	/* Everything below is optional: a project shows the particulars it has
@@ -121,11 +121,7 @@ export const projects: Project[] = [
 				how: 'Built on protocols nobody owns, and we don’t operate one. The parts other people depend on are not ours to close.'
 			}
 		],
-		url: 'vionio.com',
-		image: {
-			src: '/media/vionio.svg',
-			alt: 'A creator’s following moving between two servers, the connection unbroken.'
-		}
+		url: 'vionio.com'
 	},
 	{
 		slug: 'risved',
@@ -151,8 +147,9 @@ export const projects: Project[] = [
 		],
 		url: 'risved.org • risved.com',
 		image: {
-			src: '/media/risved.svg',
-			alt: 'Racks of hardware, some of them ours and some of them yours.'
+			src: '/media/screenshots/risved.png',
+			darkSrc: '/media/screenshots/risved-dark.png',
+			alt: 'Risved projects dashboard showing apps, frameworks and deployment status.'
 		}
 	},
 	{
@@ -186,8 +183,9 @@ export const projects: Project[] = [
 		],
 		url: 'inlägg.com • indlæg.com • innlegg.com',
 		image: {
-			src: '/media/inlagg.svg',
-			alt: 'A column of posts, each one carrying a verification mark.'
+			src: '/media/screenshots/inlagg.png',
+			darkSrc: '/media/screenshots/inlagg-dark.png',
+			alt: 'Inlägg home feed showing posts, replies and reactions from fictional users.'
 		}
 	},
 	{
@@ -222,11 +220,7 @@ export const projects: Project[] = [
 			}
 		],
 		note: 'Stewarded by Föreningen Idun — a non-profit association, so no single company can close it.',
-		url: 'idun.org',
-		image: {
-			src: '/media/idun.svg',
-			alt: 'One identity on the left, a span across to the servers that accept it.'
-		}
+		url: 'idun.org'
 	}
 ];
 

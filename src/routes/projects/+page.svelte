@@ -32,8 +32,12 @@
 						     address at the foot. The status is the group heading's job
 						     here, and what you can do with the thing is on the page
 						     the card opens. -->
-						<Plate src={project.image?.src} alt={project.image?.alt}>
-							<ProjectCard {project} />
+						<Plate
+							src={project.image?.src}
+							darkSrc={project.image?.darkSrc}
+							alt={project.image?.alt}
+						>
+							<ProjectCard {project} orientation="landscape" />
 						</Plate>
 
 						<!-- What it holds to, at a glance. How it meets each test is
