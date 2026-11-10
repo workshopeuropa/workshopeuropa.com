@@ -150,7 +150,7 @@
 	<!-- Source, feed, and association details. -->
 	<div class="colophon__print">
 		<p class="colophon__elsewhere">
-			<a href={links.source} rel="noreferrer">Source</a>
+			<a href="https://github.com/workshopeuropa" rel="noreferrer">Source</a>
 			<a href={links.rss}>RSS</a>
 		</p>
 		<p>CVR 46878248</p>
