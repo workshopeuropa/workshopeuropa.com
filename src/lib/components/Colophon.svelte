@@ -147,14 +147,26 @@
 		</a>
 	</p>
 
-	<!-- Source, feed, and association details. -->
+	<!-- Navigation, association details, source, and feed. -->
 	<div class="colophon__print">
+		<nav aria-label="Footer">
+			<a href="/news">News</a>
+			<span aria-hidden="true">·</span>
+			<a href="/about">About</a>
+			<span aria-hidden="true">·</span>
+			<a href="/projects">Projects</a>
+			<span aria-hidden="true">·</span>
+			<a href="/join">Join</a>
+		</nav>
+		<p>Workshop Europa Association</p>
+		<p>CVR 46878248</p>
+		<p>{site.place}</p>
+		<p>© {year}</p>
 		<p class="colophon__elsewhere">
-			<a href="https://github.com/workshopeuropa" rel="noreferrer">Source</a>
+			<a href="https://github.com/workshopeuropa" rel="noreferrer">Source code</a>
+			<span aria-hidden="true">·</span>
 			<a href={links.rss}>RSS</a>
 		</p>
-		<p>CVR 46878248</p>
-		<p>{site.place} · © {year}</p>
 	</div>
 </footer>
 
@@ -260,17 +272,28 @@
 		margin-inline: auto;
 		font-size: 0.875rem;
 		text-align: center;
-		color: var(--ink-soft);
+		color: var(--ink);
 	}
 
-	/* Three words, spaced rather than ruled apart. */
+	/* Footer links, separated by middle dots. */
+	.colophon__print nav,
 	.colophon__elsewhere {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		gap: 0.25em 1.25em;
+		gap: 0.25em;
 	}
 
+	.colophon__print nav {
+		margin-bottom: 0.5rem;
+	}
+
+	.colophon__elsewhere {
+		margin-top: 0.5rem;
+		color: var(--ink-soft);
+	}
+
+	.colophon__print nav a,
 	.colophon__elsewhere a {
 		text-decoration: underline;
 		text-decoration-thickness: from-font;

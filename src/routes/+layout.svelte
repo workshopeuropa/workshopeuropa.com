@@ -109,18 +109,21 @@
 	/* The column. Every page is one measure down the middle of the shell,
 	   which is what the top bar and the row of cards at the foot break out
 	   of — those two are the width of the page, everything between them is
-	   the width of the column.
-
-	   No top padding: the bar above it has its own, and two would put the
-	   first line of a page further from the wordmark than the wordmark is
-	   from the top of the screen. */
+	   the width of the column. Extra space above and below gives the content
+	   room between the top bar and the footer cards. */
 	.sheet {
 		flex: 1;
 		width: min(100% - var(--gutter) * 2, var(--column));
 		margin-inline: auto;
-		padding-block-end: var(--gutter);
+		padding-block: 8rem;
 		display: grid;
 		gap: var(--stack);
 		align-content: start;
+	}
+
+	@media (max-width: 40rem) {
+		.sheet {
+			padding-block: 3rem;
+		}
 	}
 </style>
