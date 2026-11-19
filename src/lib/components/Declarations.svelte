@@ -125,6 +125,9 @@
 
 	.declares__title {
 		font-weight: 500;
+	}
+
+	.declares__title:not(:hover) {
 		text-decoration: underline;
 		text-decoration-thickness: from-font;
 		text-underline-offset: 0.2em;

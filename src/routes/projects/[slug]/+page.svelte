@@ -90,8 +90,6 @@
 
 <style>
 	.facts dd a {
-		text-decoration: underline;
-		text-decoration-thickness: from-font;
 		text-underline-offset: 0.2em;
 	}
 </style>

@@ -5,7 +5,7 @@
 	import { join } from '$lib/content/join';
 	import { blocks, news, newsTitle } from '$lib/content/news';
 	import { featured, projectsCardTitle } from '$lib/content/projects';
-	import { links, site } from '$lib/content/site';
+	import { links, nav, site } from '$lib/content/site'
 	import { HOUSE, tintFor, type Tint } from '$lib/tints';
 
 	type SectionCard = {
@@ -150,13 +150,12 @@
 	<!-- Navigation, association details, source, and feed. -->
 	<div class="colophon__print">
 		<nav aria-label="Footer">
-			<a href="/news">News</a>
-			<span aria-hidden="true">·</span>
-			<a href="/about">About</a>
-			<span aria-hidden="true">·</span>
-			<a href="/projects">Projects</a>
-			<span aria-hidden="true">·</span>
-			<a href="/join">Join</a>
+			{#each nav as item, index (item.href)}
+				{#if index > 0}<span aria-hidden="true">·</span>{/if}
+				<a href={item.href} aria-current={page.url.pathname === item.href ? 'page' : undefined}>
+					{item.label}
+				</a>
+			{/each}
 		</nav>
 		<p>Workshop Europa Association</p>
 		<p>CVR 46878248</p>
@@ -166,6 +165,8 @@
 			<a href="https://github.com/workshopeuropa" rel="noreferrer">Source code</a>
 			<span aria-hidden="true">·</span>
 			<a href={links.rss}>RSS</a>
+			<span aria-hidden="true">·</span>
+			<a href={links.atom}>Atom</a>
 		</p>
 	</div>
 </footer>
@@ -293,8 +294,8 @@
 		color: var(--ink-soft);
 	}
 
-	.colophon__print nav a,
-	.colophon__elsewhere a {
+	.colophon__print nav a:not(:hover, [aria-current='page']),
+	.colophon__elsewhere a:not(:hover) {
 		text-decoration: underline;
 		text-decoration-thickness: from-font;
 		text-underline-offset: 0.2em;

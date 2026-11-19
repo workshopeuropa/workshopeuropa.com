@@ -78,12 +78,8 @@
 	--ink: #000000;
 	--card: var(--tint);
 
-	/* A tone below the ink, for a label or a line that is deliberately
-	   secondary. 70%: against neutral ink there is room for a real step —
-	   #4d4d4d on white at 7.0:1, #b8b8b8 on #121212 at 9.9:1 — where against
-	   the old tinted ink anything far enough to read as a different tone
-	   fell under AA. */
-	--ink-soft: color-mix(in srgb, var(--ink) 70%, transparent);
+	/* Secondary text on paper has 5.7:1 contrast in light mode and 7.2:1 in dark mode. */
+	--ink-soft: color-mix(in srgb, var(--ink) 60%, transparent);
 
 	/* ---- The two faces --------------------------------------------------
 	   Spectral for display, Areal for everything that is read rather than
@@ -211,11 +207,7 @@ a {
 
    `a:not([class])` is kept as the catch-all under it, for prose that ends up
    somewhere this list has not thought of. */
-a:not([class]),
-.text a,
-.standfirst a,
-section > header p a,
-.facts dd a {
+:is(a:not([class]), .text a, .standfirst a, section > header p a, .facts dd a):where(:not(:hover)) {
 	text-decoration: underline;
 	text-decoration-thickness: from-font;
 	text-underline-offset: 0.125em;

@@ -29,10 +29,10 @@ export const join = {
 			id: 'contribute',
 			title: 'Contribute to the projects',
 			body: [
-				'Everything is open source.'
+				'Open issues, contribute PRs & get involved.'
 			],
 			ctas: [
-				{ label: 'Source', href: links.source, external: true }
+				{ label: 'Source code', href: links.source, external: true }
 			]
 		}
 	] satisfies Block[]
