@@ -1,12 +1,13 @@
 <script lang="ts">
-	import { page } from '$app/state';
+	import { page } from '$app/state'
 	import Card from './Card.svelte';
-	import { aboutCardTitle } from '$lib/content/about';
-	import { join } from '$lib/content/join';
-	import { blocks, news, newsTitle } from '$lib/content/news';
-	import { featured, projectsCardTitle } from '$lib/content/projects';
+	import { join } from '$lib/content/join'
+	import { blocks, news, newsTitle, noteTitle } from '$lib/content/news'
+	import { featured, projectsCardTitle } from '$lib/content/projects'
 	import { links, nav, site } from '$lib/content/site'
 	import { HOUSE, tintFor, type Tint } from '$lib/tints';
+	import { m } from '$lib/paraglide/messages'
+	import { deLocalizeUrl, localizeHref } from '$lib/paraglide/runtime'
 
 	type SectionCard = {
 		href: string;
@@ -18,18 +19,20 @@
 		/** The colour, which belongs to whatever the card is about rather
 		    than to the page the card is sitting on. */
 		tint: Tint;
-		/** The About wordmark, set large enough to be cropped by the card. */
-		giant?: string;
+		/** Instead of a picture: the wordmark set large enough to be cropped
+		    by the card it is in, which is what the design does on the card
+		    about the studio. */
+		wordmark?: boolean;
 		/** The foot of the card: what it is, and a line about it. */
 		caption: { name?: string; line: string }
 	};
 
-	/* ---- The four sections, each built from the thing it is about ---------
+	/* ---- The four sections, each built from the thing it is about ----------
 	   News takes the newest note and wears the colour of whatever that note
 	   announces, which is why the row is not three of one hue: a week where
 	   the news is about Inlägg is a week where the News card is aqua. The
 	   same rule puts the featured project's colour on the Projects card, and
-	   the house lime on the two that are about the studio itself.
+	   the house lime on the card about the studio itself.
 	   ---------------------------------------------------------------------- */
 
 	function newsCard(): SectionCard {
@@ -37,21 +40,21 @@
 		if (!latest) {
 			return {
 				href: '/news',
-				label: 'News',
-				title: newsTitle,
+				label: m.nav_news(),
+				title: newsTitle(),
 				tint: tintFor(HOUSE),
 				caption: { name: site.name, line: site.blurb }
 			};
 		}
 
-		const opening = blocks(latest).find((block) => block.type === 'p');
+		const opening = blocks(latest, { localize: true }).find((block) => block.type === 'p')
 
 		return {
 			href: '/news',
-			label: 'News',
-			title: newsTitle,
+			label: m.nav_news(),
+			title: newsTitle(),
 			tint: tintFor(latest.subject ?? HOUSE),
-			caption: { name: latest.title, line: opening?.type === 'p' ? opening.text : '' }
+			caption: { name: noteTitle(latest), line: opening?.type === 'p' ? opening.text : '' }
 		};
 	}
 
@@ -59,8 +62,8 @@
 		const project = featured();
 		return {
 			href: '/projects',
-			label: 'Projects',
-			title: projectsCardTitle,
+			label: m.nav_projects(),
+			title: projectsCardTitle(),
 			tint: tintFor(project.slug),
 			caption: { name: project.title, line: project.summary }
 		};
@@ -70,53 +73,49 @@
 		newsCard(),
 		{
 			href: '/about',
-			label: 'About',
-			title: aboutCardTitle,
+			label: m.nav_about(),
+			title: m.about_card_title(),
 			tint: tintFor(HOUSE),
-			giant: site.name,
+			wordmark: true,
 			caption: { line: site.blurb }
 		},
 		projectsCard(),
 		{
 			href: '/join',
-			label: 'Join',
+			label: m.nav_join(),
 			title: join.title,
 			tint: tintFor(HOUSE),
-			caption: { line: join.blocks[0].body[0] }
+			caption: { line: join.newsletterTitle }
 		}
 	];
 
-	function isCurrent(href: string) {
-		const path = page.url.pathname;
-		return path === href || path.startsWith(href + '/');
-	}
-
-	let shown = $derived(cards.filter((card) => !isCurrent(card.href)).slice(0, 3))
+	let currentPath = $derived(deLocalizeUrl(page.url).pathname)
+	let shownCards = $derived(
+		cards
+			.filter(({ href }) => currentPath !== href && !currentPath.startsWith(href + '/'))
+			.slice(0, 3)
+	)
 
 	/** The wordmark stacks a word per row, the way it does in the top bar. */
 	const words = site.name.split(/\s+/).filter(Boolean);
 	const year = new Date().getFullYear();
 </script>
 
-<footer class="colophon">
+<footer class="colophon h-card">
 	<!-- Full width, three across, and one column once a third of the page is
 	     too narrow to set a card in. -->
 	<div class="colophon__row">
-		{#each shown as card (card.href)}
-			<Card href={card.href} tint={card.tint}>
+		{#each shownCards as card (card.href)}
+			<Card href={localizeHref(card.href)} tint={card.tint}>
 				{#snippet top()}
 					<p class="eyebrow">{card.label}</p>
 					<p class="title">{card.title}</p>
 				{/snippet}
 
 				{#snippet middle()}
-					{#if card.giant}
-						<!-- Set to be cropped: the card clips it, so what you get is
-						     the left of two very large words and the rest running
-						     off the edge. Hidden from the reading order — the same
-						     words are already the card's title or its caption. -->
+					{#if card.wordmark}
 						<p class="colophon__giant" aria-hidden="true">
-							{#each card.giant.split(/\s+/) as word (word)}
+							{#each words as word (word)}
 								<span>{word}</span>
 							{/each}
 						</p>
@@ -140,7 +139,7 @@
 	     the other end, so somebody who has read to the bottom does not have
 	     to scroll up to find it. -->
 	<p class="colophon__mark">
-		<a class="colophon__wordmark" href="/">
+		<a class="colophon__wordmark u-url" href={localizeHref('/')}>
 			{#each words as word (word)}
 				<span class="colophon__word">{word}</span>
 			{/each}
@@ -149,20 +148,20 @@
 
 	<!-- Navigation, association details, source, and feed. -->
 	<div class="colophon__print">
-		<nav aria-label="Footer">
+		<nav aria-label={m.nav_footer()}>
 			{#each nav as item, index (item.href)}
 				{#if index > 0}<span aria-hidden="true">·</span>{/if}
-				<a href={item.href} aria-current={page.url.pathname === item.href ? 'page' : undefined}>
+			<a href={localizeHref(item.href)} aria-current={currentPath === item.href ? 'page' : undefined}>
 					{item.label}
 				</a>
 			{/each}
 		</nav>
-		<p>Workshop Europa Association</p>
-		<p>CVR 46878248</p>
-		<p>{site.place}</p>
+		<p class="p-name">{m.footer_association()}</p>
+		<p>CVR {site.registrationNumber}</p>
+		<p class="p-locality">{site.place}</p>
 		<p>© {year}</p>
 		<p class="colophon__elsewhere">
-			<a href="https://github.com/workshopeuropa" rel="noreferrer">Source code</a>
+			<a href={links.source} rel="noreferrer">{m.source_code()}</a>
 			<span aria-hidden="true">·</span>
 			<a href={links.rss}>RSS</a>
 			<span aria-hidden="true">·</span>
@@ -190,23 +189,16 @@
 		gap: var(--gutter);
 	}
 
-	/* The outsized type, as the picture.
+	/* Let the wordmark extend through the padding to the card edge. */
+	.colophon__row :global(.card:has(.colophon__giant)) {
+		overflow: hidden;
+	}
 
-	   Not centred in the card, which is what it was and what made it look
-	   like a caption that had got out: the design sets the block in from the
-	   left and lets it run off the right, so the card holds the opening of
-	   each word and the rest is gone. 26cqi is where the design puts it —
-	   144px in from the card's padding on a 555px card — and in cqi it is
-	   the same fraction of the card at every width.
+	.colophon__row :global(.band--middle:has(.colophon__giant)) {
+		overflow: visible;
+	}
 
-	   The two lines are centred on each other, not on the card, so the
-	   shorter one sits in from the longer at both ends. That is the only
-	   thing here that is centred.
-
-	   It reaches past the card's padding because the card is what clips it;
-	   the band it sits in no longer does its own clipping. A margin of card
-	   colour down the right-hand side would have said the type stopped
-	   rather than that it was cut. */
+	/* The two words center on each other. Their inset scales with the card. */
 	.colophon__giant {
 		position: absolute;
 		inset-block: 0;
@@ -261,10 +253,7 @@
 		opacity: 0.6;
 	}
 
-	/* The small print reads up to the wordmark above it rather than across
-	   to the column it is nowhere near, so it is centred under it. The one
-	   place on the site the type is not set from the left — and it is set
-	   that way because of what it sits beneath, not in spite of it. */
+	/* Center the small print beneath the wordmark. */
 	.colophon__print {
 		display: grid;
 		justify-items: center;
@@ -338,7 +327,7 @@
 		   Lying down, the head and the foot of the card eat most of what the
 		   shorter card has left, so this is measured against what the band
 		   actually gets rather than against the card: two lines at 0.95 fit
-		   inside it here, and the words still run off both edges. */
+		   inside it here. */
 		.colophon__giant {
 			font-size: 13cqi;
 		}

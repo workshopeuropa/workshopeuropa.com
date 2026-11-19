@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://workshopeuropa.com/sitemap.xml

@@ -1,28 +1,34 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte'
 	import { navEnd, navStart, site } from '$lib/content/site';
+	import { m } from '$lib/paraglide/messages'
+	import { deLocalizeUrl, localizeHref } from '$lib/paraglide/runtime'
 
 	/** The wordmark stacks a word per row, the way it did on the card. */
 	const words = site.name.split(/\s+/).filter(Boolean);
+	let currentPath = $derived(deLocalizeUrl(page.url).pathname)
 
 	function isCurrent(href: string) {
-		const path = page.url.pathname;
-		return path === href || path.startsWith(href + '/');
+		return currentPath === href || currentPath.startsWith(href + '/')
 	}
 </script>
 
 {#snippet group(items: readonly { href: string; label: string }[], side: string)}
-	<nav class="bar__nav bar__nav--{side}" aria-label={side === 'start' ? 'Sections' : 'Account'}>
+	<nav class="bar__nav bar__nav--{side}" aria-label={side === 'start' ? m.nav_sections() : m.nav_account()}>
 		{#each items as item (item.href)}
 			<a
 				class="bar__link"
 				class:is-current={isCurrent(item.href)}
-				href={item.href}
+				href={localizeHref(item.href)}
 				aria-current={isCurrent(item.href) ? 'page' : undefined}
 			>
 				{item.label}
 			</a>
 		{/each}
+		{#if side === 'end'}
+			<LanguageSwitcher />
+		{/if}
 	</nav>
 {/snippet}
 
@@ -34,7 +40,7 @@
 	{@render group(navStart, 'start')}
 
 	<p class="bar__mark">
-		<a class="bar__wordmark" href="/" aria-label={page.url.pathname === '/' ? undefined : site.name}>
+		<a class="bar__wordmark" href={localizeHref('/')} aria-label={currentPath === '/' ? undefined : site.name}>
 			{#each words as word (word)}
 				<span class="bar__word">{word}</span>
 			{/each}
@@ -81,11 +87,13 @@
 	/* The design marks nothing as current. A section you are already in is
 	   worth saying quietly all the same — a weight rather than a rule or a
 	   pill, so the row stays one even line of type. */
-	.bar__link {
+	.bar__link,
+	.bar__nav > :global(button[popovertarget]) {
 		transition: opacity 140ms ease;
 	}
 
-	.bar__link:hover {
+	.bar__link:hover,
+	.bar__nav > :global(button[popovertarget]:hover) {
 		opacity: 0.6;
 	}
 
@@ -122,13 +130,17 @@
 	   opposite ends, so the shape of the thing survives the fold. */
 	@media (max-width: 40rem) {
 		.bar {
-			grid-template-columns: 1fr auto;
+			grid-template-columns: minmax(0, 1fr) fit-content(50%);
 			row-gap: clamp(1rem, 4vw, 1.5rem);
 		}
 
 		.bar__mark {
 			grid-row: 1;
 			grid-column: 1 / -1;
+		}
+
+		.bar__nav {
+			column-gap: 1rem;
 		}
 
 		.bar__nav--start {

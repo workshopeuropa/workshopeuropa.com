@@ -1,3 +1,5 @@
+import { m } from '$lib/paraglide/messages'
+
 /**
  * Everything the site says about itself. Edit here, not in the components.
  */
@@ -23,7 +25,8 @@ export const taglineLines = [
 export const site = {
 	name: "Workshop Europa",
 	url: "https://workshopeuropa.com",
-	place: "Copenhagen",
+	registrationNumber: "46878248",
+	get place() { return m.site_place() },
 	/** Was the h1 on the front page; see the note above `taglineLines`. */
 	tagline: taglineLines.join(" "),
 	/** The wedge, a line to a row. Every other list sorts by jurisdiction;
@@ -42,11 +45,9 @@ export const site = {
 	/** The studio in one paragraph, at the foot of its own card in the row
 	    that closes every page. Longer than `description`, which has a meta
 	    tag's length to keep to, and written to be read rather than indexed. */
-	blurb:
-		"Workshop Europa is an independent, non-profit association dedicated to building open-source digital infrastructure.",
-	description:
-		"Independent software, built to answers its users. Five principles, each with a test.",
-	email: "hello@workshopeuropa.com",
+	get blurb() { return m.site_blurb() },
+	get description() { return m.site_description() },
+	email: "hello@workshopeuropa.org",
 	/** The image the front-page card sits on. */
 	image: {
 		src: "/media/workshop.svg",
@@ -78,12 +79,12 @@ export const links = {
    Auth is mounted but nothing renders a form — and a nav item that 404s is
    worse than one that is not there, so it lands here when the page does. */
 export const navStart = [
-	{ href: "/news", label: "News" },
-	{ href: "/about", label: "About" },
-	{ href: "/projects", label: "Projects" },
+	{ href: "/news", get label() { return m.nav_news() } },
+	{ href: "/about", get label() { return m.nav_about() } },
+	{ href: "/projects", get label() { return m.nav_projects() } },
 ] as const;
 
-export const navEnd = [{ href: "/join", label: "Join" }] as const;
+export const navEnd = [{ href: "/join", get label() { return m.nav_join() } }] as const
 
 /* The two groups as one list, for anything that wants every section and does
    not care which end of the bar it is on. */

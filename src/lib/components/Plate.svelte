@@ -35,7 +35,6 @@
 	picture {
 		display: block;
 		min-width: 0;
-		border: 1px solid color-mix(in srgb, var(--ink) 15%, transparent);
 	}
 
 	img {

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { commitments, label } from '$lib/content/commitments';
 	import { declared, type Project } from '$lib/content/projects';
+	import { m } from '$lib/paraglide/messages'
+	import { localizeHref } from '$lib/paraglide/runtime'
 
 	type Props = {
 		project: Project;
@@ -23,8 +25,8 @@
 			{@const declaration = declared(project, commitment.n)}
 			<li class="declares__item" class:is-met={Boolean(declaration)}>
 				<p class="declares__head">
-					<span class="declares__mark">{declaration ? 'Met' : 'Not claimed'}</span>
-					<a class="declares__title" href="/#{commitment.slug}">
+					<span class="declares__mark">{declaration ? m.projects_met() : m.projects_not_claimed()}</span>
+					<a class="declares__title" href={localizeHref(`/#${commitment.slug}`)}>
 						{commitment.n}
 						{label(commitment)}
 					</a>
@@ -39,7 +41,7 @@
 	<ul class="held">
 		{#each held as commitment (commitment.slug)}
 			<li>
-				<a class="held__one" href="/#{commitment.slug}">
+				<a class="held__one" href={localizeHref(`/#${commitment.slug}`)}>
 					{commitment.n}
 					{label(commitment)}
 				</a>

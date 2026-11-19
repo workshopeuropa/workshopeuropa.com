@@ -1,3 +1,6 @@
+import { m } from '$lib/paraglide/messages'
+import { getLocale } from '$lib/paraglide/runtime'
+
 /**
  * Notes and releases, newest first.
  *
@@ -19,6 +22,8 @@ export type Block =
 	{ type: "p"; text: string } | { type: "list"; items: string[] };
 
 export type Note = {
+	/** A permanent URL segment shared by every translation. */
+	slug: string;
 	/** ISO in the data, `9 August 2026` in the prose. */
 	date: string;
 	title: string;
@@ -30,45 +35,46 @@ export type Note = {
 	/** What it is about, on the meta line beside the date. */
 	subject?: string;
 	link?: { label: string; href: string };
+	translation?: { title: () => string; body: (input: { date: string }) => string };
 };
 
 /** The headline the News page and its footer card carry. */
-export const newsTitle = "Notes from the bench"
+export const newsTitle = m.news_title
 
-export const newsIntro = "Releases, updates & notes from the bench."
-
-export const newsEmpty = "Nothing posted yet."
+export const newsEmpty = m.news_empty
 
 export const news: Note[] = [
 	{
+		slug: '2026-10-26-workshop-europa-association',
 		date: '2026-10-26',
 		title: 'Workshop Europa association',
 		subject: 'Workshop Europa',
-		body: 'The Workshop Europa association was established on 26 October 2026. CVR 46878248.'
+		body: 'The Workshop Europa association was established on 26 October 2026. CVR 46878248.',
+		translation: { title: m.news_association_title, body: m.news_association_body }
 	}
 ]
 
 /** Both body shapes as the one shape. The short form stays available in the
     file above — a note that is two sentences should not have to be written
     as an array to say so. */
-export function blocks(note: Note): Block[] {
-	return typeof note.body === "string"
-		? [{ type: "p", text: note.body }]
+export function blocks(note: Note, { localize = false } = {}): Block[] {
+	const body = localize && note.translation
+		? note.translation.body({ date: formatDate(note.date) })
 		: note.body
+	return typeof body === 'string' ? [{ type: 'p', text: body }] : body
 }
 
-/** A note has no page of its own, so its address is an anchor on /news.
-    The same string is the anchor on the page and the id in both feeds. */
-export function noteSlug(note: Note) {
-	const title = note.title
-		.toLowerCase()
-		.replace(/[^a-z0-9]+/g, "-")
-		.replace(/^-|-$/g, "")
-	return `${note.date}-${title}`
+export function noteTitle(note: Note) {
+	return note.translation?.title() ?? note.title
+}
+
+export function notePath(note: Note) {
+	return `/news/${note.slug}`
 }
 
 export function formatDate(iso: string) {
-	return new Date(iso + "T00:00:00Z").toLocaleDateString("en-GB", {
+	const locale = getLocale()
+	return new Date(iso + "T00:00:00Z").toLocaleDateString(locale === 'en' ? 'en-GB' : locale, {
 		day: "numeric",
 		month: "long",
 		year: "numeric",

@@ -2,6 +2,7 @@
 	import Card from './Card.svelte';
 	import type { Project } from '$lib/content/projects';
 	import { tintFor } from '$lib/tints';
+	import { localizeHref } from '$lib/paraglide/runtime'
 
 	type Props = {
 		project: Project;
@@ -55,7 +56,7 @@
 	{orientation}
 	tint={tintFor(project.slug)}
 	morph={name}
-	href={link ? `/projects/${project.slug}` : undefined}
+	href={link ? localizeHref(`/projects/${project.slug}`) : undefined}
 >
 	{#snippet top()}
 		<!-- The name carries the heading: the headline below is the bigger

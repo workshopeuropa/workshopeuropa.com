@@ -1,3 +1,5 @@
+import { m } from '$lib/paraglide/messages'
+
 /**
  * The five commitments. They are the front page: you get to them by pressing
  * the wordmark in the top bar or the one at the foot.
@@ -62,55 +64,45 @@ export const commitments: Commitment[] = [
 	{
 		n: 1,
 		slug: "funded-by-users",
-		title: "Funded by users",
+		get title() { return m.commitment_funding_title() },
 		opens: "our principles",
-		body: [
-			"The people who use the software are the people who pay for it. No advertisers, no data buyers, no third party whose interests and incentives point in another direction.",
-		],
+		get body() { return [m.commitment_funding_body()] },
 		test: "Every euro traces back to a user",
 	},
 	{
 		n: 2,
 		slug: "respects-your-time",
-		title: "Respects your time",
-		body: [
-			"We don’t compete for your attention. No infinite feeds, no streaks, no notifications designed to pull you back. The software should do its job and let you leave.",
-		],
+		get title() { return m.commitment_time_title() },
+		get body() { return [m.commitment_time_body()] },
 		test: "No one is measured on time spent",
 	},
 	{
 		n: 3,
 		slug: "open-doors",
-		title: "Open doors",
-		body: [
-			"Everything you put in, you can take out. Complete, automated, in formats other software can read. Leaving should be as easy as joining. Staying should be a choice, not a trap.",
-		],
+		get title() { return m.commitment_open_title() },
+		get body() { return [m.commitment_open_body()] },
 		test: "A competitor can take you in without asking us",
 	},
 	{
 		n: 4,
 		slug: "everyone-is-real",
-		title: "Everyone is real",
-		body: [
-			"Each account is held by one verified person, and no one has to reveal who they are to prove it. No bots, no troll factories. Ban someone once and they stay banned.",
-		],
+		get title() { return m.commitment_real_title() },
+		get body() { return [m.commitment_real_body()] },
 		test: "The proof is issued by someone else. We never see the identity behind it.",
 		coda: "Applies to social platforms where people can reach each other",
 	},
 	{
 		n: 5,
 		slug: "shared-infrastructure",
-		title: "Shared infrastructure",
-		body: [
-			"We build on protocols and formats that no single company owns, including us. What we make can be replaced, forked, or connected to without our permission.",
-		],
+		get title() { return m.commitment_infrastructure_title() },
+		get body() { return [m.commitment_infrastructure_body()] },
 		test: "Anyone can build on it without a licence, a fee, or a conversation",
 	},
 ];
 
 /** The rubric at the top of the front page, and the page's own heading. Set
     as tracked capitals, like every other small label on the site. */
-export const commitmentsTitle = "Independent software is infrastructure";
+export const commitmentsTitle = m.home_heading
 
 /* The design opens on the rubric and goes straight into the five. Both of
    these were already empty and nothing prints them now; they are the slots

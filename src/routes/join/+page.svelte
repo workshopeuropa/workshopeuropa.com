@@ -2,6 +2,9 @@
 	import { onMount } from 'svelte'
 	import { join } from '$lib/content/join'
 	import { site } from '$lib/content/site'
+	import LinkedMessage from '$lib/components/LinkedMessage.svelte'
+	import { m } from '$lib/paraglide/messages'
+	import { localizeHref } from '$lib/paraglide/runtime'
 
 	const newsletterList = '4ebf4fba-e3fc-11f1-ab86-4b6e822dbeb8'
 
@@ -14,35 +17,38 @@
 </script>
 
 <svelte:head>
-	<title>Join — {site.name}</title>
-	<meta
-		name="description"
-		content="Subscribe to the Workshop Europa newsletter, donate to the association, or contribute to the open-source projects."
-	/>
+	<title>{m.nav_join()} — {site.name}</title>
+	<meta name="description" content={m.join_description()} />
 </svelte:head>
 
-<h1>{join.title}</h1>
+<h1 class="page-title">{join.title}</h1>
 
 <section class="section way" id="newsletter" aria-labelledby="newsletter-title">
 	<header>
-		<h2 id="newsletter-title">Newsletter</h2>
+		<h2 id="newsletter-title">{join.newsletterTitle}</h2>
 	</header>
 
 	<form
 		action="https://emailoctopus.com/lists/{newsletterList}/members/embedded/1.3/add"
 		method="post"
 		class="emailoctopus-form"
-		data-message-unknown-error="We couldn’t complete your signup. Please try again."
+		data-message-success={m.subscription_success()}
+		data-message-unknown-error={m.subscription_error()}
+		data-message-missing-email-address={m.subscription_missing_email()}
+		data-message-invalid-email-address={m.subscription_invalid_email()}
+		data-message-bot-submission-error={m.subscription_bot_error()}
+		data-message-consent-required={m.subscription_consent_required()}
+		data-message-invalid-parameters-error={m.subscription_invalid_parameters()}
 	>
 		<p>
-			<label for="newsletter-email">Email address</label>
+			<label for="newsletter-email">{m.email_address()}</label>
 			<input id="newsletter-email" name="field_0" type="email" autocomplete="email" required />
 		</p>
 		<p class="emailoctopus-form-row-hp" hidden>
 			<input type="text" name="hp{newsletterList}" tabindex="-1" autocomplete="off" />
 		</p>
 		<input type="hidden" name="successRedirectUrl" value="" />
-		<button class="action action--lead" type="submit">Subscribe</button>
+		<button class="action action--lead" type="submit">{m.subscribe()}</button>
 	</form>
 	<p class="emailoctopus-success-message" role="status"></p>
 	<p class="emailoctopus-error-message" role="alert"></p>
@@ -67,7 +73,7 @@
 				{#each block.ctas as action, i (action.href)}
 					<a
 						class="action {i === 0 ? 'action--lead' : ''}"
-						href={action.href}
+						href={action.external ? action.href : localizeHref(action.href)}
 						rel={action.external ? 'noreferrer' : undefined}
 					>
 						{action.label}
@@ -78,8 +84,10 @@
 
 		{#if block.note}
 			<p>
-				{block.note.before}<a href="mailto:{block.note.email}">{block.note.email}</a
-				>{block.note.after}
+				<LinkedMessage
+					text={m.donations_contact({ email: '{email}' })}
+					links={{ '{email}': { href: `mailto:${block.note.email}`, label: block.note.email } }}
+				/>
 			</p>
 		{/if}
 	</section>

@@ -1,10 +1,19 @@
 <script lang="ts">
 	import { about } from '$lib/content/about'
 	import { site } from '$lib/content/site'
+	import LinkedMessage from '$lib/components/LinkedMessage.svelte'
+	import { m } from '$lib/paraglide/messages'
+	import { getLocale } from '$lib/paraglide/runtime'
+
+	const founderLinks = Object.fromEntries(about.founding.founders.map((founder, index) => [
+		`{${index}}`, { href: founder.href, label: founder.name }
+	]))
+	const locale = getLocale()
+	const founders = new Intl.ListFormat(locale === 'en' ? 'en-GB' : locale).format(Object.keys(founderLinks))
 </script>
 
 <svelte:head>
-	<title>About — {site.name}</title>
+	<title>{m.nav_about()} — {site.name}</title>
 	<meta name="description" content={about.body[0]} />
 </svelte:head>
 
@@ -16,7 +25,7 @@
 			<p class={i === 0 ? 'lede' : ''}>{paragraph}</p>
 		{/each}
 		<p>
-			{about.founding.before}{#each about.founding.founders as founder, i (founder.href)}{#if i}{i === about.founding.founders.length - 1 ? ' and ' : ', '}{/if}<a href={founder.href}>{founder.name}</a>{/each}.
+			<LinkedMessage text={m.about_founding({ founders })} links={founderLinks} />
 		</p>
 	</div>
 </section>

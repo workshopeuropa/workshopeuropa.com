@@ -1,3 +1,5 @@
+import { m } from '$lib/paraglide/messages'
+
 /**
  * Projects. One entry per project — the list page and the project page
  * both read from here, so adding a project is one object.
@@ -74,51 +76,49 @@ export type Project = {
 
 /** The headline on the Projects card — on the index, and on the copy of it
     that opens every project page. */
-export const projectsTitle = 'Make the shift';
+export const projectsTitle = m.projects_title
 
 /** What the Projects card in the closing row is headed — a door rather than
     a claim, for the same reason as About's. */
-export const projectsCardTitle = 'What we make';
+export const projectsCardTitle = m.projects_card_title
 
 /** The project the closing row shows. The first on the list, so the order
     here is the decision; nothing else reads it. */
 export const featured = () => projects[0];
 
-export const projectsIntro = 'Some finished, some half-built, all in the open.';
-
 /** The three groups, in the order the page shows them. A group with nothing
     in it is hidden rather than announced. */
-export const groups: { id: Group; title: string; note: string }[] = [
-	{ id: 'running', title: 'Running', note: 'Live, you can use them today.' },
-	{ id: 'self-hostable', title: 'Self-hostable', note: 'Run them yourself.' },
-	{ id: 'early', title: 'Early', note: 'Specification or prototype.' }
+export const groups: { id: Group; label: () => string }[] = [
+	{ id: 'running', label: m.projects_running },
+	{ id: 'self-hostable', label: m.projects_self_hostable },
+	{ id: 'early', label: m.projects_early }
 ];
 
 export const projects: Project[] = [
 	{
 		slug: 'vionio',
 		title: 'Vionio',
-		headline: 'Dual protocol social platform',
-		summary: 'A creator platform on open protocols — your audience travels with you.',
+		get headline() { return m.vionio_headline() },
+		get summary() { return m.vionio_summary() },
 		group: 'running',
 		status: 'Running',
 		ctas: [{ label: 'Open', href: 'https://vionio.com', external: true }],
 		declares: [
 			{
 				commitment: 1,
-				how: 'Subscriptions, paid by the people posting and the people reading. No advertising, no paid placement, and nothing sold about anyone here.'
+				get how() { return m.vionio_funding() }
 			},
 			{
 				commitment: 2,
-				how: 'The feed is what you subscribed to, in the order it arrived. Nobody working on it is measured on time spent.'
+				get how() { return m.vionio_time() }
 			},
 			{
 				commitment: 3,
-				how: 'Your posts, your following and your identity export in one step and land on another server. The protocol is the way out, so leaving needs nothing from us.'
+				get how() { return m.vionio_open() }
 			},
 			{
 				commitment: 5,
-				how: 'Built on protocols nobody owns, and we don’t operate one. The parts other people depend on are not ours to close.'
+				get how() { return m.vionio_infrastructure() }
 			}
 		],
 		url: 'vionio.com'
@@ -126,37 +126,37 @@ export const projects: Project[] = [
 	{
 		slug: 'risved',
 		title: 'Risved',
-		headline: 'Open-source hosting interface',
-		summary: 'Open-source European hosting — run it on our cloud or your own hardware.',
+		get headline() { return m.risved_headline() },
+		get summary() { return m.risved_summary() },
 		group: 'self-hostable',
 		status: 'Self-hostable',
 		ctas: [{ label: 'Read the docs', href: 'https://risved.org', external: true }],
 		declares: [
 			{
 				commitment: 1,
-				how: 'Hosting fees from the people hosting. No resale of usage data, and the price list is the whole commercial relationship.'
+				get how() { return m.risved_funding() }
 			},
 			{
 				commitment: 3,
-				how: 'The control plane is the open-source project. Take the images and the configuration and run the same thing on your own machines.'
+				get how() { return m.risved_open() }
 			},
 			{
 				commitment: 5,
-				how: 'Every part of the stack is published under a licence that cannot be withdrawn. We sell the operation, not the right to operate.'
+				get how() { return m.risved_infrastructure() }
 			}
 		],
 		url: 'risved.org • risved.com',
 		image: {
 			src: '/media/screenshots/risved.png',
 			darkSrc: '/media/screenshots/risved-dark.png',
-			alt: 'Risved projects dashboard showing apps, frameworks and deployment status.'
+			get alt() { return m.risved_image_alt() }
 		}
 	},
 	{
 		slug: 'inlagg',
 		title: 'Inlägg • Indlæg • Innlegg',
-		headline: 'Authentic Nordic social platforms',
-		summary: 'A Nordic social platform where every account is verified with BankID or MitID.',
+		get headline() { return m.inlagg_headline() },
+		get summary() { return m.inlagg_summary() },
 		group: 'early',
 		status: 'Early',
 		/* Unicode rather than punycode, so the browser does the encoding: a
@@ -166,33 +166,33 @@ export const projects: Project[] = [
 		declares: [
 			{
 				commitment: 1,
-				how: 'A subscription, paid monthly by the people using it. There is no advertiser to answer to because there is no advertising.'
+				get how() { return m.inlagg_funding() }
 			},
 			{
 				commitment: 2,
-				how: 'No infinite feed, no streaks, no re-engagement mail. Leaving is one button and takes effect immediately.'
+				get how() { return m.inlagg_time() }
 			},
 			{
 				commitment: 3,
-				how: 'A full export in an open format, including who follows you, ready to import elsewhere without our involvement.'
+				get how() { return m.inlagg_open() }
 			},
 			{
 				commitment: 4,
-				how: 'BankID and MitID issue the proof. What reaches us is that a person stands behind the account, never which person.'
+				get how() { return m.inlagg_real() }
 			}
 		],
 		url: 'inlägg.com • indlæg.com • innlegg.com',
 		image: {
 			src: '/media/screenshots/inlagg.png',
 			darkSrc: '/media/screenshots/inlagg-dark.png',
-			alt: 'Inlägg home feed showing posts, replies and reactions from fictional users.'
+			get alt() { return m.inlagg_image_alt() }
 		}
 	},
 	{
 		slug: 'idun',
 		title: 'Idun',
-		headline: 'Open protocol for federated identity',
-		summary: 'An open protocol bridging identity to the federated social web.',
+		get headline() { return m.idun_headline() },
+		get summary() { return m.idun_summary() },
 		group: 'early',
 		status: 'Early',
 		/* Never a sign-up. Idun is a specification other people implement, and
@@ -204,19 +204,19 @@ export const projects: Project[] = [
 		declares: [
 			{
 				commitment: 1,
-				how: 'Föreningen Idun is funded by its members, who are the people implementing the specification. Nobody buys a say in it.'
+				get how() { return m.idun_funding() }
 			},
 			{
 				commitment: 3,
-				how: 'An identity is portable by construction: move it between issuers and services without asking any of them.'
+				get how() { return m.idun_open() }
 			},
 			{
 				commitment: 4,
-				how: 'The proof is issued by a third party and carries one claim — that a person is behind it. Implementers never receive the identity.'
+				get how() { return m.idun_real() }
 			},
 			{
 				commitment: 5,
-				how: 'Stewarded by a non-profit association whose statutes prevent it from selling or licensing the specification. Implement it without a licence, a fee, or a conversation.'
+				get how() { return m.idun_infrastructure() }
 			}
 		],
 		note: 'Stewarded by Föreningen Idun — a non-profit association, so no single company can close it.',

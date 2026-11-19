@@ -2,7 +2,7 @@
 
 Source for [workshopeuropa.com](https://workshopeuropa.com), the website of an independent, non-profit association building open-source digital infrastructure.
 
-Built with SvelteKit, Svelte 5, TypeScript, and plain CSS. Uses Bun for package management.
+Built with SvelteKit, Svelte 5, TypeScript, and plain CSS. Bun runs the server and provides its SQLite driver.
 
 ## Setup
 

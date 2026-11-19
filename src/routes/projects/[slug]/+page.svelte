@@ -3,6 +3,7 @@
 	import Declarations from '$lib/components/Declarations.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import { site } from '$lib/content/site';
+	import { m } from '$lib/paraglide/messages'
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -49,7 +50,7 @@
      and never as a count. Each title is a way back to the commitment on the
      front page, where the test it comes with is written out. -->
 <section class="section" aria-labelledby="commitments">
-	<h2 id="commitments">Commitments</h2>
+	<h2 id="commitments">{m.projects_commitments()}</h2>
 
 	<Declarations {project} detail />
 </section>
@@ -58,17 +59,17 @@
      has none, rather than a rule over an empty list. -->
 {#if hasParticulars}
 	<section class="section" aria-labelledby="particulars">
-		<h2 id="particulars">Particulars</h2>
+		<h2 id="particulars">{m.projects_particulars()}</h2>
 
 		<dl class="facts">
-			{#if project.year}<div><dt>Year</dt><dd>{project.year}</dd></div>{/if}
-			{#if project.discipline}<div><dt>Discipline</dt><dd>{project.discipline}</dd></div>{/if}
+			{#if project.year}<div><dt>{m.projects_year()}</dt><dd>{project.year}</dd></div>{/if}
+			{#if project.discipline}<div><dt>{m.projects_discipline()}</dt><dd>{project.discipline}</dd></div>{/if}
 			{#each project.credits ?? [] as credit (credit.role + credit.name)}
 				<div><dt>{credit.role}</dt><dd>{credit.name}</dd></div>
 			{/each}
 			{#each project.links ?? [] as link (link.href)}
 				<div>
-					<dt>Elsewhere</dt>
+					<dt>{m.projects_elsewhere()}</dt>
 					<dd><a href={link.href} rel="noreferrer">{link.label}</a></dd>
 				</div>
 			{/each}
@@ -77,7 +78,7 @@
 {/if}
 
 <section class="section" aria-labelledby="next">
-	<h2 id="next">More projects</h2>
+	<h2 id="next">{m.projects_more()}</h2>
 
 	<!-- A pair of signposts rather than two more title pages: the columns
 	     hold on a phone, the name is upright, and the foot of each carries

@@ -2,13 +2,9 @@
  * The feeds. Both of them, in full — a feed is what this audience will look
  * for first, and publishing one is the same argument the commitments make:
  * you can read this site without ever coming back to it.
- *
- * A note has no page of its own, so its address is an anchor on /news and
- * its id is that address. Ids are stable as long as a note's date and title
- * are, which is the deal every feed reader assumes.
  */
 
-import { blocks, news, noteSlug, type Note } from './content/news';
+import { blocks, news, notePath, type Note } from './content/news'
 import { site } from './content/site';
 
 const ESCAPES: Record<string, string> = {
@@ -35,7 +31,12 @@ export const feed = {
 export const ordered = [...news].sort((a, b) => b.date.localeCompare(a.date));
 
 export function noteUrl(note: Note) {
-	return `${feed.home}#${noteSlug(note)}`;
+	return new URL(notePath(note), site.url).href
+}
+
+/** Preserve the item identifiers published before notes had their own pages. */
+export function noteFeedId(note: Note) {
+	return `${feed.home}#${note.slug}`
 }
 
 /** Midday rather than midnight, so a reader in a western timezone does not

@@ -1,15 +1,9 @@
-/** The About page and its closing card title. */
-export const aboutCardTitle = 'The workshop'
+import { m } from '$lib/paraglide/messages'
 
 export const about = {
-	title: 'Built for the common good',
-	body: [
-		'Workshop Europa is an independent, non-profit association dedicated to building open-source digital infrastructure.',
-		"We believe Europe's digital future should be built on openness, transparency and independence. Essential digital services should be accessible, trustworthy and designed to serve people rather than commercial interests.",
-		'Through several open-source projects, we develop practical alternatives to proprietary platforms and services, with a focus on privacy, accessibility and European digital sovereignty.'
-	],
+	get title() { return m.about_title() },
+	get body() { return [m.site_blurb(), m.about_vision(), m.about_projects()] },
 	founding: {
-		before: 'Workshop Europa is a registered non-profit association based in Denmark, founded by ',
 		founders: [
 			{ name: 'Alfred Nerstu', href: 'https://alfrednerstu.com' },
 			{ name: 'Hans Nerstu', href: 'https://inlagg.se/hans' },

@@ -1,23 +1,47 @@
 <script lang="ts">
-	import Declarations from '$lib/components/Declarations.svelte';
-	import Plate from '$lib/components/Plate.svelte';
-	import ProjectCard from '$lib/components/ProjectCard.svelte';
-	import { groups, projectsIn, projectsIntro, projectsTitle } from '$lib/content/projects';
-	import { site } from '$lib/content/site';
+	import Declarations from '$lib/components/Declarations.svelte'
+	import JsonLd from '$lib/components/JsonLd.svelte'
+	import Plate from '$lib/components/Plate.svelte'
+	import ProjectCard from '$lib/components/ProjectCard.svelte'
+	import { groups, projectsIn, projectsTitle } from '$lib/content/projects'
+	import { site } from '$lib/content/site'
+	import { m } from '$lib/paraglide/messages'
+	import { getLocale } from '$lib/paraglide/runtime'
+	import { localizedPageUrl } from '$lib/seo'
+
+	const locale = getLocale()
+	const structuredData = {
+		'@context': 'https://schema.org',
+		'@type': 'CollectionPage',
+		name: m.nav_projects(),
+		url: localizedPageUrl('/projects', locale),
+		inLanguage: locale,
+		mainEntity: {
+			'@type': 'ItemList',
+			itemListElement: groups.flatMap(group => projectsIn(group.id)).map((project, index) => ({
+				'@type': 'ListItem',
+				position: index + 1,
+				name: project.title,
+				url: localizedPageUrl(`/projects/${project.slug}`, locale)
+			}))
+		}
+	}
 </script>
 
 <svelte:head>
-	<title>Projects — {site.name}</title>
-	<meta name="description" content="What Workshop Europa publishes. {projectsIntro}" />
+	<title>{m.nav_projects()} — {site.name}</title>
+	<meta name="description" content={m.projects_description()} />
 </svelte:head>
 
-<h1>{projectsTitle}</h1>
+<JsonLd data={structuredData} />
+
+<h1 class="page-title">{projectsTitle()}</h1>
 
 <!-- Keep the projects in their existing order without status headings. -->
 {#each groups as group (group.id)}
 	{@const list = projectsIn(group.id)}
 	{#if list.length}
-		<section class="section group" aria-label={`${group.title} projects`}>
+		<section class="section group" aria-label={group.label()}>
 			<div class="bench">
 				{#each list as project (project.slug)}
 					<!-- A plate and the commitments under it are one project, so they
@@ -71,8 +95,7 @@
 		gap: clamp(2rem, 5vw, 3.25rem);
 	}
 
-	/* On top of the sheet's own gap, and only between benches: the first one
-	   keeps whatever distance the intro above it already sets. */
+	/* Add to the sheet's gap between benches. */
 	.group + .group {
 		margin-block-start: clamp(1.5rem, 3vw, 2.25rem);
 	}

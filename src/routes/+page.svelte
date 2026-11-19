@@ -1,6 +1,33 @@
 <script lang="ts">
-	import { commitments, commitmentsTitle } from '$lib/content/commitments';
-	import { site } from '$lib/content/site';
+	import JsonLd from '$lib/components/JsonLd.svelte'
+	import { commitments, commitmentsTitle } from '$lib/content/commitments'
+	import { links, site } from '$lib/content/site'
+
+	const home = new URL('/', site.url).href
+	const organization = `${home}#organization`
+	const structuredData = {
+		'@context': 'https://schema.org',
+		'@graph': [
+			{
+				'@type': 'Organization',
+				'@id': organization,
+				name: site.name,
+				url: home,
+				logo: new URL('/w-512.png', home).href,
+				description: site.blurb,
+				email: site.email,
+				identifier: { '@type': 'PropertyValue', propertyID: 'CVR', value: site.registrationNumber },
+				sameAs: [links.source]
+			},
+			{
+				'@type': 'WebSite',
+				'@id': `${home}#website`,
+				name: site.name,
+				url: home,
+				publisher: { '@id': organization }
+			}
+		]
+	}
 </script>
 
 <svelte:head>
@@ -8,11 +35,13 @@
 	<meta name="description" content={site.description} />
 </svelte:head>
 
+<JsonLd data={structuredData} />
+
 <!-- The page opens on its rubric rather than on a hero: the top bar carries
      the wordmark now, so the first thing under it is the first thing to
      read. The rubric is the h1 — the five below are the only other headings
      the page has. -->
-<h1 id="commitments">{commitmentsTitle}</h1>
+<h1 id="commitments">{commitmentsTitle()}</h1>
 
 <!-- The five, set as one list rather than five sections: a title at the size
      of the text under it, with the space above each pair doing the work a

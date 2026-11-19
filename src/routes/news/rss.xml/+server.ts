@@ -3,6 +3,7 @@ import {
 	feed,
 	headers,
 	noteDate,
+	noteFeedId,
 	noteSummary,
 	noteUrl,
 	ordered,
@@ -16,7 +17,7 @@ export const GET: RequestHandler = async () => {
 			(note) => `		<item>
 			<title>${escapeXml(note.title)}</title>
 			<link>${escapeXml(noteUrl(note))}</link>
-			<guid isPermaLink="true">${escapeXml(noteUrl(note))}</guid>
+			<guid isPermaLink="true">${escapeXml(noteFeedId(note))}</guid>
 			<pubDate>${noteDate(note).toUTCString()}</pubDate>
 			<description>${escapeXml(noteSummary(note))}</description>
 		</item>`

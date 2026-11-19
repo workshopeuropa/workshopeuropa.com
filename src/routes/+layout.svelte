@@ -1,48 +1,33 @@
 <script lang="ts">
-	/* ---- The two faces -------------------------------------------------
-	   Spectral is the display face and Areal is everything else, and between
-	   them the site sets exactly three things: Spectral roman, Spectral
-	   italic, and Areal at two weights. What is imported here is that list
-	   and nothing else.
-
-	   Spectral at 400 only. Every heading, card title and pull quote on the
-	   site is 400 — the weight above it went with the header card, and the
-	   500 that is left on the page belongs to the small labels, which are
-	   Areal. `font-synthesis` is off with the faces, so a stray 500 on a
-	   Spectral element renders as 400 rather than as a smeared one.
-
-	   Subsets, not the lot: `400.css` is a barrel that pulls in Cyrillic,
-	   Cyrillic Extended and Vietnamese alongside the two the site can
-	   actually set. Latin carries the English; Latin Extended carries the
-	   Nordic — the ä of Inlägg, the æ of Indlæg — which turns up in a
-	   Spectral heading on a project page.
-
-	   The italic is Latin only. It has one string in it, in three places:
-	   the wordmark in the bar, the one at the foot, and the outsized one on
-	   the About card. All three are `site.name`, which is ASCII. Set
-	   anything with an accent in italic and its Latin Extended file has to
-	   come back with it.
-
-	   Spectral SC has gone with the small caps it was cut for — the labels
-	   are tracked capitals in Areal now — and so has its package.
-
-	   Areal is licensed and this repository is public, so it is not imported
-	   from anywhere: its two files sit on the data volume, are handed out by
-	   src/routes/fonts/[file]/+server.ts, and are preloaded in app.html. See
-	   docs/fonts.md for how they get onto a server.
-	   --------------------------------------------------------------------- */
-	import '@fontsource/spectral/latin-400.css';
-	import '@fontsource/spectral/latin-ext-400.css';
-	import '@fontsource/spectral/latin-400-italic.css';
+	import '@fontsource/spectral/latin-400.css'
+	import '@fontsource/spectral/latin-ext-400.css'
+	import '@fontsource/spectral/latin-400-italic.css'
 	import '../fonts.css';
 	import '../app.css';
 
 	import { onNavigate } from '$app/navigation';
+	import { page } from '$app/state'
 	import Colophon from '$lib/components/Colophon.svelte';
 	import TopBar from '$lib/components/TopBar.svelte';
+	import { m } from '$lib/paraglide/messages'
+	import { baseLocale, deLocalizeUrl, extractLocaleFromUrl, locales } from '$lib/paraglide/runtime'
+	import { indexablePaths, localizedPageUrl } from '$lib/seo'
 	import type { Snippet } from 'svelte';
 
 	let { children }: { children: Snippet } = $props();
+
+	const seo = $derived.by(() => {
+		if (page.status !== 200) return
+
+		const path = deLocalizeUrl(page.url).pathname
+		if (!indexablePaths.has(path)) return
+
+		return {
+			canonical: localizedPageUrl(path, extractLocaleFromUrl(page.url) ?? baseLocale),
+			fallback: localizedPageUrl(path, baseLocale),
+			alternates: locales.map(locale => ({ locale, href: localizedPageUrl(path, locale) }))
+		}
+	})
 
 	/* Hand the navigation to the browser so it can tween between the two
 	   pages rather than swapping them. A card that names itself travels to
@@ -72,8 +57,18 @@
 	});
 </script>
 
+<svelte:head>
+	{#if seo}
+		<link rel="canonical" href={seo.canonical} />
+		{#each seo.alternates as { locale, href } (locale)}
+			<link rel="alternate" hreflang={locale} {href} />
+		{/each}
+		<link rel="alternate" hreflang="x-default" href={seo.fallback} />
+	{/if}
+</svelte:head>
+
 <div class="shell">
-	<a class="skip-link" href="#main">Skip to content</a>
+	<a class="skip-link" href="#main">{m.skip_to_content()}</a>
 
 	<TopBar />
 
